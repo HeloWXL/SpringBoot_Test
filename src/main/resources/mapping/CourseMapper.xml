@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.test.demo.mapper.CourseMapper" >
+  <resultMap id="BaseResultMap" type="com.test.demo.model.Course" >
+    <id column="course_id" property="courseId" jdbcType="INTEGER" />
+    <result column="course_name" property="courseName" jdbcType="VARCHAR" />
+    <result column="course_picture" property="coursePicture" jdbcType="VARCHAR" />
+    <result column="course_video" property="courseVideo" jdbcType="VARCHAR" />
+    <result column="course_pingfen" property="coursePingfen" jdbcType="VARCHAR" />
+    <result column="teacher_id" property="teacherId" jdbcType="INTEGER" />
+    <result column="course_introduce" property="courseIntroduce" jdbcType="VARCHAR" />
+  </resultMap>
+</mapper>

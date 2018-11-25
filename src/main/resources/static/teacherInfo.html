@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>教师列表详情</title>
+    <!--引入Css文件-->
+    <link rel="stylesheet" href="bootstrap-3.3.7/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="css/teacherinfo.css">
+    <link rel="stylesheet" href="layer/mobile/need/layer.css">
+    <!--引入JS文件-->
+    <script src="js/jquery-2.1.4.js" type="application/javascript"></script>
+    <script src="bootstrap-3.3.7/dist/js/bootstrap.js" type="application/javascript"></script>
+    <script src="layer/layer.js" type="application/javascript"></script>
+    <script src="js/teacherinfo.js" type="application/javascript"></script>
+</head>
+<body>
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <h3 class="text-center text-info">
+                教师
+            </h3>
+        </div>
+    </div>
+    <div class="row clearfix">
+        <div class="col-md-2 column">
+            <div class="panel-group" id="panel-483343">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-483343"
+                           href="#panel-element-227296">课程信息</a>
+                    </div>
+                    <div id="panel-element-227296" class="panel-collapse collapse">
+                        <div class="panel-body" id="mycourse">
+                            我的课程
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-483343"
+                           href="#panel-element-297026">学生信息</a>
+                    </div>
+                    <div id="panel-element-297026" class="panel-collapse collapse">
+                        <div class="panel-body" id="mystudent">
+                            查看学生信息
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-warning">
+                    <div class="panel-heading">
+                        <a class="panel-title" data-toggle="collapse" data-parent="#panel-721853"
+                           href="#panel-element-555328">考试相关</a>
+                    </div>
+                    <div id="panel-element-555328" class="panel-collapse collapse">
+                        <div class="panel-body" id="begintest">
+                            发布考试
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <a class="panel-title" data-toggle="collapse" data-parent="#panel-721853"
+                           href="#panel-element-228269">学生成绩</a>
+                    </div>
+                    <div id="panel-element-228269" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            查看考试成绩
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-danger">
+                    <div class="panel-heading">
+                        <a class="panel-title" data-toggle="collapse" data-parent="#panel-721853"
+                           href="#panel-element-66666">试题管理</a>
+                    </div>
+                    <div id="panel-element-66666" class="panel-collapse collapse">
+                        <div class="panel-body" id="add">
+                            添加试题
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <a class="panel-title" data-toggle="collapse" data-parent="#panel-721853"
+                           href="#panel-element-88888">公告管理</a>
+                    </div>
+                    <div id="panel-element-88888" class="panel-collapse collapse">
+                        <div class="panel-body" id="notices">
+                            发布公告
+                        </div>
+                        <div class="panel-body" id="listnotice">
+                            查看公告信息
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 column">
+            <div id="t-course" style="display: none">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>
+                            课程名
+                        </th>
+                        <th>
+                            课程图片
+                        </th>
+                        <th>
+                            课程创建时间
+                        </th>
+                        <th>
+                            课程介绍
+                        </th>
+                        <th>
+                            课程评分
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <div id="fenye">
+                    <ul class="pagination">
+                        <li><button type="button" class="btn btn-primary" name="prev">上一页</button></li>
+                        <li><button type="button" class="btn btn-primary" name="next">下一页</button></li>
+                    </ul>
+                </div>
+            </div>
+            <div id="t-student" style="display: none;">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>
+                            学生姓名
+                        </th>
+                        <th>
+                            头像
+                        </th>
+                        <th>
+                            性别
+                        </th>
+                        <th>
+                            年龄
+                        </th>
+                        <th>
+                            专业
+                        </th>
+                        <th>
+                            学校
+                        </th>
+                        <th>
+                            操作
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+                <div id="fenye-student">
+                    <ul class="pagination">
+                        <li><button type="button" class="btn btn-primary" name="prev">上一页</button></li>
+                        <li><button type="button" class="btn btn-primary" name="next">下一页</button></li>
+                    </ul>
+                </div>
+            </div>
+            <div id="t-test" style="display: none">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>
+                            编号
+                        </th>
+                        <th>
+                            产品
+                        </th>
+                        <th>
+                            交付时间
+                        </th>
+                        <th>
+                            状态
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            1
+                        </td>
+                        <td>
+                            TB - Monthly
+                        </td>
+                        <td>
+                            01/04/2012
+                        </td>
+                        <td>
+                            Default
+                        </td>
+                    </tr>
+                    <tr class="success">
+                        <td>
+                            1
+                        </td>
+                        <td>
+                            TB - Monthly
+                        </td>
+                        <td>
+                            01/04/2012
+                        </td>
+                        <td>
+                            Approved
+                        </td>
+                    </tr>
+                    <tr class="error">
+                        <td>
+                            2
+                        </td>
+                        <td>
+                            TB - Monthly
+                        </td>
+                        <td>
+                            02/04/2012
+                        </td>
+                        <td>
+                            Declined
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="t-score" style="display: none">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>
+                            编号
+                        </th>
+                        <th>
+                            产品
+                        </th>
+                        <th>
+                            交付时间
+                        </th>
+                        <th>
+                            状态
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            1
+                        </td>
+                        <td>
+                            TB - Monthly
+                        </td>
+                        <td>
+                            01/04/2012
+                        </td>
+                        <td>
+                            Default
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="t-notice" style="display: none">
+                <form class="bs-example bs-example-form" role="form" id="form">
+                    <p>公告标题:</p>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="title">
+                    </div>
+                    <p>公告内容:</p>
+                    <div class="input-group">
+                        <div class="panel panel-default" id="news">
+                        <textarea style="width: 400px;height: 400px;" id="contents">
+
+                        </textarea>
+                        </div>
+                    </div>
+                </form>
+                <div id="button">
+                    <button type="button" class="btn btn-default" name="submit">发布</button>
+                </div>
+            </div>
+            <div id="t-listnotice" style="display: none">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>
+                            公告ID
+                        </th>
+                        <th>
+                            公告标题
+                        </th>
+                        <th>
+                            公告内容
+                        </th>
+                        <th>
+                            公告发布时间
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            1
+                        </td>
+                        <td>
+                            TB - Monthly
+                        </td>
+                        <td>
+                            01/04/2012
+                        </td>
+                        <td>
+                            Default
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-4 column">
+            <div id="t-info">
+                <img alt="140x140" src="images/c2.jpg" width="140px"/>
+                <dl id="t-info-1">
+                    <dt>
+                        教师姓名:
+                    </dt>
+                    <div class="form-group success">
+                        <input name="name" type="text" class="form-control" disabled=disabled">
+                    </div>
+                    <dt>
+                        性别:
+                    </dt>
+                    <div class="form-group success">
+                        <input name="sex" type="text" class="form-control" disabled=disabled">
+                    </div>
+                    <dt>
+                        年龄:
+                    </dt>
+                    <div class="form-group success">
+                        <input name="age" type="text" class="form-control" disabled=disabled">
+                    </div>
+                    <dt>
+                        教师主修课程:
+                    </dt>
+                    <div class="form-group success">
+                        <input name="major" type="text" class="form-control" disabled=disabled">
+                    </div>
+                </dl>
+            </div>
+        </div>
+    </div>
+    <div id="container" style="display: none;">
+        <div><h3>留言板</h3></div>
+        <div>
+            <div class="article">
+                <div class="author">用户:张三<span>10#</span></div>
+                <div class="content">测试一下</div>
+                <div class="time page">发表于:2016-02-09 13:12:23</div>
+            </div>
+        </div>
+
+        <div class="page">
+            <input class="btn1" type="button" value="上一页" onClick="">
+            <input class="btn1" type="button" value="下一页" onClick="">
+        </div>
+        <br>
+        <div>
+            <form action="doPost.jsp" method="post">
+                <div>
+                    用户: <input type="text" name="author" value=""/>
+                </div>
+                <br>
+                <div>
+                    留言: <textarea name="message" rows="5" cols="72"></textarea>
+                </div>
+                <div align="center"><input type="reset" value="清除"/> <input type="submit" value="发表"/></div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

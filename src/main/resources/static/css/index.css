@@ -1,0 +1,60 @@
+body{
+    background-color: #ffffff!important;
+}
+#user {
+    float: right;
+}
+#test10{
+    margin: 0 auto;
+    width: 900px!important;
+    height: 400px!important;
+}
+
+.course-img img{
+    width: 900px;
+    height: 400px;
+}
+div p{
+    color: #666666;
+    font-size: 16px;
+}
+.course-list{
+    background-color: #ffff;
+    width: 288px;
+    height: 290px;
+    border: 1px solid gray;
+}
+.course-list img{
+    margin-left: 50px;
+    margin-top: 20px;
+}
+a{
+    color: #000;
+    text-decoration: none;
+}
+a:hover{
+    color: yellow;
+}
+.course-list-info{
+    margin-left: 21px;
+    margin-top: 5px;
+}
+.course{
+    width: 900px;
+    margin: 0 auto;
+}
+ul{
+    list-style:none;
+    overflow:hidden;
+}
+ul li{
+    float: left;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+.course-list-info div{
+    margin-top: -8px;
+}
+.login{
+    float: left;
+}
