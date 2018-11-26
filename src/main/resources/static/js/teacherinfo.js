@@ -13,7 +13,6 @@ $.ajax({
     success:function (ret) {
         tid = ret.result.teacherId;
         classId = ret.result.classId;
-        console.log(classId)
         $("#t-info img").attr("src",ret.result.teacherPicture)
         // 教师姓名
         $("input[name='name']").val(ret.result.teacherName);
@@ -358,7 +357,34 @@ $("#addcourse").click(function () {
         content: ['addcourse.html', 'no']
     });
 })
+//添加试题
+$("#addselect").click(function () {
+    layer.open({
+        title:false,
+        type: 2,
+        closeBtn: 0, //不显示关闭按钮
+        shade: 0.5,
+        area: ['400px', '500px'],
+        offset: 'auto',
+        anim: 2,
+        shadeClose:true,
+        content: ['addselect.html', 'no']
+    });
+})
 
+$("#addblank").click(function () {
+    layer.open({
+        title:false,
+        type: 2,
+        closeBtn: 0, //不显示关闭按钮
+        shade: 0.5,
+        area: ['350px', '400px'],
+        offset: 'auto',
+        anim: 2,
+        shadeClose:true,
+        content: ['addblank.html', 'no']
+    });
+})
 
 // //发布考试
 // $("#begintest").click(function () {
