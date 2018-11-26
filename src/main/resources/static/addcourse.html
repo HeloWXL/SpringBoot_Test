@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="charset=utf-8" />
+    <title>Title</title>
+    <script src="js/jquery-2.1.4.js"></script>
+    <link rel="stylesheet" href="bootstrap-3.3.7/dist/css/bootstrap.css">
+    <script src="bootstrap-3.3.7/dist/js/bootstrap.js" type="application/javascript"></script>
+    <style>
+        body{
+            margin-top: 40px;
+        }
+        #insertCourse{
+            width: 100px;
+            height: 400px;
+            margin-left: 85px;
+        }
+        .caozuo{
+            width: 200px;
+        }
+        .caozuo input{
+            text-align: center;
+        }
+        .pagination li{
+            float: left;
+        }
+    </style>
+    <script src="layer/layer.js"></script>
+    <link rel="stylesheet" href="layer/mobile/need/layer.css">
+</head>
+<body>
+
+<form role="form" enctype="multipart/form-data" id="fileUploadForm">
+    <div class="form-group" id="insertCourse">
+        <label>课程图片</label>
+        <input id="courseImage" type="file" class="form-control" style="width: 300px;"/><br>
+        <label>课程名</label>
+        <input type="text" class="form-control" placeholder="请输入课程名" id="courseName" style="width: 300px;">
+        <label>课程介绍</label>
+        <textarea class="form-control" rows="3" id="courseIntroduce" type="text" style="width: 300px;"></textarea>
+        <br>
+        <div class="caozuo">
+            <ul class="pagination">
+                <li><button type="button" class="btn btn-success" onclick="submit2()">上传</button></li>
+            </ul>
+        </div>
+
+    </div>
+</form>
+</body>
+<script>
+    var tid
+    $(function () {
+        $.ajax({
+            url: 'teacher/getTeacherSession',
+            dataype: 'json',
+            data: {"teacherBean": "teachersession"},
+            type: 'post',
+            success: function (ret) {
+                tid = ret.result.teacherId;
+            }
+        })
+    })
+    function submit2(){
+        var id = "courseImage";
+        var formData = new FormData();
+        formData.append('file', $("#"+id)[0].files[0])
+        formData.append('courseName',$("#courseName").val())
+        formData.append('courseIntroduce',$("#courseIntroduce").val())
+        formData.append('teacherId',tid);
+        $.ajax({
+            type: "POST",
+            url: 'course/insertCourse',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                layer.msg("上传成功")
+                layer.closeAll();
+            }
+        });
+    }
+</script>
+
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="bootstrap-3.3.7/dist/css/bootstrap.css">
+    <script src="js/jquery-2.1.4.js"></script>
+    <script src="bootstrap-3.3.7/dist/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="bootstrap-3.3.7/bootstrap-select.css">
+    <script src="bootstrap-3.3.7/bootstrap-select.js" type="application/javascript"></script>
+    <script src="js/addselect.js" type="application/javascript"></script>
+    <style>
+        #add{
+            width: 300px;
+            height: 600px;
+            margin-top: 10px;
+            margin-left: 50px;
+        }
+        #submit{
+            margin-top: 10px;
+            margin-left: 80px;
+        }
+    </style>
+    <script src="layer/layer.js"></script>
+    <link rel="stylesheet" href="layer/theme/default/layer.css">
+</head>
+<body>
+<div id="add">
+    <!--试题科目列表是有教师所教授的科目列表-->
+    <label>试题类型</label>
+    <select class="selectpicker" title="试题类型" id="leixing">
+        <option value="" selected="selected">选择题</option>
+    </select>
+    <div id="selects">
+        题目:<br><textarea style="width:298px;height: 100px;"></textarea><br>
+        A选项：<div class="input-group">
+        <input type="text" class="form-control" placeholder="A选项答案" size="298px" name="a">
+    </div>
+        B选项： <div class="input-group">
+        <input type="text" class="form-control" placeholder="B选项答案" size="298px" name="b">
+    </div>
+        C选项： <div class="input-group">
+        <input type="text" class="form-control" placeholder="C选项答案" size="298px" name="c">
+    </div>
+        D选项： <div class="input-group">
+        <input type="text" class="form-control" placeholder="D选项答案" size="298px" name="d">
+    </div>
+        正确答案：   <div class="input-group">
+        <input type="text" class="form-control" placeholder="正确答案" size="298px" name="y">
+    </div>
+    </div>
+    <div id="submit">
+        <button type="button" class="btn btn-primary" data-toggle="button" name="submit"> 提交</button>
+        <button type="button" class="btn" data-toggle="button" name="back"> 返回</button>
+    </div>
+</div>
+</body>
+</html>

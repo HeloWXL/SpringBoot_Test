@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="bootstrap-3.3.7/dist/css/bootstrap.css">
+    <script src="js/jquery-2.1.4.js"></script>
+    <script src="bootstrap-3.3.7/dist/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="bootstrap-3.3.7/bootstrap-select.css">
+    <script src="bootstrap-3.3.7/bootstrap-select.js"></script>
+    <style>
+        #add{
+            width: 300px;
+            height: 600px;
+            margin-left: 26px;
+            margin-top: 65px;
+        }
+        #submit{
+            margin-top: 10px;
+            margin-left: 80px;
+        }
+    </style>
+    <script src="layer/layer.js"></script>
+    <script src="js/addblank.js" type="application/javascript"></script>
+    <link rel="stylesheet" href="layer/theme/default/layer.css">
+</head>
+<body>
+<div id="add">
+    <!--试题科目列表是有教师所教授的科目列表-->
+    试题类型：
+    <select class="selectpicker" title="请选择试题模块" id="leixing">
+        <option selected="selected">填空题</option>
+    </select>
+    <div id="blanks">
+        题目：<textarea style="width: 298px;height: 100px;margin-top: 10px;"></textarea><br>
+        答案：
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="正确答案" size="298px" name="answer">
+        </div>
+    </div>
+    <div id="submit">
+        <button type="button" class="btn btn-primary" data-toggle="button" name="submit"> 提交</button>
+        <button type="button" class="btn" data-toggle="button" name="back"> 返回</button>
+    </div>
+</div>
+</body>
+</html>
