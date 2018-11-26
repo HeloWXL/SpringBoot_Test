@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>个人信息</title>
+    <script src="js/jquery-2.1.4.js"></script>
+    <script src="layui-v2.4.3/layui/layui.js"></script>
+    <link rel="stylesheet" href="layui-v2.4.3/layui/css/layui.css">
+    <script src="layer/layer.js"></script>
+    <link rel="stylesheet" href="layer/theme/default/layer.css">
+    <script src="bootstrap-3.3.7/dist/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="bootstrap-3.3.7/dist/css/bootstrap.css">
+    <style>
+        body {
+            background-color: #fff !important;
+            margin: 0 0;
+            background-image: url("images/bk3.jpg");
+        }
+
+        /*导航栏设计*/
+        #user {
+            float: right;
+        }
+
+        /*}到这*/
+        #pic img {
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+        }
+
+        input {
+            border: 1px solid #cccccc;
+        }
+
+        .span6 {
+            margin-top: 50px;
+            float: left;
+        }
+
+        #left {
+            margin-left: 460px;
+            width: 100px;
+        }
+
+        #right {
+            margin-left: 50px;
+            font-size: 16px;
+        }
+
+        #right dl {
+            margin-top: 10px;
+        }
+
+        .list li {
+            float: left;
+        }
+
+        #right-1 {
+            margin-left: 50px;
+            width: 600px;
+        }
+
+        #right-2 {
+            margin-left: 50px;
+            width: 600px;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <!--头部导航栏-->
+    <ul class="layui-nav layui-bg-blue">
+        <li class="layui-nav-item"><a href="index.html">首页</a></li>
+        <li class="layui-nav-item"><a href="">课程</a></li>
+        <li class="layui-nav-item"><a href="">大数据</a></li>
+        <li class="layui-nav-item"><a href="">社区</a></li>
+        <li class="layui-nav-item" id="user">
+            <ul class="layui-nav layui-bg-blue">
+                <li class="layui-nav-item">
+                    <a href="user-info.html" class="layui-this">个人中心</a>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;" id="user1">
+                        <img src="" class="layui-nav-img"><span></span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <h2 class="text-center text-success">
+                个人中心
+            </h2>
+            <p class="text-success">
+            </p>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="span6" id="left">
+            <ul class="nav nav-list" id="left-1">
+                <li class="nav-header">
+                    个人信息中心
+                </li>
+                <li class="active">
+                    <a href="#">我的信息</a>
+                </li>
+                <li>
+                    <a href="#">我的课程</a>
+                </li>
+                <li>
+                    <a href="#">我的成绩</a>
+                </li>
+            </ul>
+        </div>
+        <div class="span6" id="right">
+            <img alt="140x140" src="images/c2.jpg" class="img-polaroid" width="150px;"/>
+            <dl>
+                <dt>
+                    姓名
+                </dt>
+                <dd>
+                    <div class="form-group">
+                        <input name="name" type="text" class="form-control" disabled=disabled">
+                    </div>
+                </dd>
+                <dt>
+                    年龄
+                </dt>
+                <dd>
+                    <div class="form-group">
+                        <input name="age" type="text" class="form-control"disabled=disabled">
+                    </div>
+                </dd>
+                <dt>
+                    学校
+                </dt>
+                <dd>
+                    <div class="form-group">
+                        <input name="school" type="text" class="form-control" disabled=disabled">
+                    </div>
+                </dd>
+                <dt>
+                    专业
+                </dt>
+                <dd>
+                    <div class="form-group">
+                        <input name="profession" type="text" class="form-control" disabled=disabled">
+                    </div>
+                </dd>
+            </dl>
+        </div>
+        <div class="span6" id="right-1" style="display: none">
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="span12">
+                        <table class="table" width="200px">
+                            <thead>
+                            <tr>
+                                <th>
+                                    视频
+                                </th>
+                                <th>
+                                    课程名
+                                </th>
+                                <th>
+                                    教师
+                                </th>
+                                <th name="plays">
+                                    操作
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="span6" id="right-2" style="display: none">
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="span12">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>
+                                    课程名
+                                </th>
+                                <th>
+                                    教师
+                                </th>
+                                <th>
+                                    成绩
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>
+                                    1
+                                </td>
+                                <td>
+                                    TB - Monthly
+                                </td>
+                                <td>
+                                    01/04/2012
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        var b = 0;
+        var classArr = new Array("", "success", "error", "warning", "info");
+        var sid;
+
+
+        $.ajax({
+            url: "student/getStuSession",
+            data: {"studentBean": "studentSession"},
+            type: "get",
+            dataType: "json",
+            success: function (ret) {
+                console.log(ret)
+
+                sid = ret.sid;
+
+                if ($.isEmptyObject(ret)) {
+                    $('#user1').hide();
+                    $('#select').hide();
+                } else {
+                    // 判断学生的信息
+                    var sex;
+                    if (typeof (ret.studentSex) == 'undefined') {
+                        sex = null;
+                    } else {
+                        sex = ret.studentSex;
+                    }
+                    var age;
+                    if (typeof (ret.studentAge) == 'undefined') {
+                        age = null;
+                    } else {
+                        age = ret.studentAge;
+                    }
+                    var school;
+                    if (typeof (ret.studentSchool) == "undefined") {
+                        school = null;
+                    } else {
+                        school = ret.studentSchool;
+                    }
+
+                    var pic;
+                    if (typeof (ret.studentPicture) == 'undefined') {
+                        pic = "images/admin.jpg";
+                    } else {
+                        pic = ret.studentPicture;
+                    }
+
+                    var name;
+                    if (typeof (ret.studentName) == 'undefined') {
+                        name = null;
+                    } else {
+                        name = ret.studentName;
+                    }
+
+                    var profession;
+                    if (typeof (ret.studentProfession) == 'undefined') {
+                        profession = null;
+                    } else {
+                        profession = ret.studentProfession;
+                    }
+                    // 设置导航栏中的内容
+                    $('#user1').show();
+                    $('#select').show();
+                    $('.login').hide();
+
+                    $("#user1 img").attr("src", pic);
+                    $("#user1 span").html(name)
+                    // 设置个人详情页中内容
+                    $("input[name='name']").val(name)
+                    $("input[name='age']").val(age)
+                    $("input[name='school']").val(school)
+                    $("input[name='profession']").val(profession)
+                }
+            }
+        })
+
+
+
+        // 弹出公告号信息
+        // $.ajax({
+        //     url:'notice/getNotice',
+        //     dataType:'json',
+        //     type:'post',
+        //     data:{"sid":sid},
+        //     success:function (ret) {
+        //         layui.use('layer', function(){ //独立版的layer无需执行这一句
+        //             var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
+        //             //触发事件
+        //             var active = {
+        //                 notice: function(){
+        //                     //示范一个公告层
+        //                     layer.open({
+        //                         type: 1
+        //                         ,title: ret.noticeTitle
+        //                         ,closeBtn: true
+        //                         ,area: '300px;'
+        //                         ,shade: 0.8
+        //                         ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+        //                         ,btn: ['收到', '残忍拒绝']
+        //                         ,btnAlign: 'c'
+        //                         ,moveType: 1 //拖拽模式，0或者1
+        //                         ,content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">ret.noticeContent</div>'
+        //                         ,success: function(layero){
+        //                             var btn = layero.find('.layui-layer-btn');
+        //                             btn.find('.layui-layer-btn0').attr({
+        //                             });
+        //                         }
+        //                     });
+        //                 }
+        //             };
+        //
+        //             $('#layerDemo .layui-btn').on('click', function(){
+        //                 var othis = $(this), method = othis.data('method');
+        //                 active[method] ? active[method].call(this, othis) : '';
+        //             });
+        //
+        //         });
+        //     }
+        //
+        // })
+
+
+        // 我的信息
+        $("#left-1 li:nth-child(2) a").click(function () {
+            $("#right").show();
+            $("#right-1").hide();
+            $("#right-2").hide();
+        })
+
+        $("#right-1").on("click", "button[name='play']", function (event) {
+            var cid = $(this).attr("value");
+            $.ajax({
+                url: "course/selectByCid",
+                data: {"cid": cid},
+                dataType: "json",
+                type: "post",
+                success: function (ret) {
+                    console.log(ret);
+                    if (ret == true) {
+                        layer.msg("正在跳转...", {time: 1500});
+                        location.href = "videos.html"
+                    } else {
+                        layer.msg("播放失败", {time: 1500});
+                    }
+
+                }
+
+            })
+        });
+
+        // 我的课程
+        $("#left-1 li:nth-child(3) a").click(function () {
+            $("#right").hide();
+            $("#right-2").hide();
+            $("#right-1").show();
+            $("#right-1 tbody").empty();
+            $.ajax({
+                url: "student/getCourseAndTeacher",
+                data: {"sid": sid},
+                dataType: "json",
+                type: "post",
+                success: function (ret) {
+                    $node = $(' <tr>\n' +
+                        '                                    <td>\n' +
+                        '                                        <img src="' + ret.course.cpicture + '" width="65px">\n' +
+                        '                                    </td>\n' +
+                        '                                    <td>\n' +
+                        '                                        ' + ret.course.cname + '' +
+                        '                                    </td>\n' +
+                        '                                    <td>\n' +
+                        '                                        ' + ret.teacher.tname + '' +
+                        '                                    </td>\n' +
+                        '                                    <td>\n' +
+                        '                                        <button class="layui-btn layui-btn-fluid" value="' + ret.course.cid + '" name="play">播放</button>\n' +
+                        '                                    </td>\n' +
+                        '                                </tr>')
+
+                    $("#right-1 tbody").append($node)
+                }
+            })
+        })
+        $("button[name='play']").click(function () {
+            var cid = $(this).attr("value");
+            alert(cid)
+        })
+
+        // 我的成绩
+        $("#left-1 li:nth-child(4) a").click(function () {
+            $("#right").hide();
+            $("#right-1").hide();
+            $("#right-2").show();
+            $("#right-2 tbody").empty();
+            $.ajax({
+                url: "student/getScoreAndTeacher",
+                data: {"sid": sid},
+                dataType: "json",
+                type: "post",
+                success: function (ret) {
+                    $node = $(' <tr>\n' +
+                        '                                    <td>\n' +
+                        '                                        ' + ret.course.cname + '\n' +
+                        '                                    </td>\n' +
+                        '                                    <td>\n' +
+                        '                                        ' + ret.teacher.tname + '\n' +
+                        '                                    </td>\n' +
+                        '                                    <td>\n' +
+                        '                                       ' + ret.score + '\n' +
+                        '                                    </td>\n' +
+                        '                                </tr>')
+                    $("#right-2 tbody").append($node)
+                }
+            })
+
+
+        })
+    })
+</script>
+</body>
+</html>

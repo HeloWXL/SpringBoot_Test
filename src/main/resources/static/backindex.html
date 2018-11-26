@@ -1,0 +1,1291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>后台管理系统</title>
+    <script src="js/jquery-2.1.4.js"></script>
+    <script src="bootstrap-3.3.7/dist/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="bootstrap-3.3.7/dist/css/bootstrap.css">
+    <script type="text/javascript">
+        $(function () {
+            // 全局变量
+            var a = 0;
+            var b = 0;
+            var classArr = new Array("", "success", "error", "warning", "info");
+            var image = "images/img.jpg";
+            var images = "images/c2.jpg";
+            String.prototype.endWith=function(endStr){
+                var d=this.length-endStr.length;
+                return (d>=0&&this.lastIndexOf(endStr)==d);
+            }
+            var s = ".jpg"
+            // 获取首页统计数据
+            $.ajax({
+                url:"common/getCount",
+                dataType:"json",
+                type:'get',
+                success:function (ret) {
+                    $("#count-ul li:nth-child(1) p span").html(ret.upcount);
+                    $("#count-ul li:nth-child(2) p span").html(ret.usercount);
+                    $("#count-ul li:nth-child(3) p span").html(ret.coursecount);
+                }
+            })
+
+            // 获取管理员登录信息
+            $.ajax({
+                url:"admin/getAdminSession",
+                dataType:"json",
+                data:{"adminBean":"adminsession"},
+                type:"post",
+                success:function (ret) {
+                    if($.isEmptyObject(ret)){
+                        $("#admin").hide();
+                        console.log("管理员未登录");
+                    }else{
+                        $("#admin").show();
+                        $("#admin p").html(ret.aname);
+
+                    }
+                }
+            })
+
+
+            // 退出登录--管理员
+            $("#admin a").click(function () {
+                $.ajax({
+                    url:"admin/loginOut",
+                    dataType:"json",
+                    type:"get",
+                    success:function (ret) {
+                        console.log("loginout:"+ret);
+                        if(ret!=1){
+                            layer.msg("用户已退出",{time:2000});
+                            location.href="backlogin.html";
+                        }
+                    }
+
+                })
+            })
+
+
+            $("a[name='index']").click(function () {
+                $("#index").show();
+                $("#student").hide();
+                $("#teacher").hide();
+                $("#static").hide();
+                $("#course").hide();
+                $("#score").hide();
+                $("#addmin").hide();
+            })
+            // 点击学生管理 触发事件 将教师、课程、成绩、统计分析等窗口进行隐藏
+            $("a[name='student']").click(function () {
+                var pageNo=2;
+                var pageSize =10;
+                var pageCount =0;
+                $("#student").show();
+                $("#teacher").hide();
+                $("#static").hide();
+                $("#course").hide();
+                $("#score").hide();
+                $("#index").hide();
+                $("#addmin").hide();
+                $("#student table tbody").empty();
+                $.ajax({
+                    url: "student/getStudent",
+                    type: "post",
+                    dataType: "json",
+                    data:{"pageNo":0,"pageSize":pageSize},
+                    cache:false,
+                    async:false,
+                    success: function (ret) {
+                        pageCount=ret[0].count;
+                        for (var i = 0; i < ret[0].list.length; i++) {
+                            if(ret[0].list[i].spic.endWith(s)){
+                                images = ret[0].list[i].spic;
+                            }
+                            $node = $("<tr class=\"" + classArr[b++] + "\">\n" +
+                                "                                <td>\n" +
+                                "                                    " + b + "\n" +
+                                "                                </td>\n" +
+                                "                                <td>\n" +
+                                "                                    <img src="+images+" width=\"50px\">\n" +
+                                "                                </td>\n" +
+                                "                                <td>\n" +
+                                "                                    " + ret[0].list[i].sname + "\n" +
+                                "                                </td>\n" +
+                                "                                <td>\n" +
+                                "                                    " + ret[0].list[i].sage + "" +
+                                "                                </td>\n" +
+                                "                                <td>\n" +
+                                "                                    " + ret[0].list[i].ssex + "" +
+                                "                                </td>\n" +
+                                "                                <td>\n" +
+                                "                                    " + ret[0].list[i].sschool + "" +
+                                "                                </td>\n" +
+                                "                            </tr>")
+                            $("#student table tbody").append($node);
+                            if (b == 5) {
+                                b = 0;
+                            }
+                        }
+                    }
+                })
+                // 分页管理-下一页
+                $("#student-fenye ul li button[name='next']").click(function () {
+                    $("#student table tbody").empty();
+                    var maxpage = Math.ceil(pageCount/10);
+                    if(pageNo<maxpage){
+                        ++pageNo;
+                    }else{
+                        pageNo=maxpage;
+                        layer.msg("已经是最后一页了",{time:1500});
+                    }
+                    $.ajax({
+                        url: "student/getStudent",
+                        type: "post",
+                        dataType: "json",
+                        data:{"pageNo":(pageNo-1)*pageSize,"pageSize":pageSize},
+                        cache:false,
+                        async:false,
+                        success: function (ret) {
+                            for (var i = 0; i < ret[0].list.length; i++) {
+                                if(ret[0].list[i].spic.endWith(s)){
+                                    images = ret[0].list[i].spic;
+                                }
+                                $node = $("<tr class=\"" + classArr[b++] + "\">\n" +
+                                    "                                <td>\n" +
+                                    "                                    " + b + "\n" +
+                                    "                                </td>\n" +
+                                    "                                <td>\n" +
+                                    "                                    <img src="+images+" width=\"50px\">\n" +
+                                    "                                </td>\n" +
+                                    "                                <td>\n" +
+                                    "                                    " + ret[0].list[i].sname + "\n" +
+                                    "                                </td>\n" +
+                                    "                                <td>\n" +
+                                    "                                    " + ret[0].list[i].sage + "" +
+                                    "                                </td>\n" +
+                                    "                                <td>\n" +
+                                    "                                    " + ret[0].list[i].ssex + "" +
+                                    "                                </td>\n" +
+                                    "                                <td>\n" +
+                                    "                                    " + ret[0].list[i].sschool + "" +
+                                    "                                </td>\n" +
+                                    "                            </tr>")
+                                $("#student table tbody").append($node);
+                                if (b == 5) {
+                                    b = 0;
+                                }
+                            }
+                        }
+                    })
+
+                });
+                // 分页管理-上一页
+                $("#student-fenye ul li button[name='prev']").click(function () {
+                    $("#student table tbody").empty();
+                    if(pageNo==1){
+                        layer.msg("已经是第一页了",{time:1500});
+                    }else{
+                        pageNo--;
+                    }
+                    $.ajax({
+                        url: "student/getStudent",
+                        type: "post",
+                        dataType: "json",
+                        data:{"pageNo":(pageNo-1)*pageSize,"pageSize":pageSize},
+                        cache:false,
+                        async:false,
+                        success: function (ret) {
+                            for (var i = 0; i < ret[0].list.length; i++) {
+                                if(ret[0].list[i].spic.endWith(s)){
+                                    images = ret[0].list[i].spic;
+                                }
+                                $node = $("<tr class=\"" + classArr[b++] + "\">\n" +
+                                    "                                <td>\n" +
+                                    "                                    " + b + "\n" +
+                                    "                                </td>\n" +
+                                    "                                <td>\n" +
+                                    "                                    <img src="+images+" width=\"50px\">\n" +
+                                    "                                </td>\n" +
+                                    "                                <td>\n" +
+                                    "                                    " + ret[0].list[i].sname + "\n" +
+                                    "                                </td>\n" +
+                                    "                                <td>\n" +
+                                    "                                    " + ret[0].list[i].sage + "" +
+                                    "                                </td>\n" +
+                                    "                                <td>\n" +
+                                    "                                    " + ret[0].list[i].ssex + "" +
+                                    "                                </td>\n" +
+                                    "                                <td>\n" +
+                                    "                                    " + ret[0].list[i].sschool + "" +
+                                    "                                </td>\n" +
+                                    "                            </tr>")
+                                $("#student table tbody").append($node);
+                                if (b == 5) {
+                                    b = 0;
+                                }
+                            }
+                        }
+                    })
+
+                });
+            })
+            $("a[name='teacher']").click(function () {
+                var pageNo=2;
+                var pageSize =10;
+                var pageCount =0;
+                $("#teacher").show();
+                $("#student").hide();
+                $("#static").hide();
+                $("#course").hide();
+                $("#score").hide();
+                $("#index").hide();
+                $("#addmin").hide();
+                // 先将教师列表进行清空
+                $("#teacher table tbody").empty();
+                //加载教师信息
+                $.ajax({
+                    url: "teacher/getAllTeacher",
+                    type: "post",
+                    data:{"pageNo":0,"pageSize":pageSize},
+                    dataType: "json",
+                    cache:false,
+                    async:false,
+                    success: function (ret) {
+                        pageCount = ret.count;
+                        for (var i = 0; i < ret.list.length; i++) {
+                        $node = $("<tr class=\"" + classArr[a++] + "\">\n" +
+                            "                                <td>\n" +
+                            "                                    " + ret.list[i].tid + "\n" +
+                            "                                </td>\n" +
+                            "                                <td>\n" +
+                            "                                    <img src=\"images/c2.jpg\" width=\"50px\">\n" +
+                            "                                </td>\n" +
+                            "                                <td>\n" +
+                            "                                    " + ret.list[i].tname + "\n" +
+                            "                                </td>\n" +
+                            "                                <td>\n" +
+                            "                                    " + ret.list[i].tmajor + "" +
+                            "                                </td>\n" +
+                            "                                <td>\n" +
+                            "                                    " + ret.list[i].tage + "" +
+                            "                                </td>\n" +
+                            "                                <td>\n" +
+                            "                                    " + ret.list[i].tsex + "" +
+                            "                                </td>\n" +
+                            "                            </tr>")
+                        $("#teacher table tbody").append($node);
+                        if (a == 5) {
+                            a = 0;
+                        }
+                        }
+                    }
+                })
+                // 分页管理-下一页
+                $("#teacher-fenye ul li button[name='next']").click(function () {
+                    $("#teacher table tbody").empty();
+                    var maxpage = Math.ceil(pageCount/10);
+                    if(pageNo<maxpage){
+                        ++pageNo;
+                    }else{
+                        pageNo=maxpage;
+                        layer.msg("已经是最后一页了",{time:1500});
+                    }
+                    $.ajax({
+                        url: "teacher/getAllTeacher",
+                        type: "post",
+                        dataType: "json",
+                        data:{"pageNo":(pageNo-1)*pageSize,"pageSize":pageSize},
+                        cache:false,
+                        async:false,
+                        success: function (ret) {
+                            for (var i = 0; i < ret.list.length; i++) {
+                                $node = $("<tr class=\"" + classArr[a++] + "\">\n" +
+                                    "                                <td>\n" +
+                                    "                                    " + ret.list[i].tid + "\n" +
+                                    "                                </td>\n" +
+                                    "                                <td>\n" +
+                                    "                                    <img src=\"images/c2.jpg\" width=\"50px\">\n" +
+                                    "                                </td>\n" +
+                                    "                                <td>\n" +
+                                    "                                    " + ret.list[i].tname + "\n" +
+                                    "                                </td>\n" +
+                                    "                                <td>\n" +
+                                    "                                    " + ret.list[i].tmajor + "" +
+                                    "                                </td>\n" +
+                                    "                                <td>\n" +
+                                    "                                    " + ret.list[i].tage + "" +
+                                    "                                </td>\n" +
+                                    "                                <td>\n" +
+                                    "                                    " + ret.list[i].tsex + "" +
+                                    "                                </td>\n" +
+                                    "                            </tr>")
+                                $("#teacher table tbody").append($node);
+                                if (a == 5) {
+                                    a = 0;
+                                }
+                            }
+                        }
+                    })
+                });
+                // 分页管理-上一页
+                $("#teacher-fenye ul li button[name='prev']").click(function () {
+                    $("#teacher table tbody").empty();
+                    if(pageNo==1){
+                        layer.msg("已经是第一页了",{time:1500});
+                    }else{
+                        pageNo--;
+                    }
+                    $.ajax({
+                        url: "teacher/getAllTeacher",
+                        type: "post",
+                        dataType: "json",
+                        data:{"pageNo":(pageNo-1)*pageSize,"pageSize":pageSize},
+                        cache:false,
+                        async:false,
+                        success: function (ret) {
+                            for (var i = 0; i < ret.list.length; i++) {
+                                $node = $("<tr class=\"" + classArr[a++] + "\">\n" +
+                                    "                                <td>\n" +
+                                    "                                    " + ret.list[i].tid  + "\n" +
+                                    "                                </td>\n" +
+                                    "                                <td>\n" +
+                                    "                                    <img src=\"images/c2.jpg\" width=\"50px\">\n" +
+                                    "                                </td>\n" +
+                                    "                                <td>\n" +
+                                    "                                    " + ret.list[i].tname + "\n" +
+                                    "                                </td>\n" +
+                                    "                                <td>\n" +
+                                    "                                    " + ret.list[i].tmajor + "" +
+                                    "                                </td>\n" +
+                                    "                                <td>\n" +
+                                    "                                    " + ret.list[i].tage + "" +
+                                    "                                </td>\n" +
+                                    "                                <td>\n" +
+                                    "                                    " + ret.list[i].tsex + "" +
+                                    "                                </td>\n" +
+                                    "                            </tr>")
+                                $("#teacher table tbody").append($node);
+                                if (a == 5) {
+                                    a = 0;
+                                }
+                            }
+                        }
+                    })
+                });
+            })
+            $("a[name='static']").click(function () {
+                $("#static").show();
+                $("#student").hide();
+                $("#teacher").hide();
+                $("#course").hide();
+                $("#score").hide();
+                $("#index").hide();
+                $("#addmin").hide();
+            })
+            $("a[name='course']").click(function () {
+                $("#course").show();
+                $("#score").hide();
+                $("#student").hide();
+                $("#teacher").hide();
+                $("#static").hide();
+                $("#index").hide();
+                $("#addmin").hide();
+                var pageNo=2;
+                var pageSize =10;
+                var pageCount =0;
+                // 先将教师列表进行清空
+                $("#course table tbody").empty();
+                //加载教师信息
+                $.ajax({
+                    url: "course/getAllCourseList",
+                    type: "post",
+                    data:{"pageNo":0,"pageSize":pageSize},
+                    dataType: "json",
+                    cache:false,
+                    async:false,
+                    success: function (ret) {
+                        pageCount = ret.count;
+                        for (var i = 0; i < ret.list.length; i++) {
+                            if(ret.list[i].coursePicture.endWith(s)){
+                                image = ret.list[i].coursePicture;
+                            }
+                            $node = $("<tr class=\"" + classArr[a++] + "\">\n" +
+                                "                                <td>\n" +
+                                "                                    " + ret.list[i].courseId + "\n" +
+                                "                                </td>\n" +
+                                "                                <td>\n" +
+                                "                                    <img src="+image+" width=\"50px\">\n" +
+                                "                                </td>\n" +
+                                "                                <td>\n" +
+                                "                                    " + ret.list[i].courseName + "\n" +
+                                "                                </td>\n" +
+                                "                                <td>\n" +
+                                "                                    " + ret.list[i].coursecpingfen + "" +
+                                "                                </td>\n" +
+                                "                                <td>\n" +
+                                "                                    " + ret.list[i].courseIntroduce + "" +
+                                "                                </td>\n" +
+                                "                                <td>\n" +
+                                "                                    " + ret.list[i].courseVideo + "" +
+                                "                                </td>\n" +
+                                "                            </tr>")
+                            $("#course table tbody").append($node);
+                            if (a == 5) {
+                                a = 0;
+                            }
+                        }
+                    }
+                })
+                // 分页管理-下一页
+                $("#course-fenye ul li button[name='next']").click(function () {
+                    $("#course table tbody").empty();
+                    var maxpage = Math.ceil(pageCount/10);
+                    if(pageNo<maxpage){
+                        ++pageNo;
+                    }else{
+                        pageNo=maxpage;
+                        layer.msg("已经是最后一页了",{time:1500});
+                    }
+                    $.ajax({
+                        url: "course/getAllCourseList",
+                        type: "post",
+                        dataType: "json",
+                        data:{"pageNo":(pageNo-1)*pageSize,"pageSize":pageSize},
+                        cache:false,
+                        async:false,
+                        success: function (ret) {
+                            pageCount = ret.count;
+
+                            for (var i = 0; i < ret.list.length; i++) {
+                                // 判断图片的链接是否是以jp结尾
+                                if(ret.list[i].cpicture.endWith(s)){
+                                    image = ret.list[i].cpicture;
+                                }
+                                $node = $("<tr class=\"" + classArr[a++] + "\">\n" +
+                                    "                                <td>\n" +
+                                    "                                    " + ret.list[i].cid + "\n" +
+                                    "                                </td>\n" +
+                                    "                                <td>\n" +
+                                    "                                    <img src="+image+" width=\"50px\">\n" +
+                                    "                                </td>\n" +
+                                    "                                <td>\n" +
+                                    "                                    " + ret.list[i].cname + "\n" +
+                                    "                                </td>\n" +
+                                    "                                <td>\n" +
+                                    "                                    " + ret.list[i].tcpingfen + "" +
+                                    "                                </td>\n" +
+                                    "                                <td>\n" +
+                                    "                                    " + ret.list[i].cintroduce + "" +
+                                    "                                </td>\n" +
+                                    "                                <td>\n" +
+                                    "                                    " + ret.list[i].cvideo + "" +
+                                    "                                </td>\n" +
+                                    "                            </tr>")
+                                $("#course table tbody").append($node);
+                                if (a == 5) {
+                                    a = 0;
+                                }
+                            }
+                        }
+                    })
+                });
+                // 分页管理-上一页
+                $("#course-fenye ul li button[name='prev']").click(function () {
+                    $("#course table tbody").empty();
+                    if(pageNo==1){
+                        layer.msg("已经是第一页了",{time:1500});
+                    }else{
+                        pageNo--;
+                    }
+                    $.ajax({
+                        url: "course/getAllCourseList",
+                        type: "post",
+                        dataType: "json",
+                        data:{"pageNo":(pageNo-1)*pageSize,"pageSize":pageSize},
+                        cache:false,
+                        async:false,
+                        success: function (ret) {
+                            pageCount = ret.count;
+                            for (var i = 0; i < ret.list.length; i++) {
+                                if(ret.list[i].cpicture.endWith(s)){
+                                    image = ret.list[i].cpicture;
+                                }
+                                $node = $("<tr class=\"" + classArr[a++] + "\">\n" +
+                                    "                                <td>\n" +
+                                    "                                    " + ret.list[i].cid + "\n" +
+                                    "                                </td>\n" +
+                                    "                                <td>\n" +
+                                    "                                    <img src="+image+" width=\"50px\">\n" +
+                                    "                                </td>\n" +
+                                    "                                <td>\n" +
+                                    "                                    " + ret.list[i].cname + "\n" +
+                                    "                                </td>\n" +
+                                    "                                <td>\n" +
+                                    "                                    " + ret.list[i].tcpingfen + "" +
+                                    "                                </td>\n" +
+                                    "                                <td>\n" +
+                                    "                                    " + ret.list[i].cintroduce + "" +
+                                    "                                </td>\n" +
+                                    "                                <td>\n" +
+                                    "                                    " + ret.list[i].cvideo + "" +
+                                    "                                </td>\n" +
+                                    "                            </tr>")
+                                $("#course table tbody").append($node);
+                                if (a == 5) {
+                                    a = 0;
+                                }
+                            }
+                        }
+                    })
+                });
+            })
+            $("a[name='socre']").click(function () {
+                $("#score").show();
+                $("#student").hide();
+                $("#teacher").hide();
+                $("#course").hide();
+                $("#static").hide();
+                $("#index").hide();
+                $("#addmin").hide();
+            })
+            $("a[name='addadmin']").click(function () {
+                $("#addmin").show();
+                $("#score").hide();
+                $("#student").hide();
+                $("#teacher").hide();
+                $("#course").hide();
+                $("#static").hide();
+                $("#index").hide();
+                $(".btn").click(function () {
+                    $.ajax({
+                        url:'admin/insertAdmin',
+                        dataType:'json',
+                        data:{"name":$("input[name='aname']").val(),"password":$("input[name='password']").val()},
+                        type:'post',
+                        success:function (ret) {
+                            if(ret==1){
+                                layer.msg("添加成功",{time:2000});
+                            }else{
+                                layer.msg("添加失败",{time:2000})
+                            }
+                        }
+
+                    })
+                })
+
+            })
+            var math;
+            var chinese;
+            var english;
+            var polity;
+            $.ajax({
+                url: 'scoreview/getEveryClassScore',
+                type: 'get',
+                dataType: 'json',
+                success: function (ret) {
+                    // 课程
+                    chinese = ret[0].chinese;
+                    math = ret[0].math;
+                    english = ret[0].english;
+                    polity = ret[0].polity;
+                    chart_1(chinese, math, english, polity)
+                    // 语文成绩 雷达图
+                    chinese_echarts(chinese);
+                    // 数学成绩雷达图
+                    math_echarts(math)
+                    //英语成绩雷达图
+                    english_echarts(english)
+                    // 政治成绩雷达图
+                    polity_echarts(polity)
+
+                }
+            })
+        })
+        function math_echarts(math) {
+            var chart3 = echarts.init(document.getElementById("chart3"));
+            option = {
+                title : {
+                    text: '数学考试成绩分析',
+                },
+                tooltip : {
+                    trigger: 'axis'
+                },
+                legend: {
+                    orient : 'vertical',
+                    x : 'right',
+                    y : 'bottom',
+                    data:['数学']
+                },
+                toolbox: {
+                    show : true,
+                    feature : {
+                        mark : {show: true},
+                        dataView : {show: true, readOnly: false},
+                        restore : {show: true},
+                        saveAsImage : {show: true}
+                    }
+                },
+                polar : [
+                    {
+                        indicator : [
+                            { text: '101', max: 100},
+                            { text: '102', max: 100},
+                            { text: '103', max: 100},
+                            { text: '104', max: 100},
+                            { text: '105', max: 100},
+                            { text: '106', max: 100},
+                            { text: '107', max: 100},
+                            { text: '108', max: 100},
+                            { text: '109', max: 100},
+                            { text: '110', max: 100}
+                        ]
+                    }
+                ],
+                calculable : true,
+                series : [
+                    {
+                        name: '数学成绩雷达图',
+                        type: 'radar',
+                        data : [
+                            {
+                                value : math,
+                                name : '数学'
+                            }
+                        ]
+                    }
+                ]
+            };
+            chart3.setOption(option)
+        }
+        function chinese_echarts(chinese) {
+            var chart2 = echarts.init(document.getElementById("chart2"));
+            option = {
+                title : {
+                    text: '语文考试成绩雷达图',
+                },
+                tooltip : {
+                    trigger: 'axis'
+                },
+                legend: {
+                    orient : 'vertical',
+                    x : 'right',
+                    y : 'bottom',
+                    data:['语文']
+                },
+                toolbox: {
+                    show : true,
+                    feature : {
+                        mark : {show: true},
+                        dataView : {show: true, readOnly: false},
+                        restore : {show: true},
+                        saveAsImage : {show: true}
+                    }
+                },
+                polar : [
+                    {
+                        indicator : [
+                            { text: '101', max: 100},
+                            { text: '102', max: 100},
+                            { text: '103', max: 100},
+                            { text: '104', max: 100},
+                            { text: '105', max: 100},
+                            { text: '106', max: 100},
+                            { text: '107', max: 100},
+                            { text: '108', max: 100},
+                            { text: '109', max: 100},
+                            { text: '110', max: 100}
+                        ]
+                    }
+                ],
+                calculable : true,
+                series : [
+                    {
+                        name: '语文成绩雷达图',
+                        type: 'radar',
+                        data : [
+                            {
+                                value : chinese,
+                                name : '语文'
+                            }
+                        ]
+                    }
+                ]
+            };
+            chart2.setOption(option)
+        }
+        function english_echarts(english) {
+            var chart4 = echarts.init(document.getElementById("chart4"));
+            option = {
+                title : {
+                    text: '英语考试成绩雷达图',
+                },
+                tooltip : {
+                    trigger: 'axis'
+                },
+                legend: {
+                    orient : 'vertical',
+                    x : 'right',
+                    y : 'bottom',
+                    data:['英语']
+                },
+                toolbox: {
+                    show : true,
+                    feature : {
+                        mark : {show: true},
+                        dataView : {show: true, readOnly: false},
+                        restore : {show: true},
+                        saveAsImage : {show: true}
+                    }
+                },
+                polar : [
+                    {
+                        indicator : [
+                            { text: '101', max: 100},
+                            { text: '102', max: 100},
+                            { text: '103', max: 100},
+                            { text: '104', max: 100},
+                            { text: '105', max: 100},
+                            { text: '106', max: 100},
+                            { text: '107', max: 100},
+                            { text: '108', max: 100},
+                            { text: '109', max: 100},
+                            { text: '110', max: 100}
+                        ]
+                    }
+                ],
+                calculable : true,
+                series : [
+                    {
+                        name: '英语成绩雷达图',
+                        type: 'radar',
+                        data : [
+                            {
+                                value : english,
+                                name : '英语'
+                            }
+                        ]
+                    }
+                ]
+            };
+            chart4.setOption(option)
+        }
+        function polity_echarts(polity) {
+            var chart5 = echarts.init(document.getElementById("chart5"));
+            option = {
+                title : {
+                    text: '政治考试成绩雷达图',
+                },
+                tooltip : {
+                    trigger: 'axis'
+                },
+                legend: {
+                    orient : 'vertical',
+                    x : 'right',
+                    y : 'bottom',
+                    data:['政治']
+                },
+                toolbox: {
+                    show : true,
+                    feature : {
+                        mark : {show: true},
+                        dataView : {show: true, readOnly: false},
+                        restore : {show: true},
+                        saveAsImage : {show: true}
+                    }
+                },
+                polar : [
+                    {
+                        indicator : [
+                            { text: '101', max: 100},
+                            { text: '102', max: 100},
+                            { text: '103', max: 100},
+                            { text: '104', max: 100},
+                            { text: '105', max: 100},
+                            { text: '106', max: 100},
+                            { text: '107', max: 100},
+                            { text: '108', max: 100},
+                            { text: '109', max: 100},
+                            { text: '110', max: 100}
+                        ]
+                    }
+                ],
+                calculable : true,
+                series : [
+                    {
+                        name: '政治成绩雷达图',
+                        type: 'radar',
+                        data : [
+                            {
+                                value : polity,
+                                name : '政治'
+                            }
+                        ]
+                    }
+                ]
+            };
+            chart5.setOption(option)
+        }
+        function chart_1(chinese,math,english,polity){
+            // 基于准备好的容器(这里的容器是id为chart1的div)，初始化echarts实例
+            var chart1 = echarts.init(document.getElementById("chart1"));
+            option = {
+                title : {
+                    text: '学生考试成绩分析',
+                },
+                tooltip : {
+                    trigger: 'axis'
+                },
+                legend: {
+                    orient : 'vertical',
+                    x : 'right',
+                    y : 'bottom',
+                    data:['语文','数学','英语','政治']
+                },
+                toolbox: {
+                    show : true,
+                    feature : {
+                        mark : {show: true},
+                        dataView : {show: true, readOnly: false},
+                        restore : {show: true},
+                        saveAsImage : {show: true}
+                    }
+                },
+                polar : [
+                    {
+                        indicator : [
+                            { text: '101', max: 100},
+                            { text: '102', max: 100},
+                            { text: '103', max: 100},
+                            { text: '104', max: 100},
+                            { text: '105', max: 100},
+                            { text: '106', max: 100},
+                            { text: '107', max: 100},
+                            { text: '108', max: 100},
+                            { text: '109', max: 100},
+                            { text: '110', max: 100}
+                        ]
+                    }
+                ],
+                calculable : true,
+                series : [
+                    {
+                        name: '成绩分析表',
+                        type: 'radar',
+                        data : [
+                            {
+                                value : chinese,
+                                name : '语文'
+                            },
+                            {
+                                value : math,
+                                name : '数学'
+                            },
+                            {
+                                value :english,
+                                name : '英语'
+                            },
+                            {
+                                value : polity,
+                                name : '政治'
+                            }
+                        ]
+                    }
+                ]
+            };
+            chart1.setOption(option)
+        }
+
+    </script>
+    <style>
+        #nav{
+            margin-top: 50px;
+            width: 130px;
+            height: 100%;
+        }
+        #content{
+            width: 954px;
+            margin-left: 0px;
+            height: 100%;
+        }
+        #student-fenye{
+            text-align: center;
+        }
+        #teacher-fenye{
+            text-align: center;
+        }
+        #static{
+            margin-left: 100px;
+            margin-top: 50px;
+        }
+        td img{
+            width:25px;
+            border-radius: 50%;
+        }
+        .echarts{
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+        #chart1{
+            margin-left: 215px;
+        }
+
+        #adminInfo{
+            width: 100%;
+            height: 600px;
+        }
+        #count{
+            width:100%;
+            height: 100px;
+            background-color: white;
+        }
+        #count-ul{
+            list-style: none;
+
+        }
+        #count-ul li{
+            float: left;
+            margin-left: 120px;
+        }
+        #count-ul li p{
+            margin-left: -25px;
+        }
+        #admin{
+            width: 86px;
+            height: 150px;
+            margin-top: 50px;
+        }
+        #admin img{
+            border-radius: 50%;
+            width:55px;
+            height: 55px;
+            margin-top: 5px;
+        }
+        #admin p {
+            font-size: 25px;
+        }
+        #admin a{
+            text-decoration: none;
+        }
+        #addmin{
+            margin-left: 100px;
+            margin-top: 100px;
+        }
+        .form-horizontal{
+            width: 200px;
+        }
+
+    </style>
+    <script src="js/echarts.js"></script>
+    <script src="layer/layer.js"></script>
+    <link rel="stylesheet" href="layer/theme/default/layer.css">
+</head>
+<body>
+        <div class="container">
+            <div class="row clearfix">
+                <div class="col-md-4 column" id="admin">
+                    <img src="images/c2.jpg" >
+                    <p>xxxxx</p>
+                    <a>退出登录</a>
+                </div>
+                <div class="col-md-4 column" id="nav">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li class="active"><a href="backindex.html" name="index">首页</a></li>
+                        <!-- 这里的active属性就是使得所在的li的背景色变为蓝色-->
+                        <li><a href="#" name="student">学生管理</a></li>
+                        <li><a href="#" name="teacher">教师管理</a></li>
+                        <li><a href="#" name="course">课程管理</a></li>
+                        <li><a href="#" name="score">成绩管理</a></li>
+                        <li class="dropdown">
+                            <a href="#" name="static">统计分析</a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" name="addadmin">添加管理员</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-8 column" id="content">
+                    <div id="index">
+                        <h3 class="text-center">
+                           后台首页
+                        </h3>
+                        <div id="adminInfo">
+                            <div id="count">
+                                <ul id="count-ul">
+                                    <li><img src="images/新增人数.png" width="50px"><p>今日新增人数：<span>123</span></p></li>
+                                    <li><img src="images/总人数.png" width="50px"><p>用户总人数：<span>666</span></p></li>
+                                    <li><img src="images/课程总数.png" width="50px"><p>课程总数：<span>555</span></p></li>
+                                </ul>
+                            </div>
+                            <div></div>
+                        </div>
+                    </div>
+
+                    <!--学生列表 默认显示学生成绩列表-->
+                    <div id="student" style="display: none;">
+                        <h3 class="text-center">
+                            学生管理
+                        </h3>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>
+                                    编号
+                                </th>
+                                <th>
+                                   头像
+                                </th>
+                                <th>
+                                    姓名
+                                </th>
+                                <th>
+                                    年龄
+                                </th>
+                                <th>
+                                    性别
+                                </th>
+                                <th>
+                                    学校
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>
+                                    1
+                                </td>
+                                <td>
+                                    <img src="images/c2.jpg">
+                                </td>
+                                <td>
+                                    我是学生
+                                </td>
+                                <td>
+                                    01/04/2012
+                                </td>
+                                <td>
+                                    Default
+                                </td>
+                                <td>
+                                    Default
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div id="student-fenye">
+                            <ul class="pagination">
+                                <li><button type="button" class="btn btn-primary" name="prev">上一页</button></li>
+                                <li><button type="button" class="btn btn-primary" name="next">下一页</button></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--教师列表-->
+                    <div id="teacher" style="display: none" >
+                       <h3 class="text-center">
+                           教师管理
+                       </h3>
+                       <table class="table table-hover">
+                           <thead>
+                           <tr>
+                               <th>
+                                   编号
+                               </th>
+                               <th>
+                                   头像
+                               </th>
+                               <th>
+                                   姓名
+                               </th>
+                               <th>
+                                   教授课程
+                               </th>
+                               <th>
+                                   年龄
+                               </th>
+                               <th>
+                                   性别
+                               </th>
+                           </tr>
+                           </thead>
+                           <tbody>
+
+                           </tbody>
+                       </table>
+                        <div id="teacher-fenye">
+                            <ul class="pagination">
+                                <li><button type="button" class="btn btn-primary" name="prev">上一页</button></li>
+                                <li><button type="button" class="btn btn-primary" name="next">下一页</button></li>
+                            </ul>
+                        </div>
+                   </div>
+                    <!--课程列表-->
+                    <div id="course" style="display: none">
+                       <h3 class="text-center">
+                           h3.课程.
+                       </h3>
+                       <table class="table">
+                           <thead>
+                           <tr>
+                               <th>
+                                   编号
+                               </th>
+                               <th>
+                                   课程图片
+                               </th>
+                               <th>
+                                  课程名
+                               </th>
+                               <th>
+                                   课程评分
+                               </th>
+                               <th>
+                                   课程介绍
+                               </th>
+                               <th>
+                                   课程视频链接
+                               </th>
+                           </tr>
+                           </thead>
+                           <tbody>
+
+                           </tbody>
+                       </table>
+                        <div id="course-fenye">
+                            <ul class="pagination">
+                                <li><button type="button" class="btn btn-primary" name="prev">上一页</button></li>
+                                <li><button type="button" class="btn btn-primary" name="next">下一页</button></li>
+                            </ul>
+                        </div>
+                   </div>
+                    <!--成绩列表-->
+                    <div id="score" style="display: none">
+                        <h3 class="text-center">
+                           考试成绩模块
+                        </h3>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>
+                                    编号
+                                </th>
+                                <th>
+                                    产品
+                                </th>
+                                <th>
+                                    交付时间
+                                </th>
+                                <th>
+                                    状态
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>
+                                    1
+                                </td>
+                                <td>
+                                    TB - Monthly
+                                </td>
+                                <td>
+                                    01/04/2012
+                                </td>
+                                <td>
+                                    Default
+                                </td>
+                            </tr>
+                            <tr class="success">
+                                <td>
+                                    1
+                                </td>
+                                <td>
+                                    TB - Monthly
+                                </td>
+                                <td>
+                                    01/04/2012
+                                </td>
+                                <td>
+                                    Approved
+                                </td>
+                            </tr>
+                            <tr class="error">
+                                <td>
+                                    2
+                                </td>
+                                <td>
+                                    TB - Monthly
+                                </td>
+                                <td>
+                                    02/04/2012
+                                </td>
+                                <td>
+                                    Declined
+                                </td>
+                            </tr>
+                            <tr class="warning">
+                                <td>
+                                    3
+                                </td>
+                                <td>
+                                    TB - Monthly
+                                </td>
+                                <td>
+                                    03/04/2012
+                                </td>
+                                <td>
+                                    Pending
+                                </td>
+                            </tr>
+                            <tr class="info">
+                                <td>
+                                    4
+                                </td>
+                                <td>
+                                    TB - Monthly
+                                </td>
+                                <td>
+                                    04/04/2012
+                                </td>
+                                <td>
+                                    Call in to confirm
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--统计图-->
+                    <div id="static" style="display: none;" >
+                        <div id="chart1" class="echarts" style=" border: 1px solid #000;width:400px;height:400px;" ></div>
+                        <div id="chart2" class="echarts" style="border: 1px solid #000;width:400px;height:400px;float: left;"></div>
+                        <div id="chart3" class="echarts"  style="border: 1px solid #000; width:400px;height:400px;float: left;"></div>
+                        <div id="chart4"class="echarts"  style="border: 1px solid #000;width:400px;height:400px;float: left;"></div>
+                        <div id="chart5" class="echarts" style="border: 1px solid #000;width:400px;height:400px;float: left;"></div>
+                    </div>
+
+                    <div id="addmin" style="display: none">
+                        <form class="form-horizontal">
+                            <div class="control-group">
+                                <label class="control-label">管理员名称</label>
+                                <div class="controls">
+                                    <input type="text" class="form-control" name="aname" placeholder="请输入管理员名称" width="30px">
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">管理员密码</label>
+                                <div class="controls">
+                                    <input type="password" class="form-control" placeholder="请管理员密码" width="30px">
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <div class="controls">
+                                     <button type="button" class="btn">注册</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+</body>
+</html>

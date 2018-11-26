@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>video</title>
+    <script src="js/jquery-2.1.4.js"></script>
+    <script src="layer/layer.js"></script>
+    <link rel="stylesheet" href="layer/theme/default/layer.css">
+    <script src="layui-v2.4.3/layui/layui.js"></script>
+    <link rel="stylesheet" href="layui-v2.4.3/layui/css/layui.css">
+    <style>
+        #video{
+            margin-left: 450px;
+            margin-top: 110px;
+        }
+    </style>
+    <link rel="stylesheet" href="bootstrap-3.3.7/dist/css/bootstrap.css">
+    <script src="bootstrap-3.3.7/dist/js/bootstrap.js"></script>
+</head>
+<body>
+
+
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="video">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <video src="#" id="media"  height="500" controls preload="metadata">hello  world</video>
+        </div>
+    </div>
+</div>
+<div id="pingfen">
+    <div id="test2"></div>
+    <button type="button" class="btn btn-primary" name="get">提交</button>
+</div>
+
+<button name="back" value="返回">返回上一页</button>
+
+</body>
+<script>
+    layui.use(['rate'], function() {
+        var rate = layui.rate;
+        //显示文字
+        rate.render({
+            elem: '#test2'
+            , value: 0 //初始值
+            , text: true //开启文本
+        });
+    });
+</script>
+<script>
+
+    var md=document.getElementsByTagName("video")[0];
+    md.addEventListener("ended",function() {
+        layer.confirm("看完了，给个评分呗", {
+            btn: ["好的", "残忍拒绝"]
+        }, function () {
+            $("#pingfen").show();
+            layer.closeAll();
+        }, function () {
+            layer.msg("太难受了",
+                {
+                    time: 2000,
+                    btn: ["明白了", "知道了"]
+                })
+            location.href="user-info.html";
+        })
+    })
+
+    $(function () {
+        $.ajax({
+            url: "course/getcvideoSession",
+            data: {"getcvideo":"cvideoSession"},
+            type: "get",
+            dataType: "json",
+            success: function (ret) {
+                $("#media").attr("src",ret.cvideo);
+            }
+        })
+
+
+        $("body").on("click","button[name='get']",function (event) {
+            var p = $(this).prev().children().next().html();
+            var pingfen = p.substr(0,1);
+            $.ajax({
+                url:'course/updateCoursePingfen',
+                data:{'cid':1,'pingfen':pingfen},
+                dataType:'json',
+                type:'get',
+                success:function (ret) {
+                    if(ret==true){
+                        layer.msg("评分成功",{time:1500})
+                    }else{
+                        layer.msg("评分失败",{time:1500})
+                    }
+                },error:function (ret) {
+                    console.log(ret)
+                }
+            })
+        })
+    })
+</script>
+</html>
