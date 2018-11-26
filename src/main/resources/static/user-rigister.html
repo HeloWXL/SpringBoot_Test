@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户注册</title>
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <link rel="stylesheet" type="text/css" href="layer/mobile/need/layer.css">
+    <style>
+        select#selectUserRole
+        {
+            width                    : 14em;
+            height                   : 45px;
+            padding                  : 0.2em 0.4em 0.2em 0.4em;
+            vertical-align           : middle;
+            border                   : 1px solid #94c1e7;
+            -moz-border-radius       : 0.2em;
+            -webkit-border-radius    : 0.2em;
+            border-radius            : 0.2em;
+            -webkit-appearance       : none;
+            -moz-appearance          : none;
+            appearance               : none;
+            background               : #ffffff;
+            font-family              : SimHei;
+            font-size                : 1.1em;
+            color                    : RGBA(102,102,102,0.7);
+            cursor                   : pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="wrapper">
+    <div class="container">
+        <h1>用户注册</h1>
+        <form>
+            <input type="text" placeholder="用户名" name="name">
+            <input type="password" placeholder="密码" name="password">
+            <select id="selectUserRole" title="Select Travel Destination">
+                <option selected="selected" value="2">学生</option>
+                <option value="3">老师</option>
+            </select><br><br>
+            <button type="button" id="login-button">注册</button>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript" src="js/jquery-2.1.4.js"></script>
+<script src="layer/layer.js" type="application/javascript"></script>
+<script type="text/javascript">
+    $(function () {
+        // 判断字符串是以什么进行结尾的
+        String.prototype.endWith=function(endStr){
+            var d=this.length-endStr.length;
+            return (d>=0&&this.lastIndexOf(endStr)==d);
+        }
+
+        $("#login-button").click(function () {
+
+            var id = $("#selectUserRole").val();
+            // 学生注册
+            if(id=='2'){
+                $.ajax({
+                    url:"student/insertStudent",
+                    type:"post",
+                    data:{"name":$("input[name='name']").val(),
+                        "password":$("input[name='password']").val()},
+                    dataType:"json",
+                    success:function(ret){
+                        if(ret.result==true){
+                            layer.msg("注册成功",{time:3000})
+                            location.href='user-login.html'
+                        }else{
+                            layer.msg("注册失败",{time:3000});
+                            $("input[name='password']").val("")
+                            $("input[name='name']").val("")
+                        }
+                    }
+                })
+            }else{
+                $.ajax({
+                    url:"teacher/insertTeacher",
+                    type:"post",
+                    data:{"name":$("input[name='name']").val(),
+                        "password":$("input[name='password']").val()},
+                    dataType:"json",
+                    success:function(ret){
+                        if(ret.result==true){
+                            layer.msg("注册成功",{time:3000});
+                            location.href="teacherInfo.html"
+                        }else{
+                            layer.msg("注册失败",{time:3000});
+                            $("input[name='password']").val("")
+                            $("input[name='name']").val("")
+                        }
+                    }
+                })
+            }
+        })
+    });
+</script>
+
+</body>
+</html>

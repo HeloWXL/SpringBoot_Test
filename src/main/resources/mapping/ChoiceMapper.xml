@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.test.demo.mapper.ChoiceMapper" >
+  <resultMap id="BaseResultMap" type="com.test.demo.model.Choice" >
+    <id column="select_id" property="selectId" jdbcType="INTEGER" />
+    <result column="select_question" property="selectQuestion" jdbcType="VARCHAR" />
+    <result column="select_a" property="selectA" jdbcType="VARCHAR" />
+    <result column="select_b" property="selectB" jdbcType="VARCHAR" />
+    <result column="select_c" property="selectC" jdbcType="VARCHAR" />
+    <result column="select_d" property="selectD" jdbcType="VARCHAR" />
+    <result column="answer" property="answer" jdbcType="VARCHAR" />
+    <result column="teacher_id" property="teacherId" jdbcType="INTEGER" />
+    <result column="select_createtime" property="selectCreatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+</mapper>
