@@ -3,11 +3,13 @@ package com.test.demo.controller;
 import com.test.demo.common.ResultData;
 import com.test.demo.model.Course;
 import com.test.demo.service.CourseService;
+import com.test.demo.utils.UploadFileUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.util.Map;
@@ -46,8 +48,20 @@ public class CourseController {
 
     @ApiOperation(value="添加一门课程")
     @PostMapping("insertCourse")
-    public ResultData<Boolean> insertCourseList(@RequestBody Course course) {
+    public ResultData<Boolean> insertCourseList(@RequestParam("file") MultipartFile file,
+                                                @RequestParam("courseName") String courserName,
+                                                @RequestParam("courseIntroduce") String courseIntroduce,
+                                                @RequestParam("teacherId") Integer teacherId) {
         ResultData<Boolean> resultData = new ResultData<>();
+
+        Course course = new Course();
+        UploadFileUtils uploadFileUtils = new UploadFileUtils();
+        // 设置course对象的值
+        course.setCourseName(courserName);
+        course.setCourseIntroduce(courseIntroduce);
+        course.setCoursePicture("images/"+uploadFileUtils.uploadImage(file));
+        course.setTeacherId(teacherId);
+
         if(courseService.insertCourse(course)==1){
             resultData.setResult(true);
             resultData.setCode(200);

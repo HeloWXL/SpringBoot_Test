@@ -41,6 +41,7 @@ public class TeacherService {
         Teacher teacher = new Teacher();
         teacher.setTeacherPassword(password);
         teacher.setTeacherName(name);
+        teacher.setTeacherPicture("images/default.jpg");
         return teacherMapper.insert(teacher);
     }
 

@@ -30,4 +30,4 @@ logging:
   file: log\myspringboot.log
 
 server:
-  port: 8888
+  port: 9999

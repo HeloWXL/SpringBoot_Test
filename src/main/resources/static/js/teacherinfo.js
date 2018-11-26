@@ -166,7 +166,7 @@ $("#mycourse").click(function () {
     })
 
 })
-// 获取教师的课程信息
+// 获取我的课程信息
 function getCourseByTid(pageNo,pageSize) {
     $.ajax({
         url:'course/getCourseByTid',
@@ -344,6 +344,20 @@ function getStudentByClassId(pageNo,pageSize){
     })
 }
 
+// 添加一门课程
+$("#addcourse").click(function () {
+    layer.open({
+        title:false,
+        type: 2,
+        closeBtn: 0, //不显示关闭按钮
+        shade: 0.5,
+        area: ['400px', '450px'],
+        offset: 'auto',
+        anim: 2,
+        shadeClose:true,
+        content: ['addcourse.html', 'no']
+    });
+})
 
 
 // //发布考试
