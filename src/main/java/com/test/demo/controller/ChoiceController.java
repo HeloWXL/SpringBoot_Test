@@ -1,8 +1,8 @@
 package com.test.demo.controller;
 
 import com.test.demo.common.ResultData;
-import com.test.demo.model.Select;
-import com.test.demo.service.SelectService;
+import com.test.demo.model.Choice;
+import com.test.demo.service.ChoiceService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 /**
  * @author wangxl
@@ -18,12 +19,12 @@ import javax.annotation.Resource;
 @Api(tags ="选择题接口")
 @RestController
 @RequestMapping("select")
-public class SelectController {
+public class ChoiceController {
 
-    protected Logger logger = LoggerFactory.getLogger(SelectController.class);
+    protected Logger logger = LoggerFactory.getLogger(ChoiceController.class);
 
     @Resource
-    private SelectService selectService;
+    private ChoiceService choiceService;
 
     @ApiOperation(value="添加选择题")
     @GetMapping("insertSelect")
@@ -35,15 +36,15 @@ public class SelectController {
                                            @RequestParam("Answer") String answer,
                                            @RequestParam("teacherId") Integer teacherId) {
         ResultData<Boolean> resultData = new ResultData<>();
-        Select select = new Select();
-        select.setSelectQuestion(selectquestion);
-        select.setSelectA(a);
-        select.setSelectB(b);
-        select.setSelectC(c);
-        select.setSelestD(d);
-        select.setAnswer(answer);
-        select.setTeacherId(teacherId);
-        int i = selectService.insertSelest(select);
+        Choice choice = new Choice();
+        choice.setSelectQuestion(selectquestion);
+        choice.setSelectA(a);
+        choice.setSelectB(b);
+        choice.setSelectC(c);
+        choice.setSelectD(d);
+        choice.setAnswer(answer);
+        choice.setTeacherId(teacherId);
+        int i = choiceService.insertSelest(choice);
         if(i==1){
             logger.info("添加选择题成功");
             resultData.setMsg("添加选择题成功");
@@ -59,11 +60,11 @@ public class SelectController {
         }
     }
 
-    @ApiOperation(value="删除填空题")
+    @ApiOperation(value="删除选择题")
     @PostMapping("deleteSelect")
     public ResultData<Boolean> deleteBlank(@RequestParam("blankId") Integer selectId) {
         ResultData<Boolean> resultData = new ResultData<>();
-        int i = selectService.deleteSelect(selectId);
+        int i = choiceService.deleteSelect(selectId);
         if(i==1){
             logger.info("删除选择题成功");
             resultData.setMsg("删除选择题成功");
@@ -79,4 +80,18 @@ public class SelectController {
         }
     }
 
+    @ApiOperation(value="获取选择题列表")
+    @PostMapping("getSelectByTid")
+    public ResultData<Map<String,Object>> getSelectByTid(@RequestParam("tid") Integer tid,
+                                                             @RequestParam("pageNo") Integer pageNo,
+                                                             @RequestParam("pageSize") Integer pageSize){
+        ResultData<Map<String,Object>> resultData = new ResultData<>();
+
+        Map<String,Object>  map = choiceService.getSelectByTid(tid,pageNo,pageSize);
+
+        resultData.setMsg("成功获取选择题");
+        resultData.setCode(200);
+        resultData.setResult(map);
+        return resultData;
+    }
 }

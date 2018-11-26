@@ -4,8 +4,6 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.test.demo.mapper.BlankMapper;
 import com.test.demo.model.Blank;
-import com.test.demo.model.Select;
-import org.apache.catalina.LifecycleState;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -43,13 +41,18 @@ public class BlankService {
         return blankMapper.delete(entityWrapper);
     }
 
+    /**
+     * 根据教师的ID查询填空题
+     * @param tid
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
     public Map<String,Object> getBlankByTid(Integer tid,Integer pageNo,Integer pageSize){
         EntityWrapper entityWrapper = new EntityWrapper();
         entityWrapper.eq("teacher_id",tid);
-
         int count = blankMapper.selectCount(entityWrapper);
-        List<Select> blankList = blankMapper.selectPage(new Page<>(pageNo,pageSize),entityWrapper);
-
+        List<Blank> blankList = blankMapper.selectPage(new Page<>(pageNo,pageSize),entityWrapper);
         Map<String,Object> map = new HashMap<>();
         map.put("list",blankList);
         map.put("count",count);

@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 /**
  * @author wangxl
@@ -71,4 +72,18 @@ public class BlankController {
         }
     }
 
+    @ApiOperation(value="获取填空题列表")
+    @PostMapping("getBlankByTid")
+    public ResultData<Map<String,Object>> getSelectByTid(@RequestParam("tid") Integer tid,
+                                                         @RequestParam("pageNo") Integer pageNo,
+                                                         @RequestParam("pageSize") Integer pageSize){
+        ResultData<Map<String,Object>> resultData = new ResultData<>();
+
+        Map<String,Object>  map = blankService.getBlankByTid(tid,pageNo,pageSize);
+
+        resultData.setMsg("成功获取填空题列表");
+        resultData.setCode(200);
+        resultData.setResult(map);
+        return resultData;
+    }
 }

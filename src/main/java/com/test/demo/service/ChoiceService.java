@@ -2,8 +2,8 @@ package com.test.demo.service;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
-import com.test.demo.mapper.SelectMapper;
-import com.test.demo.model.Select;
+import com.test.demo.mapper.ChoiceMapper;
+import com.test.demo.model.Choice;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -16,18 +16,19 @@ import java.util.Map;
  * @date 2018/11/26 14:55
  */
 @Service
-public class SelectService {
+public class ChoiceService {
 
     @Resource
-    private SelectMapper selectMapper;
+    private ChoiceMapper choiceMapper;
 
     /**
      * 添加选择题
-     * @param s
+     * @param choice
      * @return
      */
-    public int insertSelest(Select s){
-        return selectMapper.insertSelect(s);
+    public int insertSelest(Choice choice){
+
+        return choiceMapper.insert(choice);
     }
 
     /**
@@ -38,16 +39,21 @@ public class SelectService {
     public int deleteSelect(Integer selectId){
         EntityWrapper entityWrapper = new EntityWrapper();
         entityWrapper.eq("select_id",selectId);
-        return selectMapper.delete(entityWrapper);
+        return choiceMapper.delete(entityWrapper);
     }
 
+    /**
+     * 根据教师的ID查询选择题
+     * @param tid
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
     public Map<String,Object> getSelectByTid(Integer tid, Integer pageNo, Integer pageSize){
         EntityWrapper entityWrapper = new EntityWrapper();
         entityWrapper.eq("teacher_id",tid);
-
-        int count = selectMapper.selectCount(entityWrapper);
-        List<Select> selectList = selectMapper.selectPage(new Page<>(pageNo,pageSize),entityWrapper);
-
+        int count = choiceMapper.selectCount(entityWrapper);
+        List<Choice> selectList = choiceMapper.selectPage(new Page<>(pageNo,pageSize),entityWrapper);
         Map<String,Object> map = new HashMap<>();
         map.put("list",selectList);
         map.put("count",count);
