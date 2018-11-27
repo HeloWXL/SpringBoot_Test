@@ -3,9 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-
+    <script src="js/jquery-2.1.4.js"></script>
+    <link rel="stylesheet" href="bootstrap-3.3.7/dist/css/bootstrap.css">
+    <script src="bootstrap-3.3.7/dist/js/bootstrap.js"></script>
+    <style>
+        #noticeform{
+            margin-left: 25px;
+            margin-top:25px;
+        }
+    </style>
+    <script src="layer/layer.js"></script>
+    <link rel="stylesheet" href="layer/mobile/need/layer.css">
 </head>
 <body>
-
+<form role="form"  id="noticeform">
+    <div class="form-group" id="insertnotice">
+        <label>公告标题</label>
+        <input id="noticesTitle" type="text" class="form-control" style="width: 300px;"/><br>
+        <label>公告内容</label>
+        <textarea class="form-control" rows="3" id="noticeContent" type="text" style="width: 300px;"></textarea>
+        <br>
+        <div class="caozuo">
+            <ul class="pagination">
+                <li><button type="button" class="btn btn-success" onclick="submit2()">发布</button></li>
+            </ul>
+        </div>
+    </div>
+</form>
+<script>
+    var tid
+    $(function () {
+        $.ajax({
+            url: 'teacher/getTeacherSession',
+            dataype: 'json',
+            data: {"teacherBean": "teachersession"},
+            type: 'post',
+            success: function (ret) {
+                tid = ret.result.teacherId;
+            }
+        })
+    })
+    function submit2() {
+        var title = $("#noticesTitle").val();
+        var content = $("#noticeContent").val()
+        $.ajax({
+            url:'notice/insertOneNotice',
+            data:{"title":title,
+            "content":content,
+            "tid":tid},
+            dataType:'json',
+            type:'post',
+            success:function (ret) {
+                if(ret.result==true){
+                    layer.msg("添加成功");
+                }else{
+                    layer.msg("添加失败");
+                }
+            }
+        })
+    }
+</script>
 </body>
 </html>
