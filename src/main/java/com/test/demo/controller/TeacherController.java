@@ -53,7 +53,7 @@ public class TeacherController {
 
     @ApiOperation(value="教师注册")
     @PostMapping("insertTeacher")
-    public ResultData<Boolean> insertStudent(@RequestParam("name") String name,@RequestParam("password") String password) {
+    public ResultData<Boolean> insertTeacher(@RequestParam("name") String name,@RequestParam("password") String password) {
         ResultData<Boolean> resultData = new ResultData<>();
         String md5Password = Md5Utils.getSaltMD5(password);
         int i = teacherService.insertTeahcer(name,md5Password);
@@ -72,9 +72,9 @@ public class TeacherController {
         }
     }
 
-    @ApiOperation(value="删除学生")
+    @ApiOperation(value="删除教师")
     @GetMapping("deleteteacher")
-    public ResultData<Boolean> deleteStudentById(@RequestParam("id") Integer id) {
+    public ResultData<Boolean> deleteTeacherById(@RequestParam("id") Integer id) {
         ResultData<Boolean> resultData = new ResultData<>();
         ;
         int i = teacherService.deleteTeacher(id);
@@ -95,7 +95,7 @@ public class TeacherController {
 
     @ApiOperation(value="修改教师信息")
     @PostMapping("updateteacher")
-    public ResultData<Boolean> updateStudentById(@RequestBody Teacher teacher) {
+    public ResultData<Boolean> updateTeacherById(@RequestBody Teacher teacher) {
         ResultData<Boolean> resultData = new ResultData<>();
         int i = teacherService.updateTeacher(teacher);
         if(i==1){
@@ -144,4 +144,17 @@ public class TeacherController {
         resultData.setResult(teacher);
         return resultData;
     }
+
+    @ApiOperation(value="获取教师对象")
+    @PostMapping("getTeacherByTid")
+    public ResultData<Teacher> getTeacherByTid(@RequestParam("tid") Integer tid) {
+        ResultData<Teacher> resultData = new ResultData<>();
+        Teacher teacher = teacherService.getTeacher(tid);
+        logger.info("获取成功");
+        resultData.setMsg("获取成功");
+        resultData.setCode(200);
+        resultData.setResult(teacher);
+        return resultData;
+    }
+
 }

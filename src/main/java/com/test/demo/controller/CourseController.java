@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,7 +28,7 @@ public class CourseController {
     @Resource
     private CourseService courseService;
 
-    @ApiOperation(value="教师列表")
+    @ApiOperation(value="课程列表")
     @GetMapping("courseList")
     public ResultData<Map<String,Object>> getCourseList(@RequestParam("pageNo") Integer pageNo,@RequestParam("pageSize") Integer pageSize) {
         ResultData<Map<String,Object>> resultData = new ResultData<>();
@@ -129,6 +130,41 @@ public class CourseController {
             resultData.setMsg("获取教师课程列表成功");
             return resultData;
         }else{
+            resultData.setResult(null);
+            return resultData;
+        }
+    }
+
+
+    @ApiOperation(value="根据课程名查询课程信息")
+    @PostMapping("getCourseByCoursrName")
+    public ResultData<Course> getCourseByCoursrName(@RequestParam("courseName") String courseName){
+        ResultData<Course> resultData = new ResultData<>();
+        if(courseService.getCourseByCoursrName(courseName)!=null){
+            resultData.setMsg("查询课程信息成功");
+            resultData.setCode(200);
+            resultData.setResult(courseService.getCourseByCoursrName(courseName));
+            return resultData;
+        }else{
+            resultData.setMsg("查询课程信息失败，课程可能不存在");
+            resultData.setCode(500);
+            resultData.setResult(null);
+            return resultData;
+        }
+    }
+
+    @ApiOperation(value="根据教师的ID得到教师所教授的课程列表")
+    @PostMapping("getCourseByTeacherID")
+    public ResultData<List<Course>> getCourseByTeacherID(@RequestParam("teacherId") Integer teacherId){
+        ResultData<List<Course>> resultData = new ResultData<>();
+        if(courseService.getCourseByTid(teacherId).size()>0){
+            resultData.setMsg("查询课程信息成功");
+            resultData.setCode(200);
+            resultData.setResult(courseService.getCourseByTid(teacherId));
+            return resultData;
+        }else{
+            resultData.setMsg("该教师暂时还没有教授课程");
+            resultData.setCode(500);
             resultData.setResult(null);
             return resultData;
         }

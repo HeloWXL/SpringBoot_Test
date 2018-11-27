@@ -12,6 +12,8 @@
     <script src="bootstrap-3.3.7/dist/js/bootstrap.js" type="application/javascript"></script>
     <script src="layer/layer.js" type="application/javascript"></script>
     <script src="js/teacherinfo.js" type="application/javascript"></script>
+    <link rel="stylesheet" href="bootstrap-3.3.7/bootstrap-select.css">
+    <script src="bootstrap-3.3.7/bootstrap-select.js"></script>
 </head>
 <body>
 <div class="container">
@@ -66,9 +68,12 @@
                         <a class="panel-title" data-toggle="collapse" data-parent="#panel-721853"
                            href="#panel-element-228269">学生成绩</a>
                     </div>
-                    <div id="panel-element-228269" class="panel-collapse collapse in">
-                        <div class="panel-body">
+                    <div id="panel-element-228269" class="panel-collapse collapse">
+                        <div class="panel-body" id="getScore">
                             查看考试成绩
+                        </div>
+                        <div class="panel-body">
+                            成绩分析
                         </div>
                     </div>
                 </div>
@@ -84,9 +89,11 @@
                         <div class="panel-body" id="addblank">
                             添加填空题
                         </div>
+                        <div class="panel-body" id="getQuestions">
+                            查看试题
+                        </div>
                     </div>
                 </div>
-
                 <div class="panel panel-success">
                     <div class="panel-heading">
                         <a class="panel-title" data-toggle="collapse" data-parent="#panel-721853"
@@ -104,7 +111,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6 column">
+        <div class="col-md-8 column">
             <div id="t-course" style="display: none">
                 <table class="table">
                     <thead>
@@ -239,59 +246,33 @@
                 </table>
             </div>
             <div id="t-score" style="display: none">
+                <div id="courselist">
+                    <select class="selectpicker" title="请选择课程" id="course">
+
+                    </select>
+                    <button type="button" class="btn btn-primary" id="find">查询</button>
+                </div>
                 <table class="table">
                     <thead>
                     <tr>
                         <th>
-                            编号
+                            学生学号
                         </th>
                         <th>
-                            产品
+                            学生姓名
                         </th>
                         <th>
-                            交付时间
+                            课程
                         </th>
                         <th>
-                            状态
+                            考试成绩
                         </th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>
-                            1
-                        </td>
-                        <td>
-                            TB - Monthly
-                        </td>
-                        <td>
-                            01/04/2012
-                        </td>
-                        <td>
-                            Default
-                        </td>
-                    </tr>
+
                     </tbody>
                 </table>
-            </div>
-            <div id="t-notice" style="display: none">
-                <form class="bs-example bs-example-form" role="form" id="form">
-                    <p>公告标题:</p>
-                    <div class="input-group">
-                        <input type="text" class="form-control" id="title">
-                    </div>
-                    <p>公告内容:</p>
-                    <div class="input-group">
-                        <div class="panel panel-default" id="news">
-                        <textarea style="width: 400px;height: 400px;" id="contents">
-
-                        </textarea>
-                        </div>
-                    </div>
-                </form>
-                <div id="button">
-                    <button type="button" class="btn btn-default" name="submit">发布</button>
-                </div>
             </div>
             <div id="t-listnotice" style="display: none">
                 <table class="table">
@@ -309,28 +290,18 @@
                         <th>
                             公告发布时间
                         </th>
+                        <th>
+                            创建人
+                        </th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>
-                            1
-                        </td>
-                        <td>
-                            TB - Monthly
-                        </td>
-                        <td>
-                            01/04/2012
-                        </td>
-                        <td>
-                            Default
-                        </td>
-                    </tr>
+
                     </tbody>
                 </table>
             </div>
         </div>
-        <div class="col-md-4 column">
+        <div class="col-md-2 column">
             <div id="t-info">
                 <img alt="140x140" src="images/c2.jpg" width="140px"/>
                 <dl id="t-info-1">

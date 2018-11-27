@@ -115,4 +115,18 @@ public class StudentService {
         map.put("count",count);
         return map;
     }
+
+    /**
+     * 根据学生的ID查询学生的信息
+     * @param sid
+     * @return
+     */
+    public Student getStudentBySid(Integer sid){
+        Student student = new Student();
+        student.setStudentId(sid);
+        return studentMapper.selectOne(student);
+    }
+
+
+
 }

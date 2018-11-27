@@ -4,7 +4,7 @@ body{
 
 #t-info{
     font-size: 15px;
-    margin-left: 170px;
+    margin-left: -70px;
 
 }
 #t-info img{
@@ -76,4 +76,16 @@ h3 {
 }
 #fenye{
     text-align: center;
+}
+#fenye-student{
+    text-align: center;
+}
+#courselist{
+    font-size: 16px;
+}
+#course{
+    margin-left: 20px;
+}
+#find{
+    margin-left: 380px;
 }
