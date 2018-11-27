@@ -28,15 +28,31 @@ public class ScoreController {
     @PostMapping("getScoreByCourseId")
     public ResultData<List<Score>> getScoreByCourseId(@RequestParam("cid") Integer cid) {
         ResultData<List<Score>> resultData = new ResultData<>();
-
         if (scoreService.getScoreByCourseId(cid).size() > 0) {
             resultData.setCode(200);
-            resultData.setMsg("查询成功");
+            resultData.setMsg("查询课程成绩成功");
             resultData.setResult(scoreService.getScoreByCourseId(cid));
             return resultData;
         } else {
             resultData.setCode(500);
-            resultData.setMsg("查询失败");
+            resultData.setMsg("查询课程成绩失败");
+            resultData.setResult(null);
+            return resultData;
+        }
+    }
+
+    @ApiOperation(value="统计直方图数据")
+    @PostMapping("getCountByCourseId")
+    public ResultData<List<Integer>> getCountByCourseId(@RequestParam("cid") Integer cid) {
+        ResultData<List<Integer>> resultData = new ResultData<>();
+        if (scoreService.getCountByCourseId(cid).size() > 0) {
+            resultData.setCode(200);
+            resultData.setMsg("success");
+            resultData.setResult(scoreService.getCountByCourseId(cid));
+            return resultData;
+        } else {
+            resultData.setCode(500);
+            resultData.setMsg("fail");
             resultData.setResult(null);
             return resultData;
         }

@@ -106,6 +106,7 @@ $("#mycourse").click(function () {
             url: 'course/getCourseByTid',
             dataType: 'json',
             type: 'get',
+            async:false,
             data: {"tid": tid, "pageNo": pageNo, "pageSize": pageSize},
             success: function (ret) {
                 pageCount = ret.result.count;
@@ -166,6 +167,7 @@ function getCourseByTid(pageNo, pageSize) {
             url: 'course/getCourseByTid',
             dataType: 'json',
             type: 'get',
+            async:false,
             data: {"tid": tid, "pageNo": pageNo, "pageSize": pageSize},
             success: function (ret) {
                 // console.log(ret.result.list[1])
@@ -221,6 +223,7 @@ $("#mystudent").click(function () {
             url: 'student/getStudentListByClassID',
             dataType: 'json',
             type: 'post',
+            async:false,
             data: {"classId": classId, "pageNo": pageNo, "pageSize": pageSize},
             success: function (ret) {
                 pageCount = ret.result.count;
@@ -298,6 +301,7 @@ function getStudentByClassId(pageNo, pageSize) {
             url: 'student/getStudentListByClassID',
             dataType: 'json',
             type: 'post',
+            async:false,
             data: {"classId": classId, "pageNo": pageNo, "pageSize": pageSize},
             success: function (ret) {
                 if ($.isEmptyObject(ret)) {
@@ -416,6 +420,7 @@ $("#listnotice").click(function () {
                     "tid": tid, "pageNo": pageNo,
                     "pageSize": pageSize
                 },
+                async:false,
                 type: "post",
                 success: function (ret) {
                     pageCount = ret.result.count
@@ -457,6 +462,7 @@ function getNoticeByTid(pageNo, pageSize) {
                     "pageNo": pageNo,
                     "pageSize": pageSize
                 },
+                async:false,
                 type: "post",
                 success: function (ret) {
                     for (var i = 0; i < ret.result.list.length; i++) {
@@ -489,7 +495,6 @@ $("#getScore").click(function () {
     $("#t-test").hide();
     $("#t-listnotice").hide();
     $("#t-score").show();
-    $("#t-score tbody").empty();
 
     // 先查询教师所教授的课程  放进下拉框中
     $.ajax({
@@ -506,10 +511,11 @@ $("#getScore").click(function () {
         }
     })
 
-    var courseId=203 ;
+    var cid=0 ;
     $("#find").click(function () {
         // 获取下拉框中的课程选项值
         course = $("#course").val();
+        $("#t-score tbody").empty();
 
         $.ajax({
             url:'course/getCourseByCoursrName',
@@ -517,20 +523,31 @@ $("#getScore").click(function () {
             dataType:'json',
             type:'post',
             success:function (ret) {
-                courseId = ret.result.courseId;
+                cid = ret.result.courseId;
+                getScore(cid)
             }
         });
 
-        $.ajax({
-            url:'score/getScoreByCourseId',
-            data:{'cid':courseId},
-            dataType:'json',
-            type:'post',
-            success:function (ret) {
+
+    })
+})
+
+// 获取学生的成绩列表
+function getScore(cid) {
+    $.ajax({
+        url:'score/getScoreByCourseId',
+        data:{'cid':cid},
+        dataType:'json',
+        type:'post',
+        success:function (ret) {
+            if($.isEmptyObject(ret.result)){
+                layer.msg("该课程暂无成绩...")
+            }else{
                 for(var i = 0;i<ret.result.length;i++){
+                   var  sid = ret.result[i].studentId;
                     $node=$('<tr class="' + classArr[b++] + '">\n' +
                         '                        <td>\n' +
-                        '                            '+ret.result[i].studentId+'\n' +
+                        '                            '+sid+'\n' +
                         '                        </td>\n' +
                         '                        <td>\n' +
                         '                            '+ret.result[i].courseId+'\n' +
@@ -546,16 +563,13 @@ $("#getScore").click(function () {
                     if(b%5==0){
                         b=0;
                     }
-                    console.log(getStudentBySid(ret.result[i].studentId).studentName)
                 }
-
             }
-        })
+        }
     })
-})
+}
 
-
-
+var sname = ''
 function getStudentBySid(sid) {
     $.ajax({
         url:'student/getStudentBySid',
@@ -563,9 +577,10 @@ function getStudentBySid(sid) {
         dataType:'json',
         type:'post',
         success:function (ret) {
-            return ret.result;
+            sname = ret.result.studentName;
         }
     })
 }
 
 })
+

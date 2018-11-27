@@ -55,9 +55,9 @@
             type:'post',
             success:function (ret) {
                 if(ret.result==true){
-                    layer.msg("添加成功");
+                    layer.msg("添加成功",{time:3000});
                 }else{
-                    layer.msg("添加失败");
+                    layer.msg("添加失败",{time:3000});
                 }
             }
         })

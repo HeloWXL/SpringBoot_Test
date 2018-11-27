@@ -6,7 +6,10 @@ import com.test.demo.model.Score;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
+
+import static com.alibaba.druid.sql.visitor.SQLEvalVisitorUtils.lt;
 
 /**
  * @author wangxl
@@ -28,4 +31,31 @@ public class ScoreService {
         entityWrapper.eq("course_id",courseId);
         return scoreMapper.selectList(entityWrapper);
     }
+
+
+    /**
+     * 根据课程的ID查询分段成绩得数量------绘制通知直方图
+     * @param courseId
+     * @return
+     */
+    public List<Integer> getCountByCourseId(Integer courseId){
+        List<Integer> list = new ArrayList<>();
+
+        int s1 = scoreMapper.selectCount( new EntityWrapper<Score>().eq("course_id",courseId).lt("score",50));
+        list.add(s1);
+        int s2 = scoreMapper.selectCount(new EntityWrapper<Score>().eq("course_id",courseId).between("score",50,60));
+        list.add(s2);
+        int s3 = scoreMapper.selectCount(new EntityWrapper<Score>().eq("course_id",courseId).between("score",60,70));
+        list.add(s3);
+        int s4 = scoreMapper.selectCount(new EntityWrapper<Score>().eq("course_id",courseId).between("score",70,80));
+        list.add(s4);
+        int s5 = scoreMapper.selectCount(new EntityWrapper<Score>().eq("course_id",courseId).between("score",80,90));
+        list.add(s5);
+        int s6 = scoreMapper.selectCount(new EntityWrapper<Score>().eq("course_id",courseId).between("score",90,100));
+        list.add(s6);
+        return list;
+
+    }
+
+
 }
