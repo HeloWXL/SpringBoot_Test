@@ -8,6 +8,7 @@ import com.test.demo.model.Student;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.swing.text.html.parser.Entity;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -87,5 +88,34 @@ public class CourseService {
         map.put("count",count);
         return map;
     }
+
+    /**
+     * 根据课程名查询课程信息
+     * @param courseName
+     * @return
+     */
+    public Course getCourseByCoursrName(String courseName){
+        EntityWrapper entityWrapper = new EntityWrapper();
+        entityWrapper.eq("course_name",courseName);
+         if(courseMapper.selectList(entityWrapper).size()>0){
+             return (Course) courseMapper.selectList(entityWrapper).get(0);
+         }else{
+             return null;
+         }
+
+    }
+
+    /**
+     * 根据教师的ID查询课程
+     * @param tid
+     * @return
+     */
+    public List<Course> getCourseByTid(Integer tid){
+        EntityWrapper entityWrapper = new EntityWrapper();
+        entityWrapper.eq("teacher_id",tid);
+        List<Course> course = courseMapper.selectList(entityWrapper);
+        return course;
+    }
+
 
 }

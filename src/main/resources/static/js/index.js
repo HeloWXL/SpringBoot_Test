@@ -2,40 +2,44 @@
 $(function () {
     // 获取学生登录信息
     $.ajax({
-        url: "student/getStuSession",
-        data: {"studentBean": "studentSession"},
-        type: "get",
+        url: "student/getStudentSession",
+        data: {"studentBean": "studentsession"},
+        type: "post",
         dataType: "json",
         success: function (ret) {
-            if($.isEmptyObject(ret)){
+            if(ret.result==null){
                 $('#user1').hide();
                 $('#select').hide();
                 $('#user-info').hide();
+                $('.login').show();
+                console.log("用户未登录")
             }else{
+                $('#user-info').show();
                 $('#user1').show();
                 $('#select').show();
                 $('.login').hide();
-                $node = $('<img src="//t.cn/RCzsdCq" class="layui-nav-img"><span>'+ret.studentName+'</span>');
+                $node = $('<img src="//t.cn/RCzsdCq" class="layui-nav-img"><span>'+ret.result.studentName+'</span>');
                 $("#user1").html($node);
             }
         }
     })
     // 获取课程列表
     $.ajax({
-        url:"course/getAllCourseList",
+        url:"course/courseList",
         type:'get',
+        data:{"pageNo":1,
+        "pageSize":15},
         dataType:'json',
         async:false,
         success:function (ret) {
-            console.log(ret)
-            if($.isEmptyObject(ret)){
+            if($.isEmptyObject(ret.result)){
                 console.log("获取课程列表失败");
             }else{
-                for(var i = 0;i<ret.length;i++){
-                    var image = ret[i].coursePicture;
-                    var name = ret[i].courseName;
-                    var tid = ret[i].teacherId;
-                    var pingfen = ret[i].coursePingfen;
+                for(var i = 0;i<ret.result.list.length;i++){
+                    var image = ret.result.list[i].coursePicture;
+                    var name = ret.result.list[i].courseName;
+                    var tid = ret.result.list[i].teacherId;
+                    var pingfen = ret.result.list[i].coursePingfen;
 
                     $node = $('<li>\n' +
                         '            <div class="course-list">\n' +
@@ -47,23 +51,22 @@ $(function () {
                         '                </div>\n' +
                         '            </div>\n' +
                         '        </li>')
-
                     $(".courselist").append($node);
-
                 }
             }
         }
     })
+    // 通过教师的ID查询叫教师的姓名
     function  getTeacherTname(tid){
         var tname = ""
         $.ajax({
-            url:"teacher/selectTeacherByTid",
+            url:"teacher/getTeacherByTid",
             type:"post",
             dataType:"json",
             data:{"tid":tid},
             async:false,
             success:function (ret) {
-                tname = ret.teacherName;
+                tname = ret.result.teacherName;
             }
         })
         return  tname;

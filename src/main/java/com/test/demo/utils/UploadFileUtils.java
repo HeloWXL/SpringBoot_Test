@@ -18,7 +18,7 @@ public class UploadFileUtils {
         if(fileName.indexOf("\\") != -1){
             fileName = fileName.substring(fileName.lastIndexOf("\\"));
         }
-        String filePath = "src/main/resources/static/images/";
+        String filePath = "D:/WorkPlace/SpringBoot_Test/src/main/resources/static/images/";
         File targetFile = new File(filePath);
         if(!targetFile.exists()){
             targetFile.mkdirs();

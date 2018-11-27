@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.ibatis.annotations.Insert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -158,6 +159,35 @@ public class StudentController {
             logger.info("获取学生列表失败");
             return resultData;
         }
+    }
+    @ApiOperation(value="获取学生的session对象")
+    @PostMapping("getStudentSession")
+    public ResultData<Student> getTeacherSession(HttpServletRequest request,@RequestParam("studentBean") String teacherBean){
+        ResultData<Student> resultData = new ResultData<>();
+        Student student = (Student) request.getSession().getAttribute(teacherBean);
+        if(StringUtils.isEmpty(student)){
+            resultData.setCode(500);
+            resultData.setMsg("获取对象失败");
+            resultData.setResult(null);
+            return resultData;
+        }else{
+            resultData.setCode(200);
+            resultData.setMsg("获取对象成功");
+            resultData.setResult(student);
+            return resultData;
+        }
+
+
+    }
+
+    @ApiOperation(value="根据学生的ID查询学生信息")
+    @PostMapping("getStudentBySid")
+    public ResultData<Student> getStudentBySid(@RequestParam("sid") Integer sid){
+        ResultData<Student> resultData = new ResultData<>();
+        resultData.setResult(studentService.getStudentBySid(sid));
+        resultData.setMsg("成功获取学生的信息");
+        resultData.setCode(200);
+        return resultData;
     }
 
 }

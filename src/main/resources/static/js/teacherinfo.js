@@ -1,12 +1,12 @@
 $(function () {
 
-    var b = 0;
-    var classArr = new Array("", "success", "error", "warning", "info");
-    var tid;
-    var classId;
-    var teacherName;
+var b = 0;
+var classArr = new Array("", "success", "error", "warning", "info");
+var tid;
+var classId;
+var teacherName;
 // 加载教师信息
-    $.ajax({
+$.ajax({
         url: 'teacher/getTeacherSession',
         dataype: 'json',
         data: {"teacherBean": "teachersession"},
@@ -91,7 +91,7 @@ $(function () {
 // })
 
 // 我的课程
-    $("#mycourse").click(function () {
+$("#mycourse").click(function () {
         $("#t-course").show();
         $("#t-score").hide();
         $("#t-notice").hide();
@@ -161,7 +161,7 @@ $(function () {
     })
 
 // 获取我的课程信息
-    function getCourseByTid(pageNo, pageSize) {
+function getCourseByTid(pageNo, pageSize) {
         $.ajax({
             url: 'course/getCourseByTid',
             dataType: 'json',
@@ -205,7 +205,7 @@ $(function () {
     }
 
 // 我的学生
-    $("#mystudent").click(function () {
+$("#mystudent").click(function () {
         var pageNo = 1;
         var pageSize = 9;
         var pageCount = 0;
@@ -293,7 +293,7 @@ $(function () {
     })
 
 // 获取学生信息
-    function getStudentByClassId(pageNo, pageSize) {
+function getStudentByClassId(pageNo, pageSize) {
         $.ajax({
             url: 'student/getStudentListByClassID',
             dataType: 'json',
@@ -342,7 +342,7 @@ $(function () {
     }
 
 // 添加一门课程
-    $("#addcourse").click(function () {
+$("#addcourse").click(function () {
         layer.open({
             title: false,
             type: 2,
@@ -356,7 +356,7 @@ $(function () {
         });
     })
 //添加选择题试题
-    $("#addselect").click(function () {
+$("#addselect").click(function () {
         layer.open({
             title: false,
             type: 2,
@@ -370,7 +370,7 @@ $(function () {
         });
     })
 // 添加填空题试题
-    $("#addblank").click(function () {
+$("#addblank").click(function () {
         layer.open({
             title: false,
             type: 2,
@@ -384,7 +384,7 @@ $(function () {
         });
     })
 // 添加公告信息管理
-    $("#notices").click(function () {
+$("#notices").click(function () {
         layer.open({
             title: false,
             type: 2,
@@ -398,7 +398,7 @@ $(function () {
         });
     })
 // 获取公告信息列表
-    $("#listnotice").click(function () {
+$("#listnotice").click(function () {
         $("#t-course").hide();
         $("#t-score").hide();
         $("#t-notice").hide();
@@ -448,8 +448,7 @@ $(function () {
         // 上一页
 
     })
-
-    function getNoticeByTid(pageNo, pageSize) {
+function getNoticeByTid(pageNo, pageSize) {
             $.ajax({
                 url: 'notice/getAllNotice',
                 dataType: 'json',
@@ -484,18 +483,89 @@ $(function () {
             })
         }
 
-// //发布考试
-// $("#begintest").click(function () {
-//     $("#t-course").hide();
-//     $("#t-score").hide();
-//     $("#t-student").hide();
-//     $("#t-test").show();
-//     $("#t-notice").hide();
-//     $("#t-listnotice").hide();
-// })
-// $("#add").click(function () {
-//     location.href="addExams.html"
-// })
+$("#getScore").click(function () {
+    $("#t-course").hide();
+    $("#t-student").hide();
+    $("#t-test").hide();
+    $("#t-listnotice").hide();
+    $("#t-score").show();
+    $("#t-score tbody").empty();
 
+    // 先查询教师所教授的课程  放进下拉框中
+    $.ajax({
+        url:'course/getCourseByTeacherID',
+        data:{'teacherId':tid},
+        dataType:'json',
+        type:'post',
+        async:false,
+        success:function (ret) {
+            for (var i = 0 ;i<ret.result.length;i++){
+                $('<option value="'+ret.result[i].courseName+'">'+ret.result[i].courseName+'</option>').appendTo(".selectpicker")
+                $(".selectpicker").selectpicker('refresh');
+            }
+        }
+    })
+
+    var courseId=203 ;
+    $("#find").click(function () {
+        // 获取下拉框中的课程选项值
+        course = $("#course").val();
+
+        $.ajax({
+            url:'course/getCourseByCoursrName',
+            data:{'courseName':course},
+            dataType:'json',
+            type:'post',
+            success:function (ret) {
+                courseId = ret.result.courseId;
+            }
+        });
+
+        $.ajax({
+            url:'score/getScoreByCourseId',
+            data:{'cid':courseId},
+            dataType:'json',
+            type:'post',
+            success:function (ret) {
+                for(var i = 0;i<ret.result.length;i++){
+                    $node=$('<tr class="' + classArr[b++] + '">\n' +
+                        '                        <td>\n' +
+                        '                            '+ret.result[i].studentId+'\n' +
+                        '                        </td>\n' +
+                        '                        <td>\n' +
+                        '                            '+ret.result[i].courseId+'\n' +
+                        '                        </td>\n' +
+                        '                        <td>\n' +
+                        '                            '+course+'\n' +
+                        '                        </td>\n' +
+                        '                        <td>\n' +
+                        '                            '+ret.result[i].score+'\n' +
+                        '                        </td>\n' +
+                        '                    </tr>')
+                    $("#t-score tbody").append($node)
+                    if(b%5==0){
+                        b=0;
+                    }
+                    console.log(getStudentBySid(ret.result[i].studentId).studentName)
+                }
+
+            }
+        })
+    })
+})
+
+
+
+function getStudentBySid(sid) {
+    $.ajax({
+        url:'student/getStudentBySid',
+        data:{'sid':sid},
+        dataType:'json',
+        type:'post',
+        success:function (ret) {
+            return ret.result;
+        }
+    })
+}
 
 })
