@@ -2,7 +2,9 @@ package com.test.demo.controller;
 
 import com.test.demo.common.ResultData;
 import com.test.demo.model.Course;
+import com.test.demo.model.Teacher;
 import com.test.demo.service.CourseService;
+import com.test.demo.service.TeacherService;
 import com.test.demo.utils.UploadFileUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,9 +27,10 @@ import java.util.Map;
 @RequestMapping("course")
 public class CourseController {
     protected Logger logger = LoggerFactory.getLogger(CourseController.class);
-
     @Resource
     private CourseService courseService;
+    @Resource
+    private TeacherService teacherService;
 
     @ApiOperation(value="课程列表")
     @GetMapping("courseList")
@@ -77,7 +81,6 @@ public class CourseController {
             return resultData;
         }
     }
-
     @ApiOperation(value="修改课程")
     @PostMapping("updateCourse")
     public ResultData<Boolean> updateCourse(@RequestBody Course course) {
@@ -135,7 +138,6 @@ public class CourseController {
         }
     }
 
-
     @ApiOperation(value="根据课程名查询课程信息")
     @PostMapping("getCourseByCoursrName")
     public ResultData<Course> getCourseByCoursrName(@RequestParam("courseName") String courseName){
@@ -168,6 +170,30 @@ public class CourseController {
             resultData.setResult(null);
             return resultData;
         }
+    }
+
+    @ApiOperation(value="根据学生的班级ID得到课程列表")
+    @PostMapping("getCourseByCid")
+    public ResultData<Map<String,Object>> getCourseByCid(@RequestParam("cid") Integer cid){
+        ResultData<Map<String,Object>> resultData = new ResultData<>();
+        List<Teacher> teachers = teacherService.getTeacherByCid(cid);
+        Map<String,Object> map = new HashMap<>();
+        for (Teacher t:teachers
+             ) {
+            map.put(t.getTeacherName(),courseService.getCourseByTid(t.getTeacherId()));
+        }
+        if(map.size()>0){
+            resultData.setMsg("查询成功");
+            resultData.setResult(map);
+            resultData.setCode(200);
+            return resultData;
+        }else{
+            resultData.setMsg("没有加入课程");
+            resultData.setCode(200);
+            resultData.setResult(null);
+            return resultData;
+        }
+
     }
 
 }

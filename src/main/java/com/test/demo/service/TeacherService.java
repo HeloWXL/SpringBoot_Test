@@ -114,7 +114,15 @@ public class TeacherService {
      * @return
      */
     public Integer getTeacherCount(){
-        EntityWrapper entityWrapper = new EntityWrapper();
-        return teacherMapper.selectCount(entityWrapper);
+        return teacherMapper.selectCount(new EntityWrapper<>());
+    }
+
+    /**
+     *   根据班级的ID查询教师列表
+     * @param cid
+     * @return
+     */
+    public List<Teacher> getTeacherByCid(Integer cid){
+        return teacherMapper.selectList(new EntityWrapper<Teacher>().eq("class_id",cid));
     }
 }

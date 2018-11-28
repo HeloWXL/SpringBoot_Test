@@ -6,6 +6,7 @@ import com.test.demo.model.Score;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.swing.text.html.parser.Entity;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +55,17 @@ public class ScoreService {
         int s6 = scoreMapper.selectCount(new EntityWrapper<Score>().eq("course_id",courseId).between("score",90,100));
         list.add(s6);
         return list;
+    }
+
+    /**
+     * 根据学生的ID查询 成绩
+     * @param sid
+     * @return
+     */
+    public List<Score> getScoreBySid(Integer sid){
+        EntityWrapper entityWrapper = new EntityWrapper();
+        entityWrapper.eq("student_id",sid);
+        return scoreMapper.selectList(entityWrapper);
     }
 
 

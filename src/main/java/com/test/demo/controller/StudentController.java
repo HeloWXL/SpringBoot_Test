@@ -99,10 +99,9 @@ public class StudentController {
 
 
     @ApiOperation(value="修改学生信息")
-    @PostMapping("updatestudent")
-    public ResultData<Boolean> updateStudentById(@RequestBody Student student) {
+    @GetMapping("updatestudent")
+    public ResultData<Boolean> updateStudentById(@RequestBody(required = false) Student student) {
         ResultData<Boolean> resultData = new ResultData<>();
-        ;
         int i = studentService.updateStudent(student);
         if(i==1){
             logger.info("修改成功");

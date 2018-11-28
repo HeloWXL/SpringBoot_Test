@@ -57,5 +57,20 @@ public class ScoreController {
             return resultData;
         }
     }
+    @ApiOperation(value="根据学生的ID查询学生的成绩")
+    @PostMapping("getScoreBySid")
+    public ResultData<List<Score>> getScoreBySid(@RequestParam("sid") Integer sid){
+        ResultData<List<Score>> resultData = new ResultData<>();
+        if(scoreService.getScoreBySid(sid).size()>0){
+            resultData.setCode(200);
+            resultData.setMsg("成功查询到学生的成绩");
+            resultData.setResult(scoreService.getScoreBySid(sid));
+            return  resultData;
+        }else{
+            resultData.setResult(null);
+            resultData.setMsg("该学生暂无成绩");
+            return  resultData;
+        }
+    }
 
 }
