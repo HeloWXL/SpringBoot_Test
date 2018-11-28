@@ -145,7 +145,7 @@ public class TeacherController {
         return resultData;
     }
 
-    @ApiOperation(value="获取教师对象")
+    @ApiOperation(value="根据教师的ID获取教师对象")
     @PostMapping("getTeacherByTid")
     public ResultData<Teacher> getTeacherByTid(@RequestParam("tid") Integer tid) {
         ResultData<Teacher> resultData = new ResultData<>();

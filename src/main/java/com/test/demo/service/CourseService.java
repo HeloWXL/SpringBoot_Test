@@ -127,6 +127,16 @@ public class CourseService {
     }
 
 
+    /**
+     * 根据课程的ID查询课程信息
+     * @param cid
+     * @return
+     */
+    public Course getCourseByCid(Integer cid){
+        Course c = new Course();
+        c.setCourseId(cid);
+        return courseMapper.selectOne(c);
+    }
 
 
 

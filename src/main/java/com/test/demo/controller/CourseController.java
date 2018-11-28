@@ -8,6 +8,7 @@ import com.test.demo.service.TeacherService;
 import com.test.demo.utils.UploadFileUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.hibernate.validator.constraints.pl.REGON;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -196,4 +197,14 @@ public class CourseController {
 
     }
 
+
+    @ApiOperation(value="根据课程的ID获取课程信息")
+    @PostMapping("getCourseByCourseid")
+    public ResultData<Course> getCourseByCourseid(@RequestParam("cid") Integer cid){
+        ResultData<Course> resultData = new ResultData<>();
+        resultData.setResult(courseService.getCourseByCid(cid));
+        resultData.setCode(200);
+        resultData.setMsg("获取课程对象成功");
+        return resultData;
+    }
 }

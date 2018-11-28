@@ -57,6 +57,7 @@ public class ScoreController {
             return resultData;
         }
     }
+
     @ApiOperation(value="根据学生的ID查询学生的成绩")
     @PostMapping("getScoreBySid")
     public ResultData<List<Score>> getScoreBySid(@RequestParam("sid") Integer sid){
@@ -72,5 +73,4 @@ public class ScoreController {
             return  resultData;
         }
     }
-
 }
