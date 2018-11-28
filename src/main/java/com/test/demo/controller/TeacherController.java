@@ -79,13 +79,13 @@ public class TeacherController {
         ;
         int i = teacherService.deleteTeacher(id);
         if(i==1){
-            logger.info("删除成功");
-            resultData.setMsg("删除成功");
+            logger.info("删除教师成功");
+            resultData.setMsg("删除教师成功");
             resultData.setCode(200);
             resultData.setResult(true);
             return resultData;
         }else{
-            logger.info("删除失败");
+            logger.info("删除教师失败");
             resultData.setMsg("删除失败");
             resultData.setCode(500);
             resultData.setResult(false);
@@ -99,14 +99,14 @@ public class TeacherController {
         ResultData<Boolean> resultData = new ResultData<>();
         int i = teacherService.updateTeacher(teacher);
         if(i==1){
-            logger.info("修改成功");
-            resultData.setMsg("修改成功");
+            logger.info("修改教师信息成功");
+            resultData.setMsg("修改教师信息成功");
             resultData.setCode(200);
             resultData.setResult(true);
             return resultData;
         }else{
-            logger.info("修改失败");
-            resultData.setMsg("修改失败");
+            logger.info("修改教师信息失败");
+            resultData.setMsg("修改教师信息失败");
             resultData.setCode(500);
             resultData.setResult(false);
             return resultData;

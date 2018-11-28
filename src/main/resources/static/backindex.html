@@ -18,16 +18,18 @@
                 var d=this.length-endStr.length;
                 return (d>=0&&this.lastIndexOf(endStr)==d);
             }
-            var s = ".jpg"
+
+            var s = ".jpg";
+
             // 获取首页统计数据
             $.ajax({
-                url:"common/getCount",
+                url:"admin/countForAdmin",
                 dataType:"json",
                 type:'get',
                 success:function (ret) {
-                    $("#count-ul li:nth-child(1) p span").html(ret.upcount);
-                    $("#count-ul li:nth-child(2) p span").html(ret.usercount);
-                    $("#count-ul li:nth-child(3) p span").html(ret.coursecount);
+                    $("#count-ul li:nth-child(1) p span").html(ret.result.student);
+                    $("#count-ul li:nth-child(2) p span").html(ret.result.teacher);
+                    $("#count-ul li:nth-child(3) p span").html(ret.result.course);
                 }
             })
 
@@ -35,15 +37,15 @@
             $.ajax({
                 url:"admin/getAdminSession",
                 dataType:"json",
-                data:{"adminBean":"adminsession"},
+                data:{"adminBean":"adminSession"},
                 type:"post",
                 success:function (ret) {
-                    if($.isEmptyObject(ret)){
+                    if($.isEmptyObject(ret.result)){
                         $("#admin").hide();
                         console.log("管理员未登录");
                     }else{
                         $("#admin").show();
-                        $("#admin p").html(ret.aname);
+                        $("#admin p").html(ret.result.adminName);
 
                     }
                 }
@@ -53,12 +55,12 @@
             // 退出登录--管理员
             $("#admin a").click(function () {
                 $.ajax({
-                    url:"admin/loginOut",
+                    url:"admin/AdminLoginOut",
                     dataType:"json",
-                    type:"get",
+                    type:"POST",
                     success:function (ret) {
                         console.log("loginout:"+ret);
-                        if(ret!=1){
+                        if(ret==true){
                             layer.msg("用户已退出",{time:2000});
                             location.href="backlogin.html";
                         }
@@ -986,7 +988,7 @@
             <div class="row clearfix">
                 <div class="col-md-4 column" id="admin">
                     <img src="images/c2.jpg" >
-                    <p>xxxxx</p>
+                    <p></p>
                     <a>退出登录</a>
                 </div>
                 <div class="col-md-4 column" id="nav">
@@ -1013,9 +1015,9 @@
                         <div id="adminInfo">
                             <div id="count">
                                 <ul id="count-ul">
-                                    <li><img src="images/新增人数.png" width="50px"><p>今日新增人数：<span>123</span></p></li>
-                                    <li><img src="images/总人数.png" width="50px"><p>用户总人数：<span>666</span></p></li>
-                                    <li><img src="images/课程总数.png" width="50px"><p>课程总数：<span>555</span></p></li>
+                                    <li><img src="images/新增人数.png" width="50px"><p>学生总人数：<span></span></p></li>
+                                    <li><img src="images/总人数.png" width="50px"><p>教师总人数：<span></span></p></li>
+                                    <li><img src="images/课程总数.png" width="50px"><p>课程总数：<span></span></p></li>
                                 </ul>
                             </div>
                             <div></div>

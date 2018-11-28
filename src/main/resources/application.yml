@@ -29,4 +29,4 @@ logging:
     #采用相对路径方式将日志文件输出到【log\myspringboot.log】
 
 server:
-  port: 9999
+  port: 8888

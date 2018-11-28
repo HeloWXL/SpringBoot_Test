@@ -10,13 +10,13 @@
     $(function () {
         $("input[name='login']").click(function () {
             $.ajax({
-                url:"admin/checkAdmin",
+                url:"admin/checkAdminLogin",
                 type:"post",
-                data:{"username":$("input[name='username']").val(),
+                data:{"name":$("input[name='username']").val(),
                     "password":$("input[name='password']").val()},
                 dataType:"json",
                 success:function(ret){
-                    if(ret!=true){
+                    if(ret.result!=true){
                         layer.msg('登录失败');
                         location.reload();
                     }else{

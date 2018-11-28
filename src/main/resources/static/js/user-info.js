@@ -252,23 +252,23 @@ $(function () {
 })
 
 // 获取课程名
-function getCourseByCid(cid) {
-    var coursename='';
-    $.ajax({
-        url:'course/getCourseByCid',
-        data:{'cid':cid},
-        dataType:'json',
-        type:'post',
-        async : false,
-        success:function (ret) {
-            coursename = ret.result.courseName;
-        }
-    })
-    return coursename;
-}
+// function getCourseByCid(cid) {
+//     var coursename='';
+//     $.ajax({
+//         url:'course/getCourseByCid',
+//         data:{'cid':cid},
+//         dataType:'json',
+//         type:'post',
+//         async : false,
+//         success:function (ret) {
+//             coursename = ret.result.courseName;
+//         }
+//     })
+//     return coursename;
+// }
 
 
-console.log(getCourseByCid(203))
+// console.log(getCourseByCid(203))
 // function getTeacherByTid(tid) {
 //
 // }

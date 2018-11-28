@@ -33,7 +33,6 @@ public class ScoreService {
         return scoreMapper.selectList(entityWrapper);
     }
 
-
     /**
      * 根据课程的ID查询分段成绩得数量------绘制通知直方图
      * @param courseId
@@ -67,6 +66,4 @@ public class ScoreService {
         entityWrapper.eq("student_id",sid);
         return scoreMapper.selectList(entityWrapper);
     }
-
-
 }

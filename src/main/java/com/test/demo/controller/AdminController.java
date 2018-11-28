@@ -3,7 +3,11 @@ package com.test.demo.controller;
 import com.test.demo.common.ResultData;
 import com.test.demo.model.Admin;
 import com.test.demo.model.Student;
+import com.test.demo.model.Teacher;
 import com.test.demo.service.AdminService;
+import com.test.demo.service.CourseService;
+import com.test.demo.service.StudentService;
+import com.test.demo.service.TeacherService;
 import com.test.demo.utils.Md5Utils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -13,6 +17,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -28,6 +36,16 @@ public class AdminController {
 
     @Resource
     private AdminService adminService;
+
+    @Resource
+    private StudentService studentService;
+
+
+    @Resource
+    private TeacherService teacherService;
+
+    @Resource
+    private CourseService courseService;
 
     @ApiOperation(value="管理员登录检查")
     @PostMapping("checkAdminLogin")
@@ -96,7 +114,7 @@ public class AdminController {
 
     @ApiOperation(value="管理员列表")
     @GetMapping("adminList")
-    public ResultData<Map<String,Object>> insertStudent() {
+    public ResultData<Map<String,Object>> getAdminList() {
         ResultData<Map<String,Object>> resultData = new ResultData<>();
         if(adminService.getAdminList().size()>0){
             resultData.setResult(adminService.getAdminList());
@@ -133,4 +151,46 @@ public class AdminController {
             return resultData;
         }
     }
+
+
+    @ApiOperation(value="获取统计数据")
+    @GetMapping("countForAdmin")
+    public ResultData<Map<String,Integer>> insertStudent() {
+        ResultData<Map<String,Integer>> resultData = new ResultData<>();
+
+        Map<String,Integer> map = new HashMap<>();
+        map.put("student",studentService.getStudentCount());
+        map.put("teacher",teacherService.getTeacherCount());
+        map.put("course",courseService.getCourseCount());
+
+        resultData.setResult(map);
+        resultData.setCode(200);
+        resultData.setMsg("获取成功");
+        return resultData;
+    }
+
+    @ApiOperation(value="获取管理员的session对象")
+    @PostMapping("getAdminSession")
+    public ResultData<Admin> getAdminSession(HttpServletRequest request, @RequestParam("adminBean") String adminBean){
+        ResultData<Admin> resultData = new ResultData<>();
+        Admin admin = (Admin) request.getSession().getAttribute(adminBean);
+        resultData.setCode(200);
+        resultData.setMsg("获取对象成功");
+        resultData.setResult(admin);
+        return resultData;
+    }
+
+    @ApiOperation(value="退出登录-清除adminSession")
+    @PostMapping("AdminLoginOut")
+    public Boolean getAdminSession(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        HttpSession session = request.getSession(false);
+        session.removeAttribute("adminSession");
+        System.out.println(session);
+        if(session==null){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
 }
