@@ -18,7 +18,8 @@ $(function () {
                 $('#user1').show();
                 $('#select').show();
                 $('.login').hide();
-                $node = $('<img src="//t.cn/RCzsdCq" class="layui-nav-img"><span>'+ret.result.studentName+'</span>');
+
+                $node = $('<img src="'+ret.result.studentPicture+'" class="layui-nav-img"><span>'+ret.result.studentName+'</span>');
                 $("#user1").html($node);
             }
         }
@@ -82,7 +83,7 @@ layui.use(['carousel', 'form'], function () {
         elem: '#test10'
         , width: '100%'
         , height: '440px'
-        , interval: 3000
+        , interval: 5000
     });
     //监听开关
     form.on('switch(autoplay)', function () {

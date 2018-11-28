@@ -8,12 +8,14 @@
     <link rel="stylesheet" href="css/teacherinfo.css">
     <link rel="stylesheet" href="layer/mobile/need/layer.css">
     <!--引入JS文件-->
+    <link rel="stylesheet" href="bootstrap-3.3.7/bootstrap-select.css">
     <script src="js/jquery-2.1.4.js" type="application/javascript"></script>
     <script src="bootstrap-3.3.7/dist/js/bootstrap.js" type="application/javascript"></script>
     <script src="layer/layer.js" type="application/javascript"></script>
     <script src="js/teacherinfo.js" type="application/javascript"></script>
-    <link rel="stylesheet" href="bootstrap-3.3.7/bootstrap-select.css">
+
     <script src="bootstrap-3.3.7/bootstrap-select.js"></script>
+    <script src="js/echarts.js"></script>
 </head>
 <body>
 <div class="container">
@@ -72,7 +74,7 @@
                         <div class="panel-body" id="getScore">
                             查看考试成绩
                         </div>
-                        <div class="panel-body">
+                        <div class="panel-body" id="analysis">
                             成绩分析
                         </div>
                     </div>
@@ -251,6 +253,7 @@
 
                     </select>
                     <button type="button" class="btn btn-primary" id="find">查询</button>
+                    <button type="button" class="btn btn-primary" id="find-2">查询</button>
                 </div>
                 <table class="table">
                     <thead>
@@ -273,6 +276,9 @@
 
                     </tbody>
                 </table>
+                <div id="chart">
+                    <div id="chart2" class="echarts" style="width:600px;height:500px; display: none"></div>
+                </div>
             </div>
             <div id="t-listnotice" style="display: none">
                 <table class="table">

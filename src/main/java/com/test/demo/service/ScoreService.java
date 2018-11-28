@@ -54,7 +54,6 @@ public class ScoreService {
         int s6 = scoreMapper.selectCount(new EntityWrapper<Score>().eq("course_id",courseId).between("score",90,100));
         list.add(s6);
         return list;
-
     }
 
 

@@ -38,21 +38,19 @@ public class StudentController {
     public ResultData<Boolean> checkLogin(HttpServletRequest request, @RequestParam("name") String name, @RequestParam("password") String password){
         ResultData<Boolean> resultData = new ResultData<>();
         if(Md5Utils.getSaltverifyMD5(password,studentService.getStudentByName(name).getStudentPassword())) {
-            Student student = new Student();
-            student.setStudentName(name);
-            student.setStudentPassword(password);
+            Student student = studentService.getStudentByName(name);
             //获取学生对象，将其保存在session
             request.getSession().setAttribute("studentsession",student);
-            logger.info("登录成功");
+            logger.info("学生登录成功");
             resultData.setResult(true);
             resultData.setCode(200);
-            resultData.setMsg("登录成功");
+            resultData.setMsg("学生登录成功");
             return resultData;
         }else{
-            logger.info("登录失败");
+            logger.info("学生登录失败");
             resultData.setResult(false);
             resultData.setCode(500);
-            resultData.setMsg("登录失败");
+            resultData.setMsg("学生登录失败");
             return resultData;
         }
     }

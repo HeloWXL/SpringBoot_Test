@@ -117,5 +117,14 @@ public class CourseService {
         return course;
     }
 
+    /**
+     * 获取课程的总数量----传输给后台
+     * @return
+     */
+    public Integer getCourseCount(){
+        EntityWrapper entityWrapper = new EntityWrapper();
+        return courseMapper.selectCount(entityWrapper);
+    }
+
 
 }

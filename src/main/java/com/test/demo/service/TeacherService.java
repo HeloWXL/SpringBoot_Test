@@ -108,4 +108,13 @@ public class TeacherService {
         t.setTeacherId(tid);
         return teacherMapper.selectOne(t);
     }
+
+    /**
+     * 获取教师总数 --传输至后台
+     * @return
+     */
+    public Integer getTeacherCount(){
+        EntityWrapper entityWrapper = new EntityWrapper();
+        return teacherMapper.selectCount(entityWrapper);
+    }
 }

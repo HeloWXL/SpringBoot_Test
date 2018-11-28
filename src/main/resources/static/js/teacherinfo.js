@@ -27,69 +27,6 @@ $.ajax({
         }
     })
 
-//     $.ajax({
-//         url:'notice/selectnoticebyTid',
-//         dataType:'json',
-//         data:{"tid":tid},
-//         type:"post",
-//         success:function (ret) {
-//             console.log(ret)
-//             for(var i = 0;i <ret.length;i++){
-//
-//                 var content  = ret[i].noticeContent;
-//
-//                 var $node = $('<tr class="'+classArr[b++]+'">\n' +
-//                     '                        <td>\n' +
-//                     '                            '+ret[i].noticeId+'\n' +
-//                     '                        </td>\n' +
-//                     '                        <td>\n' +
-//                     '                            '+ret[i].noticeTitle+'\n' +
-//                     '                        </td>\n' +
-//                     '                        <td>\n' +
-//                     '                             '+content+'\n' +
-//                     '                        </td>\n' +
-//                     '                        <td>\n' +
-//                     '                            '+ret[i].noticeTime+'\n' +
-//                     '                        </td>\n' +
-//                     '                    </tr>')
-//                 $("#t-listnotice tbody").append($node)
-//             }
-//
-//         }
-//     })
-// })
-// // 发布公告
-// $("#notices").click(function () {
-//     $("#t-course").hide();
-//     $("#t-score").hide();
-//     $("#t-notice").show();
-//     $("#t-student").hide();
-//     $("#t-test").hide();
-//     $("#t-listnotice").hide();
-//
-//     $("button[name='submit']").click(function () {
-//         $.ajax({
-//             url:'notice/insertnotice',
-//             dataType:'json',
-//             data:{"title":$("#title").val(),
-//                 "content":$("#contents").val(),
-//                 "tid":tid},
-//             type:"post",
-//             success:function (ret) {
-//                 if(ret==true){
-//                     layer.msg("发布成功",{time:2000})
-//                 }else{
-//                     layer.msg("发布失败",{time:2000})
-//                 }
-//             }
-//         })
-//     })
-//     $("")
-//
-//
-//
-// })
-
 // 我的课程
 $("#mycourse").click(function () {
         $("#t-course").show();
@@ -489,27 +426,21 @@ function getNoticeByTid(pageNo, pageSize) {
             })
         }
 
+
+
+// 获取学生的成绩列表
 $("#getScore").click(function () {
     $("#t-course").hide();
     $("#t-student").hide();
     $("#t-test").hide();
     $("#t-listnotice").hide();
     $("#t-score").show();
+    $("#chart2").hide();
+    $("#find-2").hide();
+    $("#find").show();
 
     // 先查询教师所教授的课程  放进下拉框中
-    $.ajax({
-        url:'course/getCourseByTeacherID',
-        data:{'teacherId':tid},
-        dataType:'json',
-        type:'post',
-        async:false,
-        success:function (ret) {
-            for (var i = 0 ;i<ret.result.length;i++){
-                $('<option value="'+ret.result[i].courseName+'">'+ret.result[i].courseName+'</option>').appendTo(".selectpicker")
-                $(".selectpicker").selectpicker('refresh');
-            }
-        }
-    })
+    getCourseName(tid)
 
     var cid=0 ;
     $("#find").click(function () {
@@ -527,12 +458,10 @@ $("#getScore").click(function () {
                 getScore(cid)
             }
         });
-
-
     })
 })
 
-// 获取学生的成绩列表
+// 获取学生的成绩
 function getScore(cid) {
     $.ajax({
         url:'score/getScoreByCourseId',
@@ -568,7 +497,27 @@ function getScore(cid) {
         }
     })
 }
+// 通过教师的ID查询课程
+function getCourseName(tid) {
+    $(".selectpicker").empty();
+    $.ajax({
+        url:'course/getCourseByTeacherID',
+        data:{'teacherId':tid},
+        dataType:'json',
+        type:'post',
+        async:false,
+        success:function (ret) {
+            for (var i = 0 ;i<ret.result.length;i++){
+                $('<option value="'+ret.result[i].courseName+'">'+ret.result[i].courseName+'</option>').appendTo(".selectpicker")
+                $(".selectpicker").selectpicker('refresh');
+            }
+        }
+    })
+}
 
+
+
+// 得到学生的姓名  暂时没做好
 var sname = ''
 function getStudentBySid(sid) {
     $.ajax({
@@ -581,6 +530,104 @@ function getStudentBySid(sid) {
         }
     })
 }
+
+
+
+// 成绩分析接口实现
+$("#analysis").click(function () {
+    $("#t-course").hide();
+    $("#t-student").hide();
+    $("#t-test").hide();
+    $("#t-listnotice").hide();
+    $("#t-score").show();
+    $("#find").hide();
+    $("#t-score table").hide();
+    $("#chart2").show();
+    $("#find-2").show();
+
+    $("#find-2").click(function () {
+        // 获取下拉框中的课程选项值
+        course = $("#course").val();
+        $("#t-score tbody").empty();
+        $.ajax({
+            url:'course/getCourseByCoursrName',
+            data:{'courseName':course},
+            dataType:'json',
+            type:'post',
+            success:function (ret) {
+                cid = ret.result.courseId;
+                getScoreCount(cid)
+            }
+        });
+    })
+    // 获取后端传输过来的数据
+})
+// 得到课程的分数段的人数
+function getScoreCount(cid) {
+    $.ajax({
+        url:'score/getCountByCourseId',
+        data:{'cid':cid},
+        dataType:'json',
+        type:'post',
+        success:function (ret) {
+            var list = ret.result;
+            if($.isEmptyObject(list)){
+                layer.msg('该课程暂无成绩')
+            }else{
+                getCountByCourseId(list)
+            }
+
+        }
+    })
+}
+// 得到统计图中的数据源
+function getCountByCourseId(list) {
+        var chart2 = echarts.init(document.getElementById("chart2"));
+        option = {
+            title : {
+                text: '该课程学生成绩分布图',
+            },
+            tooltip : {
+                trigger: 'axis'
+            },
+            legend: {
+                data:['人数']
+            },
+            toolbox: {
+                show : true,
+                feature : {
+                    mark : {show: true},
+                    dataView : {show: true, readOnly: false},
+                    magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+                    restore : {show: true},
+                    saveAsImage : {show: true}
+                }
+            },
+            calculable : true,
+            xAxis : [
+                {
+                    type : 'category',
+                    boundaryGap : false,
+                    data : ['50以下','50-60','60-70','70-80','80-90','90-100']
+                }
+            ],
+            yAxis : [
+                {
+                    type : 'value'
+                }
+            ],
+            series : [
+                {
+                    name:'人数',
+                    type:'line',
+                    smooth:true,
+                    itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                    data:list
+                }
+            ]
+        };
+        chart2.setOption(option)
+    }
 
 })
 

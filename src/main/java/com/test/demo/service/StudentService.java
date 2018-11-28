@@ -127,6 +127,14 @@ public class StudentService {
         return studentMapper.selectOne(student);
     }
 
+    /**
+     * 获取学生的总数量  ---传输给后台
+     * @return
+     */
+    public Integer getStudentCount(){
+        EntityWrapper entityWrapper = new EntityWrapper();
+        return studentMapper.selectCount(entityWrapper);
+    }
 
 
 }
