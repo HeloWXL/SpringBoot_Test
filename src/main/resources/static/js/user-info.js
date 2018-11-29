@@ -162,25 +162,26 @@ $(function () {
             success: function (ret) {
                 // 声明一个数组
                 for(var key in ret.result){
-                    for(var i = 0 ;i<ret.result[key].length;i++){
-                        $node = $(' <tr>\n' +
-                            '                                    <td>\n' +
-                            '                                        <img src="' + ret.result[key][i].coursePicture + '" width="65px">\n' +
-                            '                                    </td>\n' +
-                            '                                    <td>\n' +
-                            '                                        ' + ret.result[key][i].courseName + '' +
-                            '                                    </td>\n' +
-                            '                                    <td>\n' +
-                            '                                        ' + key + '' +
-                            '                                    </td>\n' +
-                            '                                    <td>\n' +
-                            '                                        <button class="layui-btn layui-btn-fluid" value="' + ret.result[key][i].courseId + '" name="play">播放</button>\n' +
-                            '                                    </td>\n' +
-                            '                                </tr>')
+                        for(var i = 0 ;i<ret.result[key].length;i++){
+                            $node = $(' <tr>\n' +
+                                '                                    <td>\n' +
+                                '                                        <img src="' + ret.result[key][i].coursePicture + '" width="65px">\n' +
+                                '                                    </td>\n' +
+                                '                                    <td>\n' +
+                                '                                        ' + ret.result[key][i].courseName + '' +
+                                '                                    </td>\n' +
+                                '                                    <td>\n' +
+                                '                                        ' + key + '' +
+                                '                                    </td>\n' +
+                                '                                    <td>\n' +
+                                '                                        <button class="layui-btn layui-btn-fluid" value="' + ret.result[key][i].courseId + '" name="play">播放</button>\n' +
+                                '                                    </td>\n' +
+                                '                                </tr>')
 
-                        $("#right-1 tbody").append($node)
+                            $("#right-1 tbody").append($node)
+                        }
                     }
-                }
+
             }
         })
     })
@@ -203,8 +204,13 @@ $(function () {
             dataType: "json",
             type: "post",
             success: function (ret) {
-                var courseId = ret.result.courseId;
-                var score = ret.result.score;
+                if(ret.result.length>0){
+                    var courseId = ret.result.courseId;
+                    var score = ret.result.score;
+                }else{
+                    layer.msg("该学生还没进行考试....",{time:3000})
+                }
+
 
                 // $node = $(' <tr>\n' +
                 //     '                                    <td>\n' +

@@ -73,4 +73,23 @@ public class ScoreController {
             return  resultData;
         }
     }
-}
+
+    @ApiOperation(value="获取所有的考试成绩")
+    @PostMapping("getScoreList")
+    public ResultData<List<Score>> getScoreList() {
+        ResultData<List<Score>> resultData = new ResultData<>();
+        if(scoreService.getAllScore().size()>0){
+            resultData.setCode(200);
+            resultData.setMsg("获取成功");
+            resultData.setResult(scoreService.getAllScore());
+            return  resultData;
+        }else{
+            resultData.setResult(null);
+            resultData.setMsg("获取失败");
+            return  resultData;
+        }
+    }
+
+
+
+    }

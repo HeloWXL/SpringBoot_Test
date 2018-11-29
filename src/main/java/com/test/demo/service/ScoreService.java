@@ -25,7 +25,7 @@ public class ScoreService {
     /**
      * 根据课程的ID查询成绩列表
      * @param courseId
-     * @return
+     * @return List<Score>
      */
     public List<Score>  getScoreByCourseId(Integer courseId){
         EntityWrapper entityWrapper = new EntityWrapper();
@@ -36,7 +36,7 @@ public class ScoreService {
     /**
      * 根据课程的ID查询分段成绩得数量------绘制通知直方图
      * @param courseId
-     * @return
+     * @return List<Integer>
      */
     public List<Integer> getCountByCourseId(Integer courseId){
         List<Integer> list = new ArrayList<>();
@@ -59,11 +59,21 @@ public class ScoreService {
     /**
      * 根据学生的ID查询 成绩
      * @param sid
-     * @return
+     * @return List<Score>
      */
     public List<Score> getScoreBySid(Integer sid){
         EntityWrapper entityWrapper = new EntityWrapper();
         entityWrapper.eq("student_id",sid);
         return scoreMapper.selectList(entityWrapper);
+    }
+
+    /**
+     * 获取的考试成绩列表
+     * @return List<Score>
+     */
+    public List<Score> getAllScore(){
+        EntityWrapper entityWrapper = new EntityWrapper();
+        List<Score> list = scoreMapper.selectList(entityWrapper);
+        return list;
     }
 }

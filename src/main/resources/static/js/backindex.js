@@ -464,6 +464,22 @@ $(function () {
         $("#index").hide();
         $("#addmin").hide();
 
+
+        $.ajax({
+            url:'score/getScoreList',
+            dataType:'json',
+            type:'post',
+            success:function (ret) {
+                if(ret.result.length>0){
+                    var sid = ret.result.studentId;
+                    var cid = ret.result.teacherId;
+                    var score = ret.result.score;
+                    console.log(ret);
+                }else{
+                    layer.msg("获取失败",{time:3000})
+                }
+            }
+        })
         //按照班级进行查询
 
 
