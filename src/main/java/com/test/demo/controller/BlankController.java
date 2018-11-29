@@ -72,7 +72,7 @@ public class BlankController {
         }
     }
 
-    @ApiOperation(value="获取填空题列表")
+    @ApiOperation(value="根据教师的ID获取填空题列表")
     @PostMapping("getBlankByTid")
     public ResultData<Map<String,Object>> getSelectByTid(@RequestParam("tid") Integer tid,
                                                          @RequestParam("pageNo") Integer pageNo,

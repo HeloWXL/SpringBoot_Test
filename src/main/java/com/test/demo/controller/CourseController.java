@@ -197,7 +197,6 @@ public class CourseController {
 
     }
 
-
     @ApiOperation(value="根据课程的ID获取课程信息")
     @PostMapping("getCourseByCourseid")
     public ResultData<Course> getCourseByCourseid(@RequestParam("cid") Integer cid){

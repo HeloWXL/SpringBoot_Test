@@ -17,10 +17,11 @@
                 dataType:"json",
                 success:function(ret){
                     if(ret.result!=true){
-                        layer.msg('登录失败');
-                        location.reload();
+                        layer.msg('登录失败',{time:3000});
+                        $("input[name='username']").val("");
+                        $("input[name='password']").val("");
                     }else{
-                        layer.msg('登录成功');
+                        layer.msg('登录成功',{time:3000});
                         location.href="backindex.html";
                     }
                 }

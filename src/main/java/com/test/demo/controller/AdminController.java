@@ -40,7 +40,6 @@ public class AdminController {
     @Resource
     private StudentService studentService;
 
-
     @Resource
     private TeacherService teacherService;
 
@@ -52,9 +51,7 @@ public class AdminController {
     public ResultData<Boolean> checkLogin(HttpServletRequest request,@RequestParam("name") String name, @RequestParam("password") String password){
         ResultData<Boolean> resultData = new ResultData<>();
         if(Md5Utils.getSaltverifyMD5(password,adminService.getAdminByName(name).getAdminPassword())) {
-            Admin admin = new Admin();
-            admin.setAdminPassword(password);
-            admin.setAdminName(name);
+            Admin admin = adminService.getAdminByName(name);
             //设置学生对象的session
             request.getSession().setAttribute("adminSession",admin);
             logger.info("登录成功");
@@ -138,14 +135,14 @@ public class AdminController {
         String md5Password = Md5Utils.getSaltMD5(password);
         int i = adminService.insertAdmin(name,md5Password );
         if(i==1){
-            logger.info("注册成功");
-            resultData.setMsg("注册成功");
+            logger.info("管理员注册成功");
+            resultData.setMsg("管理员注册成功");
             resultData.setCode(200);
             resultData.setResult(true);
             return resultData;
         }else{
-            logger.info("注册失败");
-            resultData.setMsg("注册失败");
+            logger.info("管理员注册失败");
+            resultData.setMsg("管理员注册失败");
             resultData.setCode(500);
             resultData.setResult(false);
             return resultData;

@@ -38,6 +38,12 @@ $(function () {
                     if(ret.result==true){
                         layer.msg("选择题添加成功",{time:2000})
                         layer.close(layer.index);
+                        var question = $("#selects textarea").val();
+                        $("input[name='a']").val("");
+                        $("input[name='b']").val("");
+                        $("input[name='c']").val("");
+                        $("input[name='d']").val("");
+                        $("input[name='y']").val("");
                     }else{
                         layer.ms("选择题添加失败",{time:2000})
                     }

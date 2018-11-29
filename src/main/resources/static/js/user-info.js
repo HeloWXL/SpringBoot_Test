@@ -184,6 +184,8 @@ $(function () {
             }
         })
     })
+
+    // 点击播放
     $("button[name='play']").click(function () {
         var cid = $(this).attr("value");
         alert(cid)
@@ -203,8 +205,6 @@ $(function () {
             success: function (ret) {
                 var courseId = ret.result.courseId;
                 var score = ret.result.score;
-
-                console.log(getCourseByCid(courseId))
 
                 // $node = $(' <tr>\n' +
                 //     '                                    <td>\n' +
@@ -226,6 +226,7 @@ $(function () {
     $("#edit").click(function () {
         $("#right input").attr("disabled",false)
     })
+    // 修改学生信息
     $("#alter").click(function () {
        var name =  $("input[name='name']").val()
         var age  = $("input[name='age']").val();

@@ -390,6 +390,7 @@ $("#listnotice").click(function () {
         // 上一页
 
     })
+
 function getNoticeByTid(pageNo, pageSize) {
             $.ajax({
                 url: 'notice/getAllNotice',
