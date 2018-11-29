@@ -160,6 +160,9 @@
                                <th>
                                    课程视频链接
                                </th>
+                               <th>
+                                   操作
+                               </th>
                            </tr>
                            </thead>
                            <tbody>
@@ -176,22 +179,25 @@
                     <!--成绩列表-->
                     <div id="score" style="display: none">
                         <h3 class="text-center">
-                           考试成绩模块
+                            考试成绩模块
                         </h3>
-                        <table class="table">
+                        <div id="courselist">
+                            <select class="selectpicker" title="请选择课程" id="selectCourse">
+
+                            </select>
+                            <button type="button" class="btn btn-primary" id="find">查询</button>
+                        </div>
+                        <table class="table table-hover table-bordered">
                             <thead>
                             <tr>
                                 <th>
-                                    编号
+                                    学生姓名
                                 </th>
                                 <th>
-                                    产品
+                                    课程名
                                 </th>
                                 <th>
-                                    交付时间
-                                </th>
-                                <th>
-                                    状态
+                                    成绩
                                 </th>
                             </tr>
                             </thead>
@@ -205,65 +211,6 @@
                                 </td>
                                 <td>
                                     01/04/2012
-                                </td>
-                                <td>
-                                    Default
-                                </td>
-                            </tr>
-                            <tr class="success">
-                                <td>
-                                    1
-                                </td>
-                                <td>
-                                    TB - Monthly
-                                </td>
-                                <td>
-                                    01/04/2012
-                                </td>
-                                <td>
-                                    Approved
-                                </td>
-                            </tr>
-                            <tr class="error">
-                                <td>
-                                    2
-                                </td>
-                                <td>
-                                    TB - Monthly
-                                </td>
-                                <td>
-                                    02/04/2012
-                                </td>
-                                <td>
-                                    Declined
-                                </td>
-                            </tr>
-                            <tr class="warning">
-                                <td>
-                                    3
-                                </td>
-                                <td>
-                                    TB - Monthly
-                                </td>
-                                <td>
-                                    03/04/2012
-                                </td>
-                                <td>
-                                    Pending
-                                </td>
-                            </tr>
-                            <tr class="info">
-                                <td>
-                                    4
-                                </td>
-                                <td>
-                                    TB - Monthly
-                                </td>
-                                <td>
-                                    04/04/2012
-                                </td>
-                                <td>
-                                    Call in to confirm
                                 </td>
                             </tr>
                             </tbody>

@@ -76,7 +76,7 @@ public class BlankController {
     @PostMapping("getBlankByTid")
     public ResultData<Map<String,Object>> getSelectByTid(@RequestParam("tid") Integer tid,
                                                          @RequestParam("pageNo") Integer pageNo,
-                                                         @RequestParam("pageSize") Integer pageSize){
+                                                          @RequestParam("pageSize") Integer pageSize){
         ResultData<Map<String,Object>> resultData = new ResultData<>();
 
         Map<String,Object>  map = blankService.getBlankByTid(tid,pageNo,pageSize);
@@ -86,4 +86,6 @@ public class BlankController {
         resultData.setResult(map);
         return resultData;
     }
+
+
 }
