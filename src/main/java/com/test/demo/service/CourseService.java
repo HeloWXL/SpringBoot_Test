@@ -138,6 +138,15 @@ public class CourseService {
         return courseMapper.selectOne(c);
     }
 
+    /**
+     * 获取考试成绩表中课程
+     * @return List<Integer>
+     */
+    public List<Integer> getCourseFromScore(){
+        return courseMapper.getCouseFromScore();
+    }
+
+
 
 
 }

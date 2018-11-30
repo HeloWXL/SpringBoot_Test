@@ -63,7 +63,7 @@ $(function () {
         if (window.localStorage) {
             //存储变量的值
             localStorage.name = id;
-            location.href = 'coursedetails1.html';
+            location.href = 'coursedetail.html';
         } else {
             alert("NOT SUPPORT");
         }

@@ -129,5 +129,15 @@ public class ScoreController {
     }
 
 
+//    @ApiOperation(value="获取所有的考试成绩")
+//    @PostMapping("getScoreListByCourseName")
+//    public ResultData<List<Score>> getScoreListByCourseName(@RequestParam("cid") Integer cid){
+//        ResultData<List<Score>> resultData = new ResultData<>();
+//        resultData.setCode(200);
+//        resultData.setMsg("获取成功");
+//        resultData.setResult(scoreService.getScoreByCourseId(cid));
+//        return resultData;
+//    }
 
-    }
+
+}

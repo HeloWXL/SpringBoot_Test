@@ -48,22 +48,7 @@
 </script>
 <script>
 
-    var md=document.getElementsByTagName("video")[0];
-    md.addEventListener("ended",function() {
-        layer.confirm("看完了，给个评分呗", {
-            btn: ["好的", "残忍拒绝"]
-        }, function () {
-            $("#pingfen").show();
-            layer.closeAll();
-        }, function () {
-            layer.msg("太难受了",
-                {
-                    time: 2000,
-                    btn: ["明白了", "知道了"]
-                })
-            location.href="user-info.html";
-        })
-    })
+
 
     $(function () {
         $.ajax({

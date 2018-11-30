@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />
+<title>视频</title>
+	<link rel="stylesheet" href="bootstrap-3.3.7/dist/css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="css/reset.css"/>
+	<link rel="stylesheet" type="text/css" href="css/willesPlay.css"/>
+	<script src="js/jquery-1.11.3.min.js"></script>
+	<script src="js/willesPlay.js" type="text/javascript" charset="utf-8"></script>
+	<script>
+		$(function () {
+            var cid = localStorage["id"];
+            $.ajax({
+				url:'course/getCourseByCourseid',
+				data:{'cid':cid},
+				dataType:'json',
+				type:'get',
+				success:function (ret) {
+				   var  videoUrl = ret.result.courseVideo;
+				   var  courseName = ret.result.courseName;
+                    $("source").attr("src",videoUrl);
+                    $(".videoName").html(courseName)
+                }
+			})
+
+
+
+        })
+	</script>
+	<script>
+        var md=document.getElementsByTagName("source")[0];
+        md.addEventListener("ended",function() {
+            layer.confirm("小哥哥、小姐姐，看完了，给个评分呗", {
+                btn: ["好的", "残忍拒绝"]
+            }, function () {
+                $("#pingfen").show();
+                layer.closeAll();
+            }, function () {
+                layer.msg("太难受了",
+                    {
+                        time: 2000,
+                    })
+                location.href="user-info.html";
+            })
+        })
+	</script>
+</head>
+<body>
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<div id="willesPlay">
+	<div class="playHeader">
+		<div class="videoName"></div>
+	</div>
+	<div class="playContent">
+		<div class="turnoff">
+			<ul>
+				<li><a href="javascript:;" title="关灯" class="btnLight on glyphicon glyphicon-sunglasses"></a></li>
+			</ul>
+		</div>
+		<video width="100%" height="100%" id="playVideo">
+			<source src="video/example.mp4" type="video/mp4"/>
+			当前浏览器不支持 video直接播放，点击这里下载视频： <a href="/">下载视频</a>
+		</video>
+		<div class="playTip glyphicon glyphicon-play"></div>
+	</div>
+	<div class="playControll">
+		<div class="playPause playIcon"></div>
+		<div class="timebar">
+			<span class="currentTime">0:00:00</span>
+			<div class="progress">
+				<div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+				</div>
+			<span class="duration">0:00:00</span>
+		</div>
+		<div class="otherControl">
+			<span class="volume glyphicon glyphicon-volume-down"></span>
+			<span class="fullScreen glyphicon glyphicon-fullscreen"></span>
+			<div class="volumeBar">
+					<div class="volumewrap">
+						<div class="progress">
+						<div class="progress-bar progress-bar-danger" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 8px;height: 40%;"></div>
+					</div>
+						</div>
+				</div>
+		</div>
+	</div>
+</div>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>

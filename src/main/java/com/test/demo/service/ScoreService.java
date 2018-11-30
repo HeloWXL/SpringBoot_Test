@@ -76,4 +76,10 @@ public class ScoreService {
         List<Score> list = scoreMapper.selectList(entityWrapper);
         return list;
     }
+
+
+
+
+
+
 }

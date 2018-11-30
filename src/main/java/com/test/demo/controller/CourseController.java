@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -201,11 +202,28 @@ public class CourseController {
     @GetMapping("getCourseByCourseid")
     public ResultData<Course> getCourseByCourseid(@RequestParam("cid") String cid){
         ResultData<Course> resultData = new ResultData<>();
-        System.out.println(cid);
         resultData.setResult(courseService.getCourseByCid(Integer.parseInt(cid)));
         resultData.setCode(200);
         resultData.setMsg("获取课程对象成功");
         return resultData;
+    }
+
+
+    @ApiOperation(value="根据课程的ID返回课程名")
+    @GetMapping("getCourseNameByCourseid")
+    public ResultData<List<Course>> getCourseNameByCourseid(){
+        ResultData<List<Course>> resultData = new ResultData<>();
+        List<Course> courses = new ArrayList<>();
+         List<Integer>  list = courseService.getCourseFromScore();
+        for (Integer i:list
+             ) {
+            courses.add(courseService.getCourseByCid(i));
+        }
+        resultData.setMsg("获取成功");
+        resultData.setCode(200);
+        resultData.setResult(courses);
+        return resultData;
+
     }
 
 
