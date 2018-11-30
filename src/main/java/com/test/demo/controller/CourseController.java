@@ -198,12 +198,16 @@ public class CourseController {
     }
 
     @ApiOperation(value="根据课程的ID获取课程信息")
-    @PostMapping("getCourseByCourseid")
-    public ResultData<Course> getCourseByCourseid(@RequestParam("cid") Integer cid){
+    @GetMapping("getCourseByCourseid")
+    public ResultData<Course> getCourseByCourseid(@RequestParam("cid") String cid){
         ResultData<Course> resultData = new ResultData<>();
-        resultData.setResult(courseService.getCourseByCid(cid));
+        System.out.println(cid);
+        resultData.setResult(courseService.getCourseByCid(Integer.parseInt(cid)));
         resultData.setCode(200);
         resultData.setMsg("获取课程对象成功");
         return resultData;
     }
+
+
+
 }

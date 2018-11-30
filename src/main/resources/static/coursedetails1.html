@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body{
+            background-color: #393D49!important;
+        }
+        /*导航栏设计*/
+        #user {
+            float: right;
+        }
+        .login {
+            float: left;
+        }
+        /*}到这*/
+
+        /*list*/
+        .content{
+            margin:0 auto;
+            width: 800px;
+            margin-top: 20px;
+        }
+        .course-img{
+            position: relative;
+        }
+        .course-info{
+            width: 300px;
+            float: left;
+            color: #ffffff;
+            font-size: 20px;
+            text-align: center;
+            position: relative;
+            top: 50px;
+            left: 85px;
+        }
+        .course-img img{
+            width: 150px;
+            height: 150px;
+        }
+        .course-info button{
+            position: relative;
+            left: 205px;
+            top: -30px;
+        }
+        .list{
+            width: 800px;
+            height: 215px;
+            list-style: none;
+        }
+        .list li{
+            float: left;
+        }
+        hr{
+            position: relative;
+            top: 30px;
+        }
+    </style>
+    <link rel="stylesheet" href="layui-v2.4.3/layui/css/layui.css">
+    <script src="layui-v2.4.3/layui/layui.js"></script>
+</head>
+<body>
+    <div class="header">
+    <!--头部导航栏-->
+    <ul class="layui-nav layui-bg-black">
+        <li class="layui-nav-item layui-this"><a href="index.html">首页</a></li>
+        <li class="layui-nav-item "><a href="">课程</a></li>
+        <li class="layui-nav-item"><a href="">大数据</a></li>
+        <li class="layui-nav-item">
+            <a href="javascript:;">解决方案</a>
+            <dl class="layui-nav-child">
+                <dd><a href="">移动模块</a></dd>
+                <dd><a href="">后台模版</a></dd>
+                <dd><a href="">电商平台</a></dd>
+            </dl>
+        </li>
+        <li class="layui-nav-item"><a href="">社区</a></li>
+
+        <li class="layui-nav-item" id="user">
+            <ul class="layui-nav layui-bg-black">
+                <li class="layui-nav-item">
+                    <a href="">控制台<span class="layui-badge">9</span></a>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="user-info.html">个人中心<span class="layui-badge-dot"></span></a>
+                </li>
+                <li class="layui-nav-item" lay-unselect="">
+                    <a href="login.html" class="login">登录</a>
+                    <a href="rigister.html"class="login">注册</a>
+                    <a href="javascript:;" id="user1"></a>
+                    <dl class="layui-nav-child" id="select">
+                        <dd><a href="user-change.html">修改信息</a></dd>
+                        <dd><a href="user-info.html:;">用户管理</a></dd>
+                        <dd><a href="">退出登录</a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+    <div class="content">
+        <!--课程内容-->
+    </div>
+</body>
+<script src="js/jquery-2.1.4.js" type="application/javascript"></script>
+<script>
+    $(function () {
+        // 获取页面传值信息
+        var sid;
+        $.ajax({
+            url: "student/getStudentSession",
+            data: {"studentBean": "studentsession"},
+            type: "post",
+            dataType: "json",
+            success: function (ret) {
+                if(ret.result==null){
+                    $('#user1').hide();
+                    $('#select').hide();
+                }else{
+                    // 获取学生的ID
+                    sid= ret.result.studentId;
+                    // 设置导航栏中的内容
+                    $('#user1').show();
+                    $('#select').show();
+                    $('.login').hide();
+                    $node = $('<img src="'+ret.result.studentPicture+'" class="layui-nav-img"><i>"'+ret.result.studentName+'"</i>');
+                    $("#user1").html($node);
+                }
+            }
+        })
+        var cid = localStorage["name"];
+        $.ajax({
+            url:"course/getCourseByCourseid",
+            data:{"cid":cid},
+            type:'get',
+            dataType:'json',
+            success:function (ret) {
+                if(ret.result==null){
+                    layer.msg("快去添加课程吧")
+                }else{
+                    var picture = ret.result.coursePicture;
+                    var courserName= ret.result.courseName;
+                    var teacher = getTeacherTname(ret.result.teacherId);
+                    var courserId= ret.result.courseId;
+                    $node = $('<ul class="list">\n' +
+                        '            <li>\n' +
+                        '                <div class="course-img">\n' +
+                        '                    <img src="'+picture+'">\n' +
+                        '                </div>\n' +
+                        '            </li>\n' +
+                        '            <li>\n' +
+                        '                <div class="course-info">\n' +
+                        '                    课程名：<span>'+courserName+'</span>\n' +
+                        '                    教师：<span>'+teacher+'</span>\n' +
+                        '                    <button class="layui-btn layui-btn-danger" value="'+courserId+'">播放</button>\n' +
+                        '                </div>\n' +
+                        '            </li>\n' +
+                        '            <li>\n' +
+                        '                <hr class="layui-bg-orange">\n' +
+                        '            </li>\n' +
+                        '        </ul>')
+
+                    $('.content').append($node)
+                }
+            }
+        })
+        // 根据教师的ID查询教师的姓名
+        function  getTeacherTname(tid){
+            var tname = ""
+            $.ajax({
+                url:"teacher/getTeacherByTid",
+                type:"post",
+                dataType:"json",
+                data:{"tid":tid},
+                async:false,
+                success:function (ret) {
+                    tname = ret.result.teacherName;
+                }
+            })
+            return  tname;
+        }
+    })
+</script>
+</html>

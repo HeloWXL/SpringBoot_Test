@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+    body{
+    background-color: #393D49!important;
+    }
+    #user {
+    float: right;
+    }
+    .course-img img{
+    width: 900px;
+    height: 400px;
+    }
+    div p{
+    color: #666666;
+    font-size: 16px;
+    }
+    .course-list{
+    background-color: #ffff;
+    width: 288px;
+    height: 290px;
+    border: 1px solid gray;
+    }
+    .course-list img{
+    margin-left: 50px;
+    margin-top: 20px;
+    }
+    a{
+    color: #000;
+    text-decoration: none;
+    }
+    a:hover{
+    color: yellow;
+    }
+    .course-list-info{
+    margin-left: 21px;
+    margin-top: 5px;
+    }
+    .course{
+    width: 900px;
+    margin: 0 auto;
+    }
+    ul{
+    list-style:none;
+    overflow:hidden;
+    }
+    ul li{
+    float: left;
+    margin-left: 10px;
+    margin-top: 10px;
+    }
+    .course-list-info div{
+    margin-top: -8px;
+    }
+    .login{
+    float: left;
+    }
+    </style>
+    <link rel="stylesheet" href="layui-v2.4.3/layui/css/layui.css" type="text/css" media="all"/>
+    <link rel="stylesheet" href="layer/theme/default/layer.css"  media="all" type="text/css">
+    <script src="layer/layer.js"></script>
+</head>
+<body>
+
+<div class="header">
+    <!--头部导航栏-->
+    <ul class="layui-nav layui-bg-black">
+        <li class="layui-nav-item layui-this"><a href="index.html">首页</a></li>
+        <li class="layui-nav-item" id="user">
+            <ul class="layui-nav layui-bg-black">
+                <li class="layui-nav-item">
+                    <a href="user-info.html">个人中心</a>
+                </li>
+                <li class="layui-nav-item" lay-unselect="">
+                    <a href="login.html" class="login">登录</a>
+                    <a href="rigister.html"class="login">注册</a>
+                    <a href="javascript:;" id="user1"></a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+
+</div>
+<div class="course">
+    <ul class="courselist">
+    </ul>
+</div>
+<script src="js/jquery-2.1.4.js" type="application/javascript"></script>
+<script src="layui-v2.4.3/layui/layui.js" type="application/javascript"></script>
+
+<!--设置页面的加载信息-->
+<script>
+
+    // 加载页面内容
+    // $(function () {
+    //     // 获取用户登录信息
+    //     $.ajax({
+    //         url: "student/getStuSession",
+    //         data: {"studentBean": "studentSession"},
+    //         type: "get",
+    //         dataType: "json",
+    //         success: function (ret) {
+    //             if($.isEmptyObject(ret)){
+    //                 $('#user1').hide();
+    //                 $('#select').hide();
+    //             }else{
+    //                 $('#user1').show();
+    //                 $('#select').show();
+    //                 $('.login').hide();
+    //                 $node = $('<img src="//t.cn/RCzsdCq" class="layui-nav-img"><span>'+ret.sname+'</span>');
+    //                 $("#user1").html($node);
+    //             }
+    //         }
+    //     })
+    //
+    //
+    //     // 获取课程列表
+    //     $.ajax({
+    //         url:"course/getAllCourseList",
+    //         type:'get',
+    //         dataType:'json',
+    //         async:false,
+    //         success:function (ret) {
+    //             if($.isEmptyObject(ret)){
+    //                 console.log("获取课程列表失败");
+    //             }else{
+    //                 for(var i = 0;i<ret.length;i++){
+    //                     var image = ret[i].cpicture;
+    //                     var name = ret[i].cname;
+    //                     var tid = ret[i].tid;
+    //                     var pingfen = ret[i].cpingfen;
+    //
+    //                     $node = $('<li>\n' +
+    //                         '            <div class="course-list">\n' +
+    //                         '                <a href="coursedetails.html"><img src="'+image+'" width="200px"></a>\n' +
+    //                         '                <div class="course-list-info">\n' +
+    //                         '                    <p>课程名:<a href="coursedetails.html" class="course">'+name+'</a></p>\n' +
+    //                         '                    <p>教师:<a href="#" class="teacher">'+getTeacherTname(tid)+'</a></p>\n' +
+    //                         '                    <div></div>\n' +
+    //                         '                </div>\n' +
+    //                         '            </div>\n' +
+    //                         '        </li>')
+    //
+    //                     $(".courselist").append($node);
+    //
+    //                 }
+    //             }
+    //         }
+    //     })
+    //     function  getTeacherTname(tid){
+    //         var tname = "";
+    //         $.ajax({
+    //             url:"teacher/selectTeacherByTid",
+    //             type:"post",
+    //             dataType:"json",
+    //             data:{"tid":tid},
+    //             async:false,
+    //             success:function (ret) {
+    //                 tname = ret.tname;
+    //             }
+    //         })
+    //         return  tname;
+    //
+    //     }
+    // })
+</script>
+
+<script>
+    // 获取页面传值信息
+    var value = localStorage["name"];
+    alert(value);
+</script>
+</body>
+</html>

@@ -1,8 +1,12 @@
 package com.test.demo.controller;
 
 import com.test.demo.common.ResultData;
+import com.test.demo.controller.resp.ScoreVo;
 import com.test.demo.model.Score;
+import com.test.demo.service.CourseService;
 import com.test.demo.service.ScoreService;
+import com.test.demo.service.StudentService;
+import com.test.demo.service.TeacherService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author wangxl
@@ -23,6 +29,16 @@ import java.util.List;
 public class ScoreController {
     @Resource
     private ScoreService scoreService;
+
+    @Resource
+    private StudentService studentService;
+
+    @Resource
+    private TeacherService teacherService;
+
+
+    @Resource
+    private CourseService courseService;
 
     @ApiOperation(value="根据课程的ID查询课程成绩")
     @PostMapping("getScoreByCourseId")
@@ -76,16 +92,38 @@ public class ScoreController {
 
     @ApiOperation(value="获取所有的考试成绩")
     @PostMapping("getScoreList")
-    public ResultData<List<Score>> getScoreList() {
-        ResultData<List<Score>> resultData = new ResultData<>();
+    public ResultData<List<ScoreVo>> getScoreList() {
+        ResultData<List<ScoreVo>> resultData = new ResultData<>();
+        List<ScoreVo> list = new ArrayList<>();
+        System.out.println(scoreService.getAllScore().size());
         if(scoreService.getAllScore().size()>0){
+            List<Score> scoreList = scoreService.getAllScore();
+            for (Score score:scoreList
+                 ) {
+                ScoreVo scoreVo = new ScoreVo();
+                //学生的姓名
+                String   studentName = studentService.getStudentBySid(score.getStudentId()).getStudentName();
+                //学生的学号
+                Integer studentSno = studentService.getStudentBySid(score.getStudentId()).getStudentSno();
+                //教师姓名
+                String teacherName = teacherService.getTeacher(courseService.getCourseByCid(score.getCourseId()).getTeacherId()).getTeacherName();
+                //课程名
+                String courseName = courseService.getCourseByCid(score.getCourseId()).getCourseName();
+                scoreVo.setStudentName(studentName);
+                scoreVo.setCourseName(courseName);
+                scoreVo.setStudentSno(studentSno);
+                scoreVo.setTeacherName(teacherName);
+                list.add(scoreVo);
+            }
             resultData.setCode(200);
+            resultData.setResult(list);
             resultData.setMsg("获取成功");
-            resultData.setResult(scoreService.getAllScore());
             return  resultData;
         }else{
             resultData.setResult(null);
             resultData.setMsg("获取失败");
+            resultData.setCode(500);
+
             return  resultData;
         }
     }

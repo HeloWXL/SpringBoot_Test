@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>在线考试</title>
+    <script src="js/jquery-2.1.4.js"></script>
+    <style>
+        h3{margin-top: 30px}
+        .ys1{
+            color: #009AC1;
+            font-weight: bold;
+        }
+        .top{
+            height: 100px;
+            text-align: center;
+        }
+        .left{
+            background-color: transparent;
+            width: 300px;
+            height: 300px;
+            margin-left: 50px;
+        }
+        .center{
+            width: 300px;
+            height: 300px;
+        }
+        .content > div{
+            float: left;
+        }
+        #select{
+            float: left;
+        }
+
+    </style>
+    <script src="js/countdown.js"></script>
+    <link rel="stylesheet" href="bootstrap-3.3.7/dist/css/bootstrap.css">
+    <script src="bootstrap-3.3.7/dist/js/bootstrap.js"></script>
+</head>
+<body>
+
+    <div class="top">
+        <h3>在线考试</h3>
+        <div class="container">
+            <h3>考试倒计时</h3>
+            <div class="container timeBar ys1" data="3600" ></div>
+        </div>
+    </div>
+    <div class="content">
+        <div class="left">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="col-sm-8 control-label">学号：</label><br>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" placeholder="请输入你的学号">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-8 control-label">姓名：</label><br>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" placeholder="请输入你的姓名">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-8 control-label">专业：</label><br>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" placeholder="请输入你的专业">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="center">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">请选择正确答案：</label><br>
+                    <div class="col-sm-7" id="select">
+                        <label class="radio-inline">
+                            <input type="radio" value="A" name="rad30837">A</label>
+                        <label class="radio-inline">
+                            <input type="radio" name="rad30837" value="B">B</label>
+                        <label class="radio-inline">
+                            <input type="radio" value="C" name="rad30837">C</label>
+                        <label class="radio-inline">
+                            <input type="radio" name="rad30837" value="D">D</label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div></div>
+    <div></div>
+</body>
+<script type="text/javascript">
+    $(function(){
+
+
+
+        // 倒计时
+        $(".timeBar").each(function () {
+            $(this).countdownsync({
+                dayTag: "",
+                hourTag: "<label class='tt hh dib vam'>00</label><span>时</span>",
+                minTag: "<label class='tt mm dib vam'>00</label><span>分</span>",
+                secTag: "<label class='tt ss dib vam'>00</label><span>秒</span>",
+                dayClass: ".dd",
+                hourClass: ".hh",
+                minClass: ".mm",
+                secClass: ".ss",
+                isDefault: false,
+                showTemp:1
+
+            }, function () {
+                location.reload();
+            });
+        });
+    });
+</script>
+</html>

@@ -44,9 +44,9 @@ $(function () {
 
                     $node = $('<li>\n' +
                         '            <div class="course-list">\n' +
-                        '                <a href="coursedetails.html"><img src="'+image+'" width="200px"></a>\n' +
+                        '                <a><img src="'+image+'" width="200px"></a>\n' +
                         '                <div class="course-list-info">\n' +
-                        '                    <p>课程名:<a href="coursedetails.html" class="course">'+name+'</a></p>\n' +
+                        '                    <p>课程名:<a class="courseName" id="'+ret.result.list[i].courseId+'">'+name+'</a></p>\n' +
                         '                    <p>教师:<a href="#" class="teacher">'+getTeacherTname(tid)+'</a></p>\n' +
                         '                    <div></div>\n' +
                         '                </div>\n' +
@@ -57,6 +57,23 @@ $(function () {
             }
         }
     })
+
+    // 获取存储值
+    function getvalue(id) {
+        if (window.localStorage) {
+            //存储变量的值
+            localStorage.name = id;
+            location.href = 'coursedetails1.html';
+        } else {
+            alert("NOT SUPPORT");
+        }
+    }
+
+    $("div").on("click","a[class='courseName']",function (event) {
+        var  id = $(this).attr("id");
+        getvalue(id);
+    })
+
     // 通过教师的ID查询叫教师的姓名
     function  getTeacherTname(tid){
         var tname = ""
