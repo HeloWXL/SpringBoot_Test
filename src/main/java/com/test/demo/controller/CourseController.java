@@ -223,7 +223,6 @@ public class CourseController {
         resultData.setCode(200);
         resultData.setResult(courses);
         return resultData;
-
     }
 
 

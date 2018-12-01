@@ -1,6 +1,7 @@
 package com.test.demo.controller;
 
 import com.test.demo.common.ResultData;
+import com.test.demo.controller.resp.RespScoreVo;
 import com.test.demo.controller.resp.ScoreVo;
 import com.test.demo.model.Score;
 import com.test.demo.service.CourseService;
@@ -9,10 +10,7 @@ import com.test.demo.service.StudentService;
 import com.test.demo.service.TeacherService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -41,13 +39,27 @@ public class ScoreController {
     private CourseService courseService;
 
     @ApiOperation(value="根据课程的ID查询课程成绩")
-    @PostMapping("getScoreByCourseId")
-    public ResultData<List<Score>> getScoreByCourseId(@RequestParam("cid") Integer cid) {
-        ResultData<List<Score>> resultData = new ResultData<>();
+    @GetMapping("getScoreByCourseId")
+    public ResultData<List<RespScoreVo>> getScoreByCourseId(@RequestParam("cid") Integer cid) {
+        ResultData<List<RespScoreVo>> resultData = new ResultData<>();
         if (scoreService.getScoreByCourseId(cid).size() > 0) {
+            List<Score> scores = scoreService.getScoreByCourseId(cid);
+            List<RespScoreVo> respScoreVos = new ArrayList<>();
+            for (Score s : scores
+                 ) {
+                RespScoreVo respScoreVo = new RespScoreVo();
+                //获取学生的姓名
+                String studentName = studentService.getStudentBySid(s.getStudentId()).getStudentName();
+                String courseName = courseService.getCourseByCid(s.getCourseId()).getCourseName();
+                Integer score = s.getScore();
+                respScoreVo.setCourseName(courseName);
+                respScoreVo.setScore(score);
+                respScoreVo.setStudentName(studentName);
+                respScoreVos.add(respScoreVo);
+            }
             resultData.setCode(200);
             resultData.setMsg("查询课程成绩成功");
-            resultData.setResult(scoreService.getScoreByCourseId(cid));
+            resultData.setResult(respScoreVos);
             return resultData;
         } else {
             resultData.setCode(500);

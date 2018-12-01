@@ -9,7 +9,6 @@ $(function () {
         var d = this.length - endStr.length;
         return (d >= 0 && this.lastIndexOf(endStr) == d);
     }
-
     var s = ".jpg";
 // ------------------首页统计数据----------------首页事件-----------------------------------
     $("a[name='index']").click(function () {
@@ -20,6 +19,9 @@ $(function () {
         $("#course").hide();
         $("#score").hide();
         $("#addmin").hide();
+        $(this).closest("li").attr("class","active")
+        $(this).closest("li").siblings().removeAttr("class","active");
+
     })
     $.ajax({
         url: "admin/countForAdmin",
@@ -31,7 +33,6 @@ $(function () {
             $("#count-ul li:nth-child(3) p span").html(ret.result.course);
         }
     })
-
 // ------------------------------获取管理员登录信息---------------------------------------
     $.ajax({
         url: "admin/getAdminSession",
@@ -49,7 +50,6 @@ $(function () {
             }
         }
     })
-
 // ----------------------退出登录--管理员  没处理好--------------------
     $("#admin a").click(function () {
         $.ajax({
@@ -66,8 +66,7 @@ $(function () {
 
         })
     })
-
-// -----------------------------学生管理----------------------------------------
+// ---------------------学生管理----------------------------------------
     $("a[name='student']").click(function () {
         var pageNo = 1;
         var pageSize = 9;
@@ -79,6 +78,10 @@ $(function () {
         $("#score").hide();
         $("#index").hide();
         $("#addmin").hide();
+
+        // 设置li的 class属性值
+        $(this).closest("li").attr("class","active")
+        $(this).closest("li").siblings().removeAttr("class","active");
         // 先清空之前的列表
         $("#student table tbody").empty();
         $.ajax({
@@ -129,7 +132,7 @@ $(function () {
         })
 
         // 分页管理-下一页
-        $("#student-fenye ul li button[name='next']").click(function () {
+        $(".fenye ul li button[name='next']").click(function () {
             $("#student table tbody").empty();
 
             var maxpage = Math.ceil(pageCount / 10);
@@ -143,7 +146,7 @@ $(function () {
 
         });
         // 分页管理-上一页
-        $("#student-fenye ul li button[name='prev']").click(function () {
+        $(".fenye ul li button[name='prev']").click(function () {
             $("#student table tbody").empty();
             if (pageNo == 1) {
                 layer.msg("已经是第一页了", {time: 2500});
@@ -196,8 +199,7 @@ $(function () {
             }
         })
     }
-
-// ------------------------------获取教师的列表函数----------------------------------------
+// --------------------获取教师的列表函数----------------------------------------
     $("a[name='teacher']").click(function () {
         var pageNo = 1;
         var pageSize = 9;
@@ -209,6 +211,9 @@ $(function () {
         $("#score").hide();
         $("#index").hide();
         $("#addmin").hide();
+        $(this).closest("li").attr("class","active")
+        $(this).closest("li").siblings().removeAttr("class","active");
+
         // 先将教师列表进行清空
         $("#teacher table tbody").empty();
         //加载教师信息
@@ -254,7 +259,7 @@ $(function () {
             }
         })
         // 分页管理-下一页
-        $("#teacher-fenye ul li button[name='next']").click(function () {
+        $(".fenye ul li button[name='next']").click(function () {
             $("#teacher table tbody").empty();
             var maxpage = Math.ceil(pageCount / 10);
             if (pageNo < maxpage) {
@@ -266,7 +271,7 @@ $(function () {
             getTeacherList(pageNo, pageSize);
         });
         // 分页管理-上一页
-        $("#teacher-fenye ul li button[name='prev']").click(function () {
+        $(".fenye ul li button[name='prev']").click(function () {
             $("#teacher table tbody").empty();
             if (pageNo == 1) {
                 layer.msg("已经是第一页了", {time: 1500});
@@ -319,20 +324,7 @@ $(function () {
             }
         })
     }
-
-
-// ----------------------------------------------------------------------
-    $("a[name='static']").click(function () {
-        $("#static").show();
-        $("#student").hide();
-        $("#teacher").hide();
-        $("#course").hide();
-        $("#score").hide();
-        $("#index").hide();
-        $("#addmin").hide();
-    })
-
-// ----------------获取课程的 列表----------------------------------------
+// ----------------获取课程的列表----------------------------------------
     $("a[name='course']").click(function () {
         $("#course").show();
         $("#score").hide();
@@ -341,6 +333,9 @@ $(function () {
         $("#static").hide();
         $("#index").hide();
         $("#addmin").hide();
+        $(this).closest("li").attr("class","active")
+        $(this).closest("li").siblings().removeAttr("class","active");
+
         var pageNo = 1;
         var pageSize = 9;
         var pageCount = 0;
@@ -389,7 +384,7 @@ $(function () {
             }
         })
         // 分页管理-下一页
-        $("#course-fenye ul li button[name='next']").click(function () {
+        $(".fenye ul li button[name='next']").click(function () {
             $("#course table tbody").empty();
             var maxpage = Math.ceil(pageCount / 10);
             if (pageNo < maxpage) {
@@ -401,7 +396,7 @@ $(function () {
             getCourseList(pageNo, pageSize);
         });
         // 分页管理-上一页
-        $("#course-fenye ul li button[name='prev']").click(function () {
+        $(".fenye ul li button[name='prev']").click(function () {
             $("#course table tbody").empty();
             if (pageNo == 1) {
                 layer.msg("已经是第一页了", {time: 2500});
@@ -454,7 +449,7 @@ $(function () {
             }
         })
     }
-// ------------------------------------------------------------------------
+// --------------------成绩列表及统计图实现---------------------------------------------------
     $("a[name='score']").click(function () {
         $("#score").show();
         $("#student").hide();
@@ -464,30 +459,143 @@ $(function () {
         $("#index").hide();
         $("#addmin").hide();
 
+        $(this).closest("li").attr("class","active")
+        $(this).closest("li").siblings().removeAttr("class","active");
 
+        //按照班级进行查询
+        $(".selectpicker").empty();
+        // 加载可选框
         $.ajax({
-            url:'score/getScoreList',
-            dataType:'json',
-            type:'post',
-            success:function (ret) {
-                if(ret.result.length>0){
-                    var sid = ret.result.studentId;
-                    var cid = ret.result.teacherId;
-                    var score = ret.result.score;
-                    console.log(ret);
-                }else{
-                    layer.msg("获取失败",{time:3000})
+            url: 'course/getCourseNameByCourseid',
+            dataType: 'json',
+            type: 'get',
+            cache: false,
+            success: function (ret) {
+                for (var i = 0; i < ret.result.length; i++) {
+                    $('<option value="' + ret.result[i].courseId + '">' + ret.result[i].courseName + '</option>').appendTo(".selectpicker")
                 }
             }
         })
-        //按照班级进行查询
 
+        $("#find").click(function () {
+            $("#score table").empty()
+            $("#chart1").hide();
+            $("#score table").show();
+            var id = $("#selectCourse").val();
+            $.ajax({
+                url: 'score/getScoreByCourseId',
+                dataType: 'json',
+                type: 'get',
+                data: {"cid": id},
+                success: function (ret) {
+                    console.log(ret)
+                    for (var i = 0; i < ret.result.length; i++) {
+                        $node = $(' <tr class="'+classArr[b++]+'">\n' +
+                            '                                <td>\n' +
+                            '                                    ' + ret.result[i].studentName + '\n' +
+                            '                                </td>\n' +
+                            '                                <td>\n' +
+                            '                                    ' + ret.result[i].courseName + '\n' +
+                            '                                </td>\n' +
+                            '                                <td>\n' +
+                            '                                    ' + ret.result[i].score + '\n' +
+                            '                                </td>\n' +
+                            '                            </tr>')
+                        $("#score table").append($node);
+                        if(b%5==0){
+                            b=0;
+                        }
+                    }
 
+                }
+            })
+        })
+        $("#statics").click(function () {
+            $("#chart1").show();
+            $("#score table").hide();
+            var cid = $("#selectCourse").val();
+
+            $.ajax({
+                url:'score/getCountByCourseId',
+                data:{'cid':cid},
+                dataType:'json',
+                type:'post',
+                success:function (ret) {
+                    var list = ret.result;
+                    if(list==null){
+                        layer.msg('该课程暂无成绩')
+                    }else{
+                        getStatis(list)
+                    }
+
+                }
+            })
+
+        })
 
     })
-
-
-// -----------------------新增管理员-------------------------------------------------
+    // 得到统计分析图
+    function getStatis(data) {
+        var chart1 = echarts.init(document.getElementById("chart1"));
+        option = {
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross',
+                    crossStyle: {
+                        color: '#999'
+                    }
+                }
+            },
+            toolbox: {
+                feature: {
+                    dataView: {show: true, readOnly: false},
+                    magicType: {show: true, type: ['line', 'bar']},
+                    restore: {show: true},
+                    saveAsImage: {show: true}
+                }
+            },
+            legend: {
+                data:['人数']
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    data: ['50分以下','50-60分','60-70分','70-80分','80-90分','90-100分'],
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    name: '人数',
+                    min: 0,
+                    max: 20,
+                    interval: 50,
+                    axisLabel: {
+                        formatter: '{value} 人'
+                    }
+                }
+            ],
+            series: [
+                {
+                    name:'人数',
+                    type:'bar',
+                    data:data,
+                    markPoint : {
+                        data : [
+                            {type : 'max', name: '最大值'},
+                            {type : 'min', name: '最小值'}
+                        ]
+                    }
+                }
+            ]
+        };
+        chart1.setOption(option)
+    }
+// --------------------管理员---------------------------------------------------
     $("a[name='addadmin']").click(function () {
         layer.open({
             title: false,
@@ -503,325 +611,3 @@ $(function () {
 
     })
 })
-// ------------------------------------------------------------------------
-
-//     var math;
-//     var chinese;
-//     var english;
-//     var polity;
-//     $.ajax({
-//         url: 'scoreview/getEveryClassScore',
-//         type: 'get',
-//         dataType: 'json',
-//         success: function (ret) {
-//             // 课程
-//             chinese = ret[0].chinese;
-//             math = ret[0].math;
-//             english = ret[0].english;
-//             polity = ret[0].polity;
-//             chart_1(chinese, math, english, polity)
-//             // 语文成绩 雷达图
-//             chinese_echarts(chinese);
-//             // 数学成绩雷达图
-//             math_echarts(math)
-//             //英语成绩雷达图
-//             english_echarts(english)
-//             // 政治成绩雷达图
-//             polity_echarts(polity)
-//
-//         }
-//     })
-// })
-// function math_echarts(math) {
-//     var chart3 = echarts.init(document.getElementById("chart3"));
-//     option = {
-//         title : {
-//             text: '数学考试成绩分析',
-//         },
-//         tooltip : {
-//             trigger: 'axis'
-//         },
-//         legend: {
-//             orient : 'vertical',
-//             x : 'right',
-//             y : 'bottom',
-//             data:['数学']
-//         },
-//         toolbox: {
-//             show : true,
-//             feature : {
-//                 mark : {show: true},
-//                 dataView : {show: true, readOnly: false},
-//                 restore : {show: true},
-//                 saveAsImage : {show: true}
-//             }
-//         },
-//         polar : [
-//             {
-//                 indicator : [
-//                     { text: '101', max: 100},
-//                     { text: '102', max: 100},
-//                     { text: '103', max: 100},
-//                     { text: '104', max: 100},
-//                     { text: '105', max: 100},
-//                     { text: '106', max: 100},
-//                     { text: '107', max: 100},
-//                     { text: '108', max: 100},
-//                     { text: '109', max: 100},
-//                     { text: '110', max: 100}
-//                 ]
-//             }
-//         ],
-//         calculable : true,
-//         series : [
-//             {
-//                 name: '数学成绩雷达图',
-//                 type: 'radar',
-//                 data : [
-//                     {
-//                         value : math,
-//                         name : '数学'
-//                     }
-//                 ]
-//             }
-//         ]
-//     };
-//     chart3.setOption(option)
-// }
-// function chinese_echarts(chinese) {
-//     var chart2 = echarts.init(document.getElementById("chart2"));
-//     option = {
-//         title : {
-//             text: '语文考试成绩雷达图',
-//         },
-//         tooltip : {
-//             trigger: 'axis'
-//         },
-//         legend: {
-//             orient : 'vertical',
-//             x : 'right',
-//             y : 'bottom',
-//             data:['语文']
-//         },
-//         toolbox: {
-//             show : true,
-//             feature : {
-//                 mark : {show: true},
-//                 dataView : {show: true, readOnly: false},
-//                 restore : {show: true},
-//                 saveAsImage : {show: true}
-//             }
-//         },
-//         polar : [
-//             {
-//                 indicator : [
-//                     { text: '101', max: 100},
-//                     { text: '102', max: 100},
-//                     { text: '103', max: 100},
-//                     { text: '104', max: 100},
-//                     { text: '105', max: 100},
-//                     { text: '106', max: 100},
-//                     { text: '107', max: 100},
-//                     { text: '108', max: 100},
-//                     { text: '109', max: 100},
-//                     { text: '110', max: 100}
-//                 ]
-//             }
-//         ],
-//         calculable : true,
-//         series : [
-//             {
-//                 name: '语文成绩雷达图',
-//                 type: 'radar',
-//                 data : [
-//                     {
-//                         value : chinese,
-//                         name : '语文'
-//                     }
-//                 ]
-//             }
-//         ]
-//     };
-//     chart2.setOption(option)
-// }
-// function english_echarts(english) {
-//     var chart4 = echarts.init(document.getElementById("chart4"));
-//     option = {
-//         title : {
-//             text: '英语考试成绩雷达图',
-//         },
-//         tooltip : {
-//             trigger: 'axis'
-//         },
-//         legend: {
-//             orient : 'vertical',
-//             x : 'right',
-//             y : 'bottom',
-//             data:['英语']
-//         },
-//         toolbox: {
-//             show : true,
-//             feature : {
-//                 mark : {show: true},
-//                 dataView : {show: true, readOnly: false},
-//                 restore : {show: true},
-//                 saveAsImage : {show: true}
-//             }
-//         },
-//         polar : [
-//             {
-//                 indicator : [
-//                     { text: '101', max: 100},
-//                     { text: '102', max: 100},
-//                     { text: '103', max: 100},
-//                     { text: '104', max: 100},
-//                     { text: '105', max: 100},
-//                     { text: '106', max: 100},
-//                     { text: '107', max: 100},
-//                     { text: '108', max: 100},
-//                     { text: '109', max: 100},
-//                     { text: '110', max: 100}
-//                 ]
-//             }
-//         ],
-//         calculable : true,
-//         series : [
-//             {
-//                 name: '英语成绩雷达图',
-//                 type: 'radar',
-//                 data : [
-//                     {
-//                         value : english,
-//                         name : '英语'
-//                     }
-//                 ]
-//             }
-//         ]
-//     };
-//     chart4.setOption(option)
-// }
-// function polity_echarts(polity) {
-//     var chart5 = echarts.init(document.getElementById("chart5"));
-//     option = {
-//         title : {
-//             text: '政治考试成绩雷达图',
-//         },
-//         tooltip : {
-//             trigger: 'axis'
-//         },
-//         legend: {
-//             orient : 'vertical',
-//             x : 'right',
-//             y : 'bottom',
-//             data:['政治']
-//         },
-//         toolbox: {
-//             show : true,
-//             feature : {
-//                 mark : {show: true},
-//                 dataView : {show: true, readOnly: false},
-//                 restore : {show: true},
-//                 saveAsImage : {show: true}
-//             }
-//         },
-//         polar : [
-//             {
-//                 indicator : [
-//                     { text: '101', max: 100},
-//                     { text: '102', max: 100},
-//                     { text: '103', max: 100},
-//                     { text: '104', max: 100},
-//                     { text: '105', max: 100},
-//                     { text: '106', max: 100},
-//                     { text: '107', max: 100},
-//                     { text: '108', max: 100},
-//                     { text: '109', max: 100},
-//                     { text: '110', max: 100}
-//                 ]
-//             }
-//         ],
-//         calculable : true,
-//         series : [
-//             {
-//                 name: '政治成绩雷达图',
-//                 type: 'radar',
-//                 data : [
-//                     {
-//                         value : polity,
-//                         name : '政治'
-//                     }
-//                 ]
-//             }
-//         ]
-//     };
-//     chart5.setOption(option)
-// }
-// function chart_1(chinese,math,english,polity){
-//     // 基于准备好的容器(这里的容器是id为chart1的div)，初始化echarts实例
-//     var chart1 = echarts.init(document.getElementById("chart1"));
-//     option = {
-//         title : {
-//             text: '学生考试成绩分析',
-//         },
-//         tooltip : {
-//             trigger: 'axis'
-//         },
-//         legend: {
-//             orient : 'vertical',
-//             x : 'right',
-//             y : 'bottom',
-//             data:['语文','数学','英语','政治']
-//         },
-//         toolbox: {
-//             show : true,
-//             feature : {
-//                 mark : {show: true},
-//                 dataView : {show: true, readOnly: false},
-//                 restore : {show: true},
-//                 saveAsImage : {show: true}
-//             }
-//         },
-//         polar : [
-//             {
-//                 indicator : [
-//                     { text: '101', max: 100},
-//                     { text: '102', max: 100},
-//                     { text: '103', max: 100},
-//                     { text: '104', max: 100},
-//                     { text: '105', max: 100},
-//                     { text: '106', max: 100},
-//                     { text: '107', max: 100},
-//                     { text: '108', max: 100},
-//                     { text: '109', max: 100},
-//                     { text: '110', max: 100}
-//                 ]
-//             }
-//         ],
-//         calculable : true,
-//         series : [
-//             {
-//                 name: '成绩分析表',
-//                 type: 'radar',
-//                 data : [
-//                     {
-//                         value : chinese,
-//                         name : '语文'
-//                     },
-//                     {
-//                         value : math,
-//                         name : '数学'
-//                     },
-//                     {
-//                         value :english,
-//                         name : '英语'
-//                     },
-//                     {
-//                         value : polity,
-//                         name : '政治'
-//                     }
-//                 ]
-//             }
-//         ]
-//     };
-//     chart1.setOption(option)
-// }
