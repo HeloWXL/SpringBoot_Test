@@ -24,7 +24,8 @@ $(function () {
                 success:function (ret) {
                     if(ret.result==true){
                         layer.msg("添加成功",{time:2000})
-                        layer.close(layer.index);
+                       $("#blanks textarea").val("");
+                        $("input[name='answer']").val("");
                     }else{
                         layer.msg("添加失败",{time:2000})
                     }

@@ -26,7 +26,6 @@ $.ajax({
             $("input[name='major']").val(ret.result.teacherMajor);
         }
     })
-
 // 我的课程
 $("#mycourse").click(function () {
         $("#t-course").show();
@@ -97,7 +96,6 @@ $("#mycourse").click(function () {
         })
 
     })
-
 // 获取我的课程信息
 function getCourseByTid(pageNo, pageSize) {
         $.ajax({
@@ -142,7 +140,6 @@ function getCourseByTid(pageNo, pageSize) {
             }
         })
     }
-
 // 我的学生
 $("#mystudent").click(function () {
         var pageNo = 1;
@@ -231,7 +228,6 @@ $("#mystudent").click(function () {
             getStudentByClassId(pageNo, pageSize);
         })
     })
-
 // 获取学生信息
 function getStudentByClassId(pageNo, pageSize) {
         $.ajax({
@@ -281,7 +277,6 @@ function getStudentByClassId(pageNo, pageSize) {
             }
         })
     }
-
 // 添加一门课程
 $("#addcourse").click(function () {
         layer.open({
@@ -390,7 +385,6 @@ $("#listnotice").click(function () {
         // 上一页
 
     })
-
 function getNoticeByTid(pageNo, pageSize) {
             $.ajax({
                 url: 'notice/getAllNotice',
@@ -426,6 +420,10 @@ function getNoticeByTid(pageNo, pageSize) {
                 }
             })
         }
+
+
+
+
 
 
 
@@ -468,19 +466,18 @@ function getScore(cid) {
         url:'score/getScoreByCourseId',
         data:{'cid':cid},
         dataType:'json',
-        type:'post',
+        type:'get',
         success:function (ret) {
             if($.isEmptyObject(ret.result)){
                 layer.msg("该课程暂无成绩...")
             }else{
                 for(var i = 0;i<ret.result.length;i++){
-                   var  sid = ret.result[i].studentId;
                     $node=$('<tr class="' + classArr[b++] + '">\n' +
                         '                        <td>\n' +
-                        '                            '+sid+'\n' +
+                        '                            '+ret.result[i].studentSno+'\n' +
                         '                        </td>\n' +
                         '                        <td>\n' +
-                        '                            '+ret.result[i].courseId+'\n' +
+                        '                            '+ret.result[i].studentName+'\n' +
                         '                        </td>\n' +
                         '                        <td>\n' +
                         '                            '+course+'\n' +
@@ -516,8 +513,6 @@ function getCourseName(tid) {
     })
 }
 
-
-
 // 得到学生的姓名  暂时没做好
 var sname = ''
 function getStudentBySid(sid) {
@@ -531,8 +526,6 @@ function getStudentBySid(sid) {
         }
     })
 }
-
-
 
 // 成绩分析接口实现
 $("#analysis").click(function () {
@@ -629,6 +622,21 @@ function getCountByCourseId(list) {
         };
         chart2.setOption(option)
     }
+
+$("#begintest").click(function () {
+    layer.open({
+        title: false,
+        type: 2,
+        closeBtn: 0, //不显示关闭按钮
+        shade: 0.5,
+        area: ['455px', '300px'],
+        offset: 'auto',
+        anim: 2,
+        shadeClose: true,
+        content: ['addTest.html', 'no']
+    });
+})
+
 
 })
 

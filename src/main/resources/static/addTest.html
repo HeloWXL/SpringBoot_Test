@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加考试</title>
+    <script src="js/jquery-2.1.4.js"></script>
+    <link rel="stylesheet" href="bootstrap-3.3.7/dist/css/bootstrap.css">
+    <script src="bootstrap-3.3.7/dist/js/bootstrap.js"></script>
+    <style>
+        #submit{
+            margin-top: 10px;
+        }
+        #test{
+            margin-top: 45px;
+            margin-left: 60px;
+        }
+        #course{
+            height: 30px;
+        }
+        input{
+            width: 250px;
+
+        }
+    </style>
+    <script src="layer/layer.js"></script>
+    <link rel="stylesheet" href="layer/mobile/need/layer.css">
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <form class="form-horizontal" id="test">
+                <div class="control-group">
+                    <label class="control-label">考试科目</label>
+                    <select class="selectpicker" title="请选择课程" id="course">
+                        <!--获得教师所教授的课程列表-->
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="selectcount">选择题数量(每小题20分)</label>
+                    <div class="controls">
+                        <input id="selectcount" type="text" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="blankcount">选择题数量（每小题30分）</label>
+                    <div class="controls">
+                        <input id="blankcount" type="text" />
+                    </div>
+                </div>
+                <div id="submit">
+                    <button type="button" class="btn btn-danger" name="submit">生成试卷</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    $(function () {
+        var tid ;
+        $.ajax({
+            url: 'teacher/getTeacherSession',
+            dataType: 'json',
+            data: {"teacherBean": "teachersession"},
+            type: 'post',
+            async:false,
+            success: function (ret) {
+                tid = ret.result.teacherId;
+                $.ajax({
+                    url: 'course/getCourseByTeacherID',
+                    dataType: 'json',
+                    data: {"teacherId": tid},
+                    type: 'post',
+                    success: function (ret) {
+                        for (var i = 0; i < ret.result.length; i++) {
+                            $('<option value="' + ret.result[i].courseId + '">' + ret.result[i].courseName + '</option>').appendTo(".selectpicker")
+                        }
+                    }
+                })
+            }
+        })
+
+        $("button[name='submit']").click(function () {
+            var courseId = $("#course").val();
+            var selectcount = $("#selectcount").val();
+            var blankcount = $("#blankcount").val();
+            console.log(tid)
+            $.ajax({
+                url:'exam/insertExam',
+                dataType:'json',
+                data:{"selectcount":selectcount,
+                    "blankcount":blankcount,
+                    "courseId":courseId,
+                    "teacherid":tid
+                },
+                success:function (ret) {
+                    console.log(ret)
+                    if(ret.result==true){
+                        layer.msg("添加成功");
+                      $("#selectcount").val("");
+                      $("#blankcount").val("");
+                    }else{
+                        layer.msg("添加失败")
+                    }
+                }
+
+            })
+
+        })
+
+
+
+    })
+</script>
+</html>

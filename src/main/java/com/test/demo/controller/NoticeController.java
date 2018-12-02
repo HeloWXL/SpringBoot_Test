@@ -27,14 +27,9 @@ import java.util.Map;
 @RestController
 @RequestMapping("notice")
 public class NoticeController {
-
     protected Logger logger = LoggerFactory.getLogger(NoticeController.class);
-
-
     @Resource
     private NoticeService noticeService;
-
-
     @ApiOperation(value="添加一条公告信息")
     @PostMapping("insertOneNotice")
     public ResultData<Boolean> insertOneNotice(@RequestParam("title") String title,
@@ -57,7 +52,6 @@ public class NoticeController {
             return resultData;
         }
     }
-
 
     @ApiOperation(value="获取公告列表")
     @PostMapping("getAllNotice")

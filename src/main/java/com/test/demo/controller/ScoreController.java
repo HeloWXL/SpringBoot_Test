@@ -51,10 +51,12 @@ public class ScoreController {
                 //获取学生的姓名
                 String studentName = studentService.getStudentBySid(s.getStudentId()).getStudentName();
                 String courseName = courseService.getCourseByCid(s.getCourseId()).getCourseName();
+                Integer studentSno = studentService.getStudentBySid(s.getStudentId()).getStudentSno();
                 Integer score = s.getScore();
                 respScoreVo.setCourseName(courseName);
                 respScoreVo.setScore(score);
                 respScoreVo.setStudentName(studentName);
+                respScoreVo.setStudentSno(studentSno);
                 respScoreVos.add(respScoreVo);
             }
             resultData.setCode(200);

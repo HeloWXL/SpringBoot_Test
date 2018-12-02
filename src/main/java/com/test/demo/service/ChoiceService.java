@@ -66,7 +66,8 @@ public class ChoiceService {
      */
     public List<Choice> getAllChoices(){
         EntityWrapper entityWrapper = new EntityWrapper();
-        List<Choice> selectList = choiceMapper.selectList(entityWrapper);
+        List<Choice> selectList = choiceMapper.selectPage(new Page<Choice>(1,4),entityWrapper);
+
         return selectList;
     }
 

@@ -9,6 +9,15 @@ public class RespScoreVo {
     private String studentName ;
     private  String courseName ;
     private Integer score ;
+    private Integer studentSno;
+
+    public Integer getStudentSno() {
+        return studentSno;
+    }
+
+    public void setStudentSno(Integer studentSno) {
+        this.studentSno = studentSno;
+    }
 
     public String getStudentName() {
         return studentName;

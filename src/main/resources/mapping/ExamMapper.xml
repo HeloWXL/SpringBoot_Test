@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.test.demo.mapper.ExamMapper" >
+  <resultMap id="BaseResultMap" type="com.test.demo.model.Exam" >
+    <id column="exam_id" property="examId" jdbcType="INTEGER" />
+    <result column="exam_select" property="examSelect" jdbcType="INTEGER" />
+    <result column="exam_blank" property="examBlank" jdbcType="INTEGER" />
+    <result column="teacher_id" property="teacherId" jdbcType="INTEGER" />
+    <result column="course_id" property="courseId" jdbcType="INTEGER" />
+  </resultMap>
+</mapper>

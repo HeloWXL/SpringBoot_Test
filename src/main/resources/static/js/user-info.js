@@ -5,7 +5,6 @@ $(function () {
     var cid;
     // 学生的ID
     var sid;
-
     $.ajax({
         url: "student/getStudentSession",
         data: {"studentBean": "studentsession"},
@@ -73,9 +72,6 @@ $(function () {
             }
         }
     })
-
-
-
     // 弹出公告号信息
     // $.ajax({
     //     url:'notice/getNotice',
@@ -118,15 +114,12 @@ $(function () {
     //     }
     //
     // })
-
-
     // 我的信息
     $("#left-1 li:nth-child(2) a").click(function () {
         $("#right").show();
         $("#right-1").hide();
         $("#right-2").hide();
     })
-
     $("#right-1").on("click", "button[name='play']", function (event) {
         var cid = $(this).attr("value");
         $.ajax({
@@ -147,7 +140,6 @@ $(function () {
 
         })
     });
-
     // 我的课程
     $("#left-1 li:nth-child(3) a").click(function () {
         $("#right").hide();
@@ -185,13 +177,11 @@ $(function () {
             }
         })
     })
-
     // 点击播放
     $("button[name='play']").click(function () {
         var cid = $(this).attr("value");
         alert(cid)
     })
-
     // 我的成绩
     $("#left-1 li:nth-child(4) a").click(function () {
         $("#right").hide();
@@ -227,8 +217,7 @@ $(function () {
             }
         })
     })
-
-// 点击编辑 文本框可以进行编辑
+    // 点击编辑 文本框可以进行编辑
     $("#edit").click(function () {
         $("#right input").attr("disabled",false)
     })
@@ -273,7 +262,6 @@ $(function () {
 //     })
 //     return coursename;
 // }
-
 
 // console.log(getCourseByCid(203))
 // function getTeacherByTid(tid) {

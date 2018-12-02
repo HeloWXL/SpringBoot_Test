@@ -6,6 +6,5 @@
     <result column="blank_question" property="blankQuestion" jdbcType="VARCHAR" />
     <result column="blank_answer" property="blankAnswer" jdbcType="VARCHAR" />
     <result column="teacher_id" property="teacherId" jdbcType="INTEGER" />
-    <result column="select_createtime" property="selectCreatetime" jdbcType="TIMESTAMP" />
   </resultMap>
 </mapper>

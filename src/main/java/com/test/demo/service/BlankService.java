@@ -59,5 +59,15 @@ public class BlankService {
         return map;
     }
 
+    /**
+     * 获取填空题列表
+     * @return
+     */
+    public List<Blank> getBlankList(){
+        EntityWrapper entityWrapper = new EntityWrapper();
+        entityWrapper.setSqlSelect("blank_id","blank_question","blank_answer","blank_createtime");
+        return blankMapper.selectPage(new Page<Blank>(1,2),entityWrapper);
+    }
+
 
 }

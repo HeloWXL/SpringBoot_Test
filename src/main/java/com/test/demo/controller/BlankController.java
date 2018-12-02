@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -86,6 +87,18 @@ public class BlankController {
         resultData.setResult(map);
         return resultData;
     }
+
+
+    @ApiOperation(value="获取填空题列表")
+    @GetMapping("getBlankByList")
+    public ResultData<List<Blank>> getBlankList(){
+        ResultData<List<Blank>> resultData = new ResultData<>();
+        resultData.setCode(200);
+        resultData.setMsg("获取成功");
+        resultData.setResult(blankService.getBlankList());
+        return resultData;
+    }
+
 
 
 }
