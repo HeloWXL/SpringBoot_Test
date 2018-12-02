@@ -62,14 +62,14 @@ public class StudentController {
         String md5Password = Md5Utils.getSaltMD5(password);
         int i = studentService.insertStudent(name,md5Password);
         if(i==1){
-            logger.info("注册成功");
-            resultData.setMsg("注册成功");
+            logger.info("学生注册成功");
+            resultData.setMsg("学生注册成功");
             resultData.setCode(200);
             resultData.setResult(true);
             return resultData;
         }else{
-            logger.info("注册失败");
-            resultData.setMsg("注册失败");
+            logger.info("学生注册失败");
+            resultData.setMsg("学生注册失败");
             resultData.setCode(500);
             resultData.setResult(false);
             return resultData;

@@ -59,4 +59,16 @@ public class ChoiceService {
         map.put("count",count);
         return map;
     }
+
+    /**
+     * 获取选择题列表
+     * @return
+     */
+    public List<Choice> getAllChoices(){
+        EntityWrapper entityWrapper = new EntityWrapper();
+        List<Choice> selectList = choiceMapper.selectList(entityWrapper);
+        return selectList;
+    }
+
+
 }

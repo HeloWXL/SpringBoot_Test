@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -80,18 +81,28 @@ public class ChoiceController {
         }
     }
 
-    @ApiOperation(value="获取选择题列表")
+    @ApiOperation(value="根据教师的id获取选择题列表")
     @PostMapping("getSelectByTid")
     public ResultData<Map<String,Object>> getSelectByTid(@RequestParam("tid") Integer tid,
                                                              @RequestParam("pageNo") Integer pageNo,
                                                              @RequestParam("pageSize") Integer pageSize){
         ResultData<Map<String,Object>> resultData = new ResultData<>();
-
         Map<String,Object>  map = choiceService.getSelectByTid(tid,pageNo,pageSize);
-
         resultData.setMsg("成功获取选择题");
         resultData.setCode(200);
         resultData.setResult(map);
+        return resultData;
+    }
+
+
+
+    @ApiOperation(value="获取选择题列表")
+    @GetMapping("getAllChoices")
+    public ResultData<List<Choice>> getAllChoices(){
+        ResultData<List<Choice>> resultData = new ResultData<>();
+        resultData.setMsg("获取选择题列表成功");
+        resultData.setCode(200);
+        resultData.setResult(choiceService.getAllChoices());
         return resultData;
     }
 }
