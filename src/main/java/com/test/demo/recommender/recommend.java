@@ -1,10 +1,8 @@
 package com.test.demo.recommender;
-
-import Similar.Jaccard;
-import Similar.Similarity;
-import util.ArrayUtil;
-import util.StringUtil;
-
+import com.test.demo.Similar.Jaccard;
+import com.test.demo.Similar.Similarity;
+import com.test.demo.utils.ArrayUtil;
+import com.test.demo.utils.StringUtil;
 import java.util.Arrays;
 import java.util.TreeSet;
 

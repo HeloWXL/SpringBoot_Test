@@ -97,6 +97,7 @@
             data: {"studentBean": "studentsession"},
             type: "post",
             dataType: "json",
+            async:false,
             success: function (ret) {
                 if(ret.result==null){
                     $('#user1').hide();
@@ -154,6 +155,22 @@
 
         $("div").on("click","button[id='play']",function (event) {
             getvalue(cid)
+        })
+
+
+
+        // 学生点击进入课程详情页面
+        $.ajax({
+            url:'history/insertHistory',
+            data:{"courseId":cid,
+            "studentId":sid},
+            success:function (ret) {
+                if(ret.result==true){
+                    layer.msg("添加成功",{time:3000})
+                }else{
+                    layer.msg("添加失败",{time:3000})
+                }
+            }
         })
 
         // 传值 ---- playvideo

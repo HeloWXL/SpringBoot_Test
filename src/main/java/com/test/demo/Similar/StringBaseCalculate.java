@@ -20,7 +20,6 @@ abstract class StringBaseCalculate {
             res.put(string,1);
         }
         return res;
-
     }
 }
 
