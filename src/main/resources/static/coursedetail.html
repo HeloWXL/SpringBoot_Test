@@ -26,7 +26,7 @@
             position: relative;
         }
         .course-info{
-            width: 300px;
+            width: 450px;
             float: left;
             font-size: 14px;
             text-align: center;
@@ -75,8 +75,8 @@
                     <a href="user-info.html">个人中心</a>
                 </li>
                 <li class="layui-nav-item" lay-unselect="">
-                    <a href="login.html" class="login">登录</a>
-                    <a href="rigister.html"class="login">注册</a>
+                    <a href="user-login.html" class="login">登录</a>
+                    <a href="user-rigister.html"class="login">注册</a>
                     <a href="javascript:;" id="user1"></a>
                 </li>
             </ul>
@@ -137,7 +137,7 @@
                         '            <li>\n' +
                         '                <div class="course-info">\n' +
                         '                    课程名：<span>'+courserName+'</span>\n' +
-                        '                    教师：<span>'+teacher+'</span>\n' +
+                        '                    <br>教师：<span>'+teacher+'</span>\n' +
                         '                    <button class="btn btn-primary" value="'+courserId+'" id="play">播放</button>\n' +
                         '                    <button class="btn btn-success" value="'+courserId+'" id="join">加入课程</button>\n' +
                         '                </div>\n' +
@@ -164,11 +164,13 @@
             url:'history/insertHistory',
             data:{"courseId":cid,
             "studentId":sid},
+            dataType:'json',
+            type:'post',
             success:function (ret) {
                 if(ret.result==true){
-                    layer.msg("添加成功",{time:3000})
+                   console.log("添加历史信息成功",{time:3000})
                 }else{
-                    layer.msg("添加失败",{time:3000})
+                    layer.msg("添加历史信息成功",{time:3000})
                 }
             }
         })

@@ -29,7 +29,7 @@ $(function () {
         url:"course/courseList",
         type:'get',
         data:{"pageNo":1,
-        "pageSize":15},
+        "pageSize":30},
         dataType:'json',
         async:false,
         success:function (ret) {
@@ -47,16 +47,17 @@ $(function () {
                         '                <a><img src="'+image+'" width="200px"></a>\n' +
                         '                <div class="course-list-info">\n' +
                         '                    <p>课程名:<a class="courseName" id="'+ret.result.list[i].courseId+'">'+name+'</a></p>\n' +
-                        '                    <p>教师:<a href="#" class="teacher">'+getTeacherTname(tid)+'</a></p>\n' +
+                        '                    <p>教师:<a href="#" class="teacher"></a></p>\n' +
                         '                    <div></div>\n' +
                         '                </div>\n' +
                         '            </div>\n' +
                         '        </li>')
-                    $(".courselist").append($node);
+                    $(".course").append($node);
                 }
             }
         }
     })
+
 
     // 获取存储值
     function getvalue(id) {
@@ -68,27 +69,10 @@ $(function () {
             alert("NOT SUPPORT");
         }
     }
-
     $("div").on("click","a[class='courseName']",function (event) {
         var  id = $(this).attr("id");
         getvalue(id);
     })
-
-    // 通过教师的ID查询叫教师的姓名
-    function  getTeacherTname(tid){
-        var tname = ""
-        $.ajax({
-            url:"teacher/getTeacherByTid",
-            type:"post",
-            dataType:"json",
-            data:{"tid":tid},
-            async:false,
-            success:function (ret) {
-                tname = ret.result.teacherName;
-            }
-        })
-        return  tname;
-    }
 })
 
 
