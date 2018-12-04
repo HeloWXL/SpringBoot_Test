@@ -1,17 +1,16 @@
+var sid;
 $(function () {
     var b = 0;
     var classArr = new Array("", "success", "error", "warning", "info");
-    // 课程的ID
-    var cid;
     // 学生的ID
-    var sid;
+
     $.ajax({
         url: "student/getStudentSession",
         data: {"studentBean": "studentsession"},
         type: "post",
         dataType: "json",
+        async:false,
         success: function (ret) {
-            cid = ret.result.classId;
             sid = ret.result.studentId;
             if ($.isEmptyObject(ret.result)) {
                 $('#user1').hide();
@@ -131,7 +130,7 @@ $(function () {
                 console.log(ret);
                 if (ret == true) {
                     layer.msg("正在跳转...", {time: 1500});
-                    location.href = "videos.html"
+                    location.href = "评分.html"
                 } else {
                     layer.msg("播放失败", {time: 1500});
                 }
@@ -140,6 +139,7 @@ $(function () {
 
         })
     });
+
     // 我的课程
     $("#left-1 li:nth-child(3) a").click(function () {
         $("#right").hide();
@@ -147,40 +147,42 @@ $(function () {
         $("#right-1").show();
         $("#right-1 tbody").empty();
         $.ajax({
-            url: "course/getCourseByCid",
-            data: {"cid": cid},
+            url: "course/getCourseBySid",
+            data: {"sid":sid},
             dataType: "json",
             type: "post",
+            async:false,
             success: function (ret) {
                 // 声明一个数组
                 for(var key in ret.result){
-                        for(var i = 0 ;i<ret.result[key].length;i++){
-                            $node = $(' <tr>\n' +
-                                '                                    <td>\n' +
-                                '                                        <img src="' + ret.result[key][i].coursePicture + '" width="65px">\n' +
-                                '                                    </td>\n' +
-                                '                                    <td>\n' +
-                                '                                        ' + ret.result[key][i].courseName + '' +
-                                '                                    </td>\n' +
-                                '                                    <td>\n' +
-                                '                                        ' + key + '' +
-                                '                                    </td>\n' +
-                                '                                    <td>\n' +
-                                '                                        <button class="layui-btn layui-btn-fluid" value="' + ret.result[key][i].courseId + '" name="play">播放</button>\n' +
-                                '                                    </td>\n' +
-                                '                                </tr>')
+                    $node = $(' <tr class="'+classArr[b++]+'">\n' +
+                        '                                    <td>\n' +
+                        '                                        <img src="' + ret.result[key].coursePicture + '" width="65px">\n' +
+                        '                                    </td>\n' +
+                        '                                    <td>\n' +
+                        '                                        ' + ret.result[key].courseName + '' +
+                        '                                    </td>\n' +
+                        '                                    <td>\n' +
+                        '                                        ' + key + '' +
+                        '                                    </td>\n' +
+                        '                                    <td>\n' +
+                        '                                        <button class="layui-btn layui-btn-fluid" value="' + ret.result[key].courseId + '" name="play">播放</button>\n' +
+                        '                                    </td>\n' +
+                        '                                </tr>')
 
-                            $("#right-1 tbody").append($node)
-                        }
+                    $("#right-1 tbody").append($node)
+                    if(b%5==0){
+                        b=0;
                     }
-
+                }
             }
         })
     })
+
+
     // 点击播放
     $("button[name='play']").click(function () {
         var cid = $(this).attr("value");
-        alert(cid)
     })
     // 我的成绩
     $("#left-1 li:nth-child(4) a").click(function () {

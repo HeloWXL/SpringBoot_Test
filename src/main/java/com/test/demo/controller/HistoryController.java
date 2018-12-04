@@ -30,17 +30,12 @@ import java.util.List;
 public class HistoryController {
     protected Logger logger = LoggerFactory.getLogger(HistoryController.class);
 
-
     @Resource
     private HistoryService historyService;
-
-
     @Resource
     private StudentService studentService;
-
     @Resource
     private CourseService courseService;
-
     @ApiOperation(value="添加历史记录")
     @PostMapping("insertHistory")
     public ResultData<Boolean> insertHistory(@RequestParam("studentId") Integer studentId,
@@ -58,9 +53,6 @@ public class HistoryController {
             return resultData;
         }
     }
-
-
-
     @ApiOperation(value="获取历史记录")
     @PostMapping("getAllHistory")
     public ResultData<List<RespHistory>> getAllHistory(){
@@ -74,6 +66,7 @@ public class HistoryController {
             String courserName = courseService.getCourseByCid(h.getCourseId()).getCourseName();
             respHistory.setCourseName(courserName);
             respHistory.setStudentName(studentName);
+            respHistory.setCreateTime(h.getCreatetime());
             respHistoryList.add(respHistory);
         }
         resultData.setResult(respHistoryList);
@@ -81,13 +74,11 @@ public class HistoryController {
         resultData.setMsg("获取成功");
         return resultData;
     }
-
     @ApiOperation(value="根據學生的ID查詢課程ID列表")
     @PostMapping("getCourseByStudentId")
     public List<Integer> getCourseByStudentId(@RequestParam("sid") Integer sid){
         return historyService.getCourseByStudentId(sid);
     }
-
     @ApiOperation(value="返回歷史表中學生的ID")
     @PostMapping("getAllStudentId")
     public List<Integer> getAllStudentId(){

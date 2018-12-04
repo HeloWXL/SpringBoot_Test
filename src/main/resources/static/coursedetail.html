@@ -62,6 +62,8 @@
     <script src="layui-v2.4.3/layui/layui.js"></script>
     <link rel="stylesheet" href="bootstrap-3.3.7/dist/css/bootstrap.css">
     <script src="bootstrap-3.3.7/dist/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="layer/mobile/need/layer.css">
+    <script src="layer/mobile/layer.js"></script>
 </head>
 <body>
     <div class="header">
@@ -122,11 +124,11 @@
             dataType:'json',
             success:function (ret) {
                 if(ret.result==null){
-                    layer.msg("快去添加课程吧")
+                    alert("快去添加课程吧")
                 }else{
                     var picture = ret.result.coursePicture;
                     var courserName= ret.result.courseName;
-                    var teacher = getTeacherTname(ret.result.teacherId);
+                    // var teacher = getTeacherTname(ret.result.teacherId);
                     var courserId= ret.result.courseId;
                     $node = $('<ul class="list">\n' +
                         '            <li>\n' +
@@ -137,7 +139,7 @@
                         '            <li>\n' +
                         '                <div class="course-info">\n' +
                         '                    课程名：<span>'+courserName+'</span>\n' +
-                        '                    <br>教师：<span>'+teacher+'</span>\n' +
+                        '                    <br>教师：<span></span>\n' +
                         '                    <button class="btn btn-primary" value="'+courserId+'" id="play">播放</button>\n' +
                         '                    <button class="btn btn-success" value="'+courserId+'" id="join">加入课程</button>\n' +
                         '                </div>\n' +
@@ -152,12 +154,45 @@
             }
         })
 
+       $.ajax({
+           url:'score/getCourseId',
+           data:{"studentId":sid},
+           dataType:'json',
+           type:'post',
+           success:function (ret) {
+               if(ret.result.length>0){
+                   for(var i = 0 ;i<ret.result.length;i++){
+                       if(ret.result[i]==cid){
+                           $("#join").hide();
+                          }
+                   }
+               }
+           }
+       })
+
+
 
         $("div").on("click","button[id='play']",function (event) {
             getvalue(cid)
         })
 
-
+        $("div").on("click","button[id='join']",function (event) {
+            $.ajax({
+                url: "score/insertCourse",
+                data: {"studentId": sid,
+                "courserId":cid},
+                type: 'post',
+                dataType: 'json',
+                success: function (ret) {
+                    if(ret.result==true){
+                        alert("加入成功",{time:3000});
+                        $("#join").hide();
+                    }else{
+                        alert("加入失败",{time:3000})
+                    }
+                }
+            })
+        })
 
         // 学生点击进入课程详情页面
         $.ajax({
@@ -179,22 +214,6 @@
         function getvalue(id) {
             localStorage.id = id;
             location.href = 'playVideo.html';
-        }
-
-        // 根据教师的ID查询教师的姓名
-        function  getTeacherTname(tid){
-            var tname = ""
-            $.ajax({
-                url:"teacher/getTeacherByTid",
-                type:"post",
-                dataType:"json",
-                data:{"tid":tid},
-                async:false,
-                success:function (ret) {
-                    tname = ret.result.teacherName;
-                }
-            })
-            return  tname;
         }
     })
 </script>

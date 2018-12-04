@@ -45,7 +45,7 @@ input {
 
 #right-1 {
     margin-left: 50px;
-    width: 800px;
+    width: 750px;
 }
 
 #right-2 {
@@ -54,4 +54,21 @@ input {
 }
 #udpates button{
     margin-left: 15px;
+}
+
+
+#right-3{
+    width: 200px;
+    background-color: #00AA88;
+    float: right;
+}
+#foryou{
+    margin-left: 55px;
+    font-size: 20px;
+    font-family: 楷体;
+
+}
+.img{
+    margin-top: 10px;
+    text-align: center;
 }

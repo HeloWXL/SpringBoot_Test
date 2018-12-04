@@ -4,6 +4,7 @@ import com.test.demo.common.ResultData;
 import com.test.demo.model.Course;
 import com.test.demo.model.Teacher;
 import com.test.demo.service.CourseService;
+import com.test.demo.service.ScoreService;
 import com.test.demo.service.TeacherService;
 import com.test.demo.utils.UploadFileUtils;
 import io.swagger.annotations.Api;
@@ -33,6 +34,8 @@ public class CourseController {
     private CourseService courseService;
     @Resource
     private TeacherService teacherService;
+    @Resource
+    private ScoreService scoreService;
 
     @ApiOperation(value="课程列表")
     @GetMapping("courseList")
@@ -174,19 +177,27 @@ public class CourseController {
         }
     }
 
-    @ApiOperation(value="根据学生的班级ID得到课程列表")
-    @PostMapping("getCourseByCid")
-    public ResultData<Map<String,Object>> getCourseByCid(@RequestParam("cid") Integer cid){
-        ResultData<Map<String,Object>> resultData = new ResultData<>();
-        List<Teacher> teachers = teacherService.getTeacherByCid(cid);
-        Map<String,Object> map = new HashMap<>();
-        for (Teacher t:teachers
+    @ApiOperation(value="根据学生的ID得到课程列表")
+    @PostMapping("getCourseBySid")
+    public ResultData< Map<String ,Object>> getCourseByCid(@RequestParam("sid") Integer sid){
+        ResultData< Map<String ,Object>> resultData = new ResultData<>();
+
+        List<Integer> integerList = scoreService.getCourseId(sid);
+       Map<String ,Object> courseMap = new HashMap<>();
+        for (Integer i:integerList
              ) {
-            map.put(t.getTeacherName(),courseService.getCourseByTid(t.getTeacherId()));
+            System.out.println(i);
+            System.out.println(courseService.getCourseByCid(i).getCourseName());
+            System.out.println(teacherService.getTeacher(courseService.getCourseByCid(i).getTeacherId()).getTeacherName());
+//            获得课程的对象
+            courseMap.put(teacherService.getTeacher(courseService.getCourseByCid(i).getTeacherId()).getTeacherName(),
+            courseService.getCourseByCid(i));
+
         }
-        if(map.size()>0){
+
+        if(courseMap.size()>0){
             resultData.setMsg("查询成功");
-            resultData.setResult(map);
+            resultData.setResult(courseMap);
             resultData.setCode(200);
             return resultData;
         }else{

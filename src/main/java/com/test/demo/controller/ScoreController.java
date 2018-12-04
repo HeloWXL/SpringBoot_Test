@@ -1,5 +1,6 @@
 package com.test.demo.controller;
 
+import com.sun.jdi.IncompatibleThreadStateException;
 import com.test.demo.common.ResultData;
 import com.test.demo.controller.resp.RespScoreVo;
 import com.test.demo.controller.resp.ScoreVo;
@@ -152,6 +153,33 @@ public class ScoreController {
 //        resultData.setResult(scoreService.getScoreByCourseId(cid));
 //        return resultData;
 //    }
+
+    @ApiOperation(value="学生添加课程")
+    @PostMapping("insertCourse")
+    public ResultData<Boolean> insertCourse(@RequestParam("studentId") Integer sid,
+                                            @RequestParam("courserId") Integer cid){
+        ResultData<Boolean> resultData = new ResultData<>();
+
+        if(scoreService.insertCourse(sid,cid)>0){
+            resultData.setCode(200);
+            resultData.setResult(true);
+            return resultData;
+        }else{
+            resultData.setCode(500);
+            resultData.setResult(false);
+            return resultData;
+        }
+    }
+
+    @ApiOperation(value="根据学生的ID查询课程的ID")
+    @PostMapping("getCourseId")
+    public ResultData<List<Integer>> getCourseId(@RequestParam("studentId") Integer sid){
+        ResultData<List<Integer>> resultData = new ResultData<>();
+        resultData.setResult(scoreService.getCourseId(sid));
+        resultData.setMsg("success");
+        resultData.setCode(200);
+        return resultData;
+    }
 
 
 }

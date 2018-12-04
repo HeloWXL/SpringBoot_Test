@@ -77,7 +77,35 @@ public class ScoreService {
         return list;
     }
 
+    /**
+     * 学生添加课程
+     * @param studentId
+     * @param courseId
+     * @return
+     */
+    public int insertCourse(Integer studentId,Integer courseId){
+        Score s = new Score();
+        s.setCourseId(courseId);
+        s.setStudentId(studentId);
+        return scoreMapper.insert(s);
+    }
 
+    /**
+     * 根据学生的ID查找他所学习的课程ID
+     * @param sid
+     * @return
+     */
+    public List<Integer> getCourseId(Integer sid){
+        EntityWrapper entityWrapper = new EntityWrapper();
+        entityWrapper.eq("student_id",sid);
+        List<Integer> integerList = new ArrayList<>();
+        List<Score> scoreList = scoreMapper.selectList(entityWrapper);
+        for (Score s: scoreList
+             ) {
+            integerList.add(s.getCourseId());
+        }
+        return integerList;
+    }
 
 
 
