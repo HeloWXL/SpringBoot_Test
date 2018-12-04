@@ -186,15 +186,10 @@ public class CourseController {
        Map<String ,Object> courseMap = new HashMap<>();
         for (Integer i:integerList
              ) {
-            System.out.println(i);
-            System.out.println(courseService.getCourseByCid(i).getCourseName());
-            System.out.println(teacherService.getTeacher(courseService.getCourseByCid(i).getTeacherId()).getTeacherName());
 //            获得课程的对象
             courseMap.put(teacherService.getTeacher(courseService.getCourseByCid(i).getTeacherId()).getTeacherName(),
             courseService.getCourseByCid(i));
-
         }
-
         if(courseMap.size()>0){
             resultData.setMsg("查询成功");
             resultData.setResult(courseMap);

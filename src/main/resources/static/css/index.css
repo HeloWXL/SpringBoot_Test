@@ -42,10 +42,12 @@ a:hover{
 .course{
     width: 900px;
     margin: 0 auto;
+
 }
 .course li{
     float: left;
 }
+
 ul{
     list-style:none;
     overflow:hidden;

@@ -1,7 +1,6 @@
 body {
     background-color: #fff !important;
     margin: 0 0;
-    background-image: url("images/bk3.jpg");
 }
 
 /*导航栏设计*/
@@ -71,4 +70,8 @@ input {
 .img{
     margin-top: 10px;
     text-align: center;
+}
+#center{
+    width: 600px;
+    margin-left: 50px;
 }

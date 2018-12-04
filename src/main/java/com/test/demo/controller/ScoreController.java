@@ -28,14 +28,10 @@ import java.util.Map;
 public class ScoreController {
     @Resource
     private ScoreService scoreService;
-
     @Resource
     private StudentService studentService;
-
     @Resource
     private TeacherService teacherService;
-
-
     @Resource
     private CourseService courseService;
 
@@ -91,12 +87,23 @@ public class ScoreController {
 
     @ApiOperation(value="根据学生的ID查询学生的成绩")
     @PostMapping("getScoreBySid")
-    public ResultData<List<Score>> getScoreBySid(@RequestParam("sid") Integer sid){
-        ResultData<List<Score>> resultData = new ResultData<>();
-        if(scoreService.getScoreBySid(sid).size()>0){
+    public ResultData<List<ScoreVo>> getScoreBySid(@RequestParam("sid") Integer sid){
+        ResultData<List<ScoreVo>> resultData = new ResultData<>();
+        List<Score> scores = scoreService.getScoreBySid(sid);
+        List<ScoreVo> scoreVoList = new ArrayList<>();
+        for (Score s : scores
+             ) {
+            ScoreVo scoreVo = new ScoreVo();
+            scoreVo.setTeacherName(teacherService.getTeacher(courseService.getCourseByCid(s.getCourseId()).getTeacherId()).getTeacherName());
+            scoreVo.setCourseName(courseService.getCourseByCid(s.getCourseId()).getCourseName());
+            scoreVo.setStudentSno(studentService.getStudentBySid(s.getStudentId()).getStudentSno());
+            scoreVo.setScore(s.getScore());
+            scoreVoList.add(scoreVo);
+        }
+        if(scoreVoList.size()>0){
             resultData.setCode(200);
             resultData.setMsg("成功查询到学生的成绩");
-            resultData.setResult(scoreService.getScoreBySid(sid));
+            resultData.setResult(scoreVoList);
             return  resultData;
         }else{
             resultData.setResult(null);

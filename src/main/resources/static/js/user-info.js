@@ -2,8 +2,6 @@ var sid;
 $(function () {
     var b = 0;
     var classArr = new Array("", "success", "error", "warning", "info");
-    // 学生的ID
-
     $.ajax({
         url: "student/getStudentSession",
         data: {"studentBean": "studentsession"},
@@ -118,8 +116,11 @@ $(function () {
         $("#right").show();
         $("#right-1").hide();
         $("#right-2").hide();
+        $("#center").hide();
     })
     $("#right-1").on("click", "button[name='play']", function (event) {
+
+
         var cid = $(this).attr("value");
         $.ajax({
             url: "course/selectByCid",
@@ -139,12 +140,16 @@ $(function () {
 
         })
     });
-
     // 我的课程
     $("#left-1 li:nth-child(3) a").click(function () {
+
+        $(this).closest("li").attr("class","active")
+        $(this).closest("li").siblings().removeAttr("class","active");
         $("#right").hide();
         $("#right-2").hide();
+        $("#center").hide();
         $("#right-1").show();
+
         $("#right-1 tbody").empty();
         $.ajax({
             url: "course/getCourseBySid",
@@ -178,18 +183,21 @@ $(function () {
             }
         })
     })
-
-
     // 点击播放
     $("button[name='play']").click(function () {
         var cid = $(this).attr("value");
     })
     // 我的成绩
     $("#left-1 li:nth-child(4) a").click(function () {
+
+        $(this).closest("li").attr("class","active")
+        $(this).closest("li").siblings().removeAttr("class","active");
+
         $("#right").hide();
         $("#right-1").hide();
         $("#right-2").show();
         $("#right-2 tbody").empty();
+        $("#center").hide();
         $.ajax({
             url: "score/getScoreBySid",
             data: {"sid": sid},
@@ -197,25 +205,25 @@ $(function () {
             type: "post",
             success: function (ret) {
                 if(ret.result.length>0){
-                    var courseId = ret.result.courseId;
-                    var score = ret.result.score;
+                    for(var key in ret.result){
+                        if(ret.result[key].score !=null){
+                            $node = $(' <tr>\n' +
+                                '                                    <td>\n' +
+                                '                                        ' + ret.result[key].courseName + '\n' +
+                                '                                    </td>\n' +
+                                '                                    <td>\n' +
+                                '                                        ' + ret.result[key].teacherName + '\n' +
+                                '                                    </td>\n' +
+                                '                                    <td>\n' +
+                                '                                       ' + ret.result[key].score + '\n' +
+                                '                                    </td>\n' +
+                                '                                </tr>')
+                            $("#right-2 tbody").append($node)
+                        }
+                    }
                 }else{
                     layer.msg("该学生还没进行考试....",{time:3000})
                 }
-
-
-                // $node = $(' <tr>\n' +
-                //     '                                    <td>\n' +
-                //     '                                        ' + ret.course.cname + '\n' +
-                //     '                                    </td>\n' +
-                //     '                                    <td>\n' +
-                //     '                                        ' + ret.teacher.tname + '\n' +
-                //     '                                    </td>\n' +
-                //     '                                    <td>\n' +
-                //     '                                       ' + ret.score + '\n' +
-                //     '                                    </td>\n' +
-                //     '                                </tr>')
-                // $("#right-2 tbody").append($node)
             }
         })
     })
@@ -247,6 +255,21 @@ $(function () {
             }
         })
     })
+
+    // 我的考试
+    $("#left-1 li:nth-child(5) a").click(function () {
+        $(this).closest("li").attr("class","active")
+        $(this).closest("li").siblings().removeAttr("class","active");
+        $("#right").hide();
+        $("#right-2").hide();
+        $("#right-1").hide();
+        // $("#center tbody").empty();
+        $("#center").show();
+
+
+    })
+
+
 })
 
 // 获取课程名

@@ -47,7 +47,7 @@ $(function () {
                         '                <a><img src="'+image+'" width="200px"></a>\n' +
                         '                <div class="course-list-info">\n' +
                         '                    <p>课程名:<a class="courseName" id="'+ret.result.list[i].courseId+'">'+name+'</a></p>\n' +
-                        '                    <p>教师:<a href="#" class="teacher"></a></p>\n' +
+                        '                    <p>教师:<a href="#" class="teacher">'+getTeahcerByTid(tid)+'</a></p>\n' +
                         '                    <div></div>\n' +
                         '                </div>\n' +
                         '            </div>\n' +
@@ -58,7 +58,21 @@ $(function () {
         }
     })
 
-
+    function getTeahcerByTid(tid) {
+        var teacherName ='';
+        $.ajax({
+            url:'teacher/getTeacherByTid',
+            data:{"tid":tid},
+            dataType:'json',
+            async:false,
+            type:'post',
+            success:function (ret) {
+                console.log(ret)
+                teacherName = ret.result.teacherName;
+            }
+        })
+        return teacherName;
+    }
     // 获取存储值
     function getvalue(id) {
         if (window.localStorage) {
@@ -69,6 +83,7 @@ $(function () {
             alert("NOT SUPPORT");
         }
     }
+
     $("div").on("click","a[class='courseName']",function (event) {
         var  id = $(this).attr("id");
         getvalue(id);
