@@ -84,4 +84,38 @@ public class HistoryController {
     public List<Integer> getAllStudentId(){
         return historyService.getAllStudentId();
     }
+
+    @ApiOperation(value="根据学生的ID查询学生的历史记录")
+    @PostMapping("getHistoryByStudentId")
+    public ResultData<List<RespHistory>> getHistoryByStudentId(@RequestParam("studentId") Integer studentId){
+        ResultData<List<RespHistory>> resultData = new ResultData<>();
+        List<History> historyList = historyService.getHistoryByStudentId(studentId);
+        List<RespHistory> respHistoryList = new ArrayList<>();
+
+        for (History h: historyList
+             ) {
+            RespHistory respHistory = new RespHistory();
+            int sid = h.getStudentId();
+            int cid = h.getCourseId();
+          respHistory.setStudentName(studentService.getStudentBySid(sid).getStudentName());
+          respHistory.setCourseName(courseService.getCourseByCid(cid).getCourseName());
+          respHistory.setCreateTime(h.getCreatetime());
+          respHistoryList.add(respHistory);
+        }
+
+        if(respHistoryList.size()>0){
+            resultData.setResult(respHistoryList);
+            resultData.setCode(200);
+            resultData.setMsg("查询成功");
+            return resultData;
+        }else{
+            resultData.setResult(null);
+            resultData.setCode(500);
+            resultData.setMsg("空空如也");
+            return resultData;
+        }
+
+    }
+
+
 }

@@ -1,6 +1,7 @@
 package com.test.demo.service;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.plugins.Page;
 import com.test.demo.mapper.HistoryMapper;
 import com.test.demo.model.History;
 import org.springframework.stereotype.Service;
@@ -80,6 +81,19 @@ public class HistoryService {
             integerList.add(h.getCourseId());
         }
         return integerList;
+    }
+
+    /**
+     * 根据学生的ID查询学生的历史记录信息
+     * @param studentId
+     * @return
+     */
+    public List<History> getHistoryByStudentId(Integer studentId){
+        EntityWrapper entityWrapper = new EntityWrapper();
+        entityWrapper.eq("student_id",studentId);
+        entityWrapper.orderBy("createtime",false);
+        List<History> historyList = historyMapper.selectPage(new Page<History>(1,5),entityWrapper);
+        return historyList;
     }
 
 }
