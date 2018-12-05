@@ -1,6 +1,5 @@
 package com.test.demo.controller;
 
-import com.sun.jdi.IncompatibleThreadStateException;
 import com.test.demo.common.ResultData;
 import com.test.demo.controller.resp.RespScoreVo;
 import com.test.demo.controller.resp.ScoreVo;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author wangxl

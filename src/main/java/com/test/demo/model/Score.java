@@ -9,6 +9,10 @@ public class Score {
 
     private Integer score;
 
+    private Integer isTest;
+
+    private Integer examId;
+
     public Integer getScoreId() {
         return scoreId;
     }
@@ -39,5 +43,21 @@ public class Score {
 
     public void setScore(Integer score) {
         this.score = score;
+    }
+
+    public Integer getIsTest() {
+        return isTest;
+    }
+
+    public void setIsTest(Integer isTest) {
+        this.isTest = isTest;
+    }
+
+    public Integer getExamId() {
+        return examId;
+    }
+
+    public void setExamId(Integer examId) {
+        this.examId = examId;
     }
 }

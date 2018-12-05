@@ -6,11 +6,8 @@ import com.test.demo.model.Score;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import javax.swing.text.html.parser.Entity;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.alibaba.druid.sql.visitor.SQLEvalVisitorUtils.lt;
 
 /**
  * @author wangxl
@@ -98,11 +95,29 @@ public class ScoreService {
     public List<Integer> getCourseId(Integer sid){
         EntityWrapper entityWrapper = new EntityWrapper();
         entityWrapper.eq("student_id",sid);
+        entityWrapper.groupBy("course_id");
         List<Integer> integerList = new ArrayList<>();
         List<Score> scoreList = scoreMapper.selectList(entityWrapper);
         for (Score s: scoreList
              ) {
             integerList.add(s.getCourseId());
+        }
+        return integerList;
+    }
+
+    /**
+     * 根据学生的ID查询试卷的ID
+     * @param sid
+     * @return
+     */
+    public List<Integer> getExamId(Integer sid){
+        EntityWrapper entityWrapper = new EntityWrapper();
+        entityWrapper.eq("student_id",sid);
+        List<Integer> integerList = new ArrayList<>();
+        List<Score> scoreList = scoreMapper.selectList(entityWrapper);
+        for (Score s: scoreList
+        ) {
+            integerList.add(s.getExamId());
         }
         return integerList;
     }

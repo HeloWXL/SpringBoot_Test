@@ -39,4 +39,15 @@ public class ExamService {
         return examMapper.selectList(entityWrapper);
 
     }
+
+    /**
+     * 根据考试的ID查询考试
+     * @param examId
+     * @return
+     */
+    public Exam getExamsByExamId(Integer examId){
+        Exam exam = new Exam();
+        exam.setExamId(examId);
+        return examMapper.selectOne(exam);
+    }
 }

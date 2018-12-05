@@ -124,7 +124,6 @@ public class CourseController {
         }
     }
 
-
     @ApiOperation(value="根据教师的ID查询课程")
     @GetMapping("getCourseByTid")
     public ResultData<Map<String,Object>> getCourseList(@RequestParam("pageNo") Integer pageNo,
@@ -142,7 +141,6 @@ public class CourseController {
             return resultData;
         }
     }
-
     @ApiOperation(value="根据课程名查询课程信息")
     @PostMapping("getCourseByCoursrName")
     public ResultData<Course> getCourseByCoursrName(@RequestParam("courseName") String courseName){
@@ -181,12 +179,10 @@ public class CourseController {
     @PostMapping("getCourseBySid")
     public ResultData< Map<String ,Object>> getCourseByCid(@RequestParam("sid") Integer sid){
         ResultData< Map<String ,Object>> resultData = new ResultData<>();
-
         List<Integer> integerList = scoreService.getCourseId(sid);
        Map<String ,Object> courseMap = new HashMap<>();
         for (Integer i:integerList
              ) {
-//            获得课程的对象
             courseMap.put(teacherService.getTeacher(courseService.getCourseByCid(i).getTeacherId()).getTeacherName(),
             courseService.getCourseByCid(i));
         }
@@ -201,7 +197,6 @@ public class CourseController {
             resultData.setResult(null);
             return resultData;
         }
-
     }
 
     @ApiOperation(value="根据课程的ID获取课程信息")
@@ -213,7 +208,6 @@ public class CourseController {
         resultData.setMsg("获取课程对象成功");
         return resultData;
     }
-
 
     @ApiOperation(value="根据课程的ID返回课程名")
     @GetMapping("getCourseNameByCourseid")
@@ -230,7 +224,4 @@ public class CourseController {
         resultData.setResult(courses);
         return resultData;
     }
-
-
-
 }

@@ -1,15 +1,29 @@
 package com.test.demo.model;
 
+import java.util.Date;
+
 public class Exam {
     private Integer examId;
 
-    private Integer examSelect;
+    private String examName;
+
+    private Integer examChoice;
 
     private Integer examBlank;
 
     private Integer teacherId;
 
     private Integer courseId;
+
+    private Date createTime;
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
 
     public Integer getExamId() {
         return examId;
@@ -19,12 +33,20 @@ public class Exam {
         this.examId = examId;
     }
 
-    public Integer getExamSelect() {
-        return examSelect;
+    public String getExamName() {
+        return examName;
     }
 
-    public void setExamSelect(Integer examSelect) {
-        this.examSelect = examSelect;
+    public void setExamName(String examName) {
+        this.examName = examName == null ? null : examName.trim();
+    }
+
+    public Integer getExamChoice() {
+        return examChoice;
+    }
+
+    public void setExamChoice(Integer examChoice) {
+        this.examChoice = examChoice;
     }
 
     public Integer getExamBlank() {

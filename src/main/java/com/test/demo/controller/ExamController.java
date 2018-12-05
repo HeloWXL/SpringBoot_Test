@@ -2,18 +2,18 @@ package com.test.demo.controller;
 
 import com.test.demo.common.ResultData;
 import com.test.demo.model.Exam;
+import com.test.demo.service.CourseService;
 import com.test.demo.service.ExamService;
+import com.test.demo.service.ScoreService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.models.auth.In;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -32,6 +32,12 @@ public class ExamController {
     @Resource
     private ExamService examService;
 
+    @Resource
+    private ScoreService scoreService;
+
+    @Resource
+    private CourseService courseService;
+
     @ApiOperation(value="添加考试试卷")
     @GetMapping("insertExam")
     public ResultData<Boolean> insertExam(@RequestParam("selectcount") Integer selectCount,
@@ -42,8 +48,9 @@ public class ExamController {
 
         Exam exam = new Exam();
         exam.setCourseId(courseId);
+        exam.setExamName(courseService.getCourseByCid(courseId).getCourseName());
         exam.setTeacherId(teacherId);
-        exam.setExamSelect(selectCount);
+        exam.setExamChoice(selectCount);
         exam.setExamBlank(blankCount);
 
 
@@ -78,4 +85,25 @@ public class ExamController {
             return resultData;
         }
     }
+
+
+    @ApiOperation(value="根据学生的ID查询考试信息")
+    @PostMapping("getExamBySid")
+    public ResultData<List<Exam>> getExamBySid(@RequestParam("sid") Integer sid){
+        ResultData<List<Exam>> resultData = new ResultData<>();
+        List<Integer> integerList = scoreService.getExamId(sid);
+        List<Exam> examList = new ArrayList<>();
+        for (int i = 0 ;i<integerList.size();i++){
+            examList.add(examService.getExamsByExamId(integerList.get(i)));
+        }
+        if(examList.size()>0){
+            resultData.setResult(examList);
+            return resultData;
+        }else{
+            resultData.setResult(null);
+            resultData.setMsg("暂无考试....");
+            return resultData;
+        }
+    }
+
 }

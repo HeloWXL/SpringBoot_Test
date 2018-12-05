@@ -7,9 +7,6 @@ import org.apache.ibatis.annotations.Select;
 import java.util.List;
 
 public interface CourseMapper extends BaseMapper<Course> {
-
-
     @Select("select course_id from score GROUP BY course_id")
     List<Integer> getCouseFromScore();
-
 }

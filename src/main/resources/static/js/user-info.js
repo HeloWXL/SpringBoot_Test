@@ -69,48 +69,6 @@ $(function () {
             }
         }
     })
-    // 弹出公告号信息
-    // $.ajax({
-    //     url:'notice/getNotice',
-    //     dataType:'json',
-    //     type:'post',
-    //     data:{"sid":sid},
-    //     success:function (ret) {
-    //         layui.use('layer', function(){ //独立版的layer无需执行这一句
-    //             var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
-    //             //触发事件
-    //             var active = {
-    //                 notice: function(){
-    //                     //示范一个公告层
-    //                     layer.open({
-    //                         type: 1
-    //                         ,title: ret.noticeTitle
-    //                         ,closeBtn: true
-    //                         ,area: '300px;'
-    //                         ,shade: 0.8
-    //                         ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
-    //                         ,btn: ['收到', '残忍拒绝']
-    //                         ,btnAlign: 'c'
-    //                         ,moveType: 1 //拖拽模式，0或者1
-    //                         ,content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">ret.noticeContent</div>'
-    //                         ,success: function(layero){
-    //                             var btn = layero.find('.layui-layer-btn');
-    //                             btn.find('.layui-layer-btn0').attr({
-    //                             });
-    //                         }
-    //                     });
-    //                 }
-    //             };
-    //
-    //             $('#layerDemo .layui-btn').on('click', function(){
-    //                 var othis = $(this), method = othis.data('method');
-    //                 active[method] ? active[method].call(this, othis) : '';
-    //             });
-    //
-    //         });
-    //     }
-    //
-    // })
     // 我的信息
     $("#left-1 li:nth-child(2) a").click(function () {
         $("#right").show();
@@ -119,8 +77,6 @@ $(function () {
         $("#center").hide();
     })
     $("#right-1").on("click", "button[name='play']", function (event) {
-
-
         var cid = $(this).attr("value");
         $.ajax({
             url: "course/selectByCid",
@@ -255,7 +211,6 @@ $(function () {
             }
         })
     })
-
     // 我的考试
     $("#left-1 li:nth-child(5) a").click(function () {
         $(this).closest("li").attr("class","active")
@@ -263,32 +218,61 @@ $(function () {
         $("#right").hide();
         $("#right-2").hide();
         $("#right-1").hide();
-        // $("#center tbody").empty();
+        $("#center tbody").empty();
         $("#center").show();
+        
+        $.ajax({
+            url:'exam/getExamBySid',
+            data:{'sid':sid},
+            dataType:'json',
+            type:'post',
+            async:false,
+            success:function (ret) {
+
+                for(var i = 0 ; i<ret.result.length;i++){
+                    $node = $('  <tr>\n' +
+                        '                                <td>\n' +
+                        '                                    '+ret.result[i].examName+'\n' +
+                        '                                </td>\n' +
+                        '                                <td>\n' +
+                        '                                   '+getTeahcerByTid(ret.result[i].teacherId)+'\n' +
+                        '                                </td>\n' +
+                        '                                <td>\n' +
+                        '                                   '+ret.result[i].createTime+'\n' +
+                        '                                </td>\n' +
+                        '                                <td>\n' +
+                        '                                    <button type="button" class="btn btn-primary" name="StartExam" id="'+ret.result[i].examId+'">开始考试</button>\n' +
+                        '                                </td>\n' +
+                        '                            </tr>')
+                    $("#center tbody").append($node)
+                }
+
+            }
+        })
+
+        $("tbody").bind("click","button[name='StartExam']",function (event) {
+            var examId = $(this).attr("id");
+            alert(examId);
+            location.href="ExamTest.html"
+        })
+
+        function getTeahcerByTid(tid) {
+            var teacherName ='';
+            $.ajax({
+                url:'teacher/getTeacherByTid',
+                data:{"tid":tid},
+                dataType:'json',
+                async:false,
+                type:'post',
+                success:function (ret) {
+                    teacherName = ret.result.teacherName;
+                }
+            })
+            return teacherName;
+        }
+        
+        
 
 
     })
-
-
 })
-
-// 获取课程名
-// function getCourseByCid(cid) {
-//     var coursename='';
-//     $.ajax({
-//         url:'course/getCourseByCid',
-//         data:{'cid':cid},
-//         dataType:'json',
-//         type:'post',
-//         async : false,
-//         success:function (ret) {
-//             coursename = ret.result.courseName;
-//         }
-//     })
-//     return coursename;
-// }
-
-// console.log(getCourseByCid(203))
-// function getTeacherByTid(tid) {
-//
-// }

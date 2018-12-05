@@ -91,9 +91,9 @@
     </div>
 </body>
 <script>
+    var sid;
     $(function () {
         // 获取页面传值信息
-        var sid;
         $.ajax({
             url: "student/getStudentSession",
             data: {"studentBean": "studentsession"},
@@ -153,7 +153,7 @@
                 }
             }
         })
-
+        // 根据学生的ID查询是否已经存在该课程
        $.ajax({
            url:'score/getCourseId',
            data:{"studentId":sid},
@@ -169,13 +169,11 @@
                }
            }
        })
-
-
-
+        // 播放视频
         $("div").on("click","button[id='play']",function (event) {
             getvalue(cid)
         })
-
+        // 添加课程
         $("div").on("click","button[id='join']",function (event) {
             $.ajax({
                 url: "score/insertCourse",
@@ -185,15 +183,14 @@
                 dataType: 'json',
                 success: function (ret) {
                     if(ret.result==true){
-                        alert("加入成功",{time:3000});
+                        console.log("加入成功");
                         $("#join").hide();
                     }else{
-                        alert("加入失败",{time:3000})
+                       console.log("加入失败")
                     }
                 }
             })
         })
-
         // 学生点击进入课程详情页面
         $.ajax({
             url:'history/insertHistory',
@@ -209,7 +206,6 @@
                 }
             }
         })
-
         // 传值 ---- playvideo
         function getvalue(id) {
             localStorage.id = id;
