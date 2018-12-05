@@ -29,7 +29,6 @@ public class recommend {
         return StringUtil.StringArrayDistincted(products);
     }
     private double[][] getSimilarity(String[] products, Similarity sim){
-//        int productSize = StringUtil.StringArrayDistinctedSize(products);
         int productSize = products.length;
         double[][] res = new double[productSize][productSize];
         for (int i = 0;i < productSize;i++){

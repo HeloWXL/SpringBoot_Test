@@ -33,13 +33,8 @@ $(function () {
                 } else {
                     school = ret.result.studentSchool;
                 }
-
                 var pic;
-                if (typeof (ret.result.studentPicture) == null) {
-                    pic = "images/h.jpg";
-                } else {
-                    pic = ret.result.studentPicture;
-                }
+                pic = ret.result.studentPicture;
 
                 var name;
                 if (typeof (ret.result.studentName) == null) {
@@ -69,6 +64,24 @@ $(function () {
             }
         }
     })
+    $("#courses").empty();
+    $.ajax({
+        url:'history/recommendList',
+        data:{"studentId":sid},
+        dataType:'json',
+        type:'post',
+        success:function (ret) {
+            for(var i = 0 ;i<ret.result.length;i++){
+                $node=$('<div class="img">\n' +
+                    '                    <img src="'+ret.result[i].coursePicture+'" width="185px">\n' +
+                    '                    <p>课程名：<span>'+ret.result[i].courseName+'</span></p>\n' +
+                    '                    <p>教师名：<span>'+ret.result[i].teacherName+'</span></p>\n' +
+                    '                </div>')
+                $("#courses").append($node);
+            }
+        }
+    })
+
     // 我的信息
     $("#left-1 li:nth-child(2) a").click(function () {
         $("#right").show();
