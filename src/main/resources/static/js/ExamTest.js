@@ -17,12 +17,16 @@ $(function(){
     })
 // ------------------------------选择题---------------------------------------
     $('#question-1').empty();
+
+    var selecyCount =0;
     $.ajax({
         url:'select/getAllChoices',
         dataType:'json',
         type:'get',
+        async:false,
         success:function (ret) {
             var a = 1;
+            selecyCount=ret.result.length;
             for(var i = 0; i<ret.result.length;i++){
                 $node =   $('<div class="selects">\n' +
                     '                        <p><span>'+a+'</span>.'+ret.result[i].selectQuestion+'</p>\n' +
@@ -34,7 +38,7 @@ $(function(){
                     '                            <label class="radio-inline">\n' +
                     '                                <input type="radio" value="C" name="'+i+'">C</label>.&nbsp'+ret.result[i].selectC+'<br>\n' +
                     '                            <label class="radio-inline">\n' +
-                    '                                <input type="radio" name="'+i+'" value="D">.&nbsp'+ret.result[i].selectD+'</label>\n' +
+                    '                                <input type="radio" name="'+i+'" value="D">D</label>.&nbsp'+ret.result[i].selectD+'</label>\n' +
                     '                        </div>\n' +
                     '                    </div>')
                 $('#question-1').append($node)
@@ -56,8 +60,8 @@ $(function(){
                     '                            <div class="col-sm-7" class="select">\n' +
                     '                                <div class="form-group">\n' +
                     '                                    <p><span>'+a+'</span>.&nbsp'+ret.result[i].blankQuestion+'</p>\n' +
-                    '                                    <div class="col-sm-8">\n' +
-                    '                                        <span>你的答案：</span><input type="text" class="form-control">\n' +
+                    '                                    <div class="col-sm-8" class="b_k">\n' +
+                    '                                        <input type="text"  name="'+ret.result[i].blankAnswer+'" required  lay-verify="required" placeholder="请输入你的答案" autocomplete="off" class="layui-input">\n' +
                     '                                    </div>\n' +
                     '                                </div>\n' +
                     '                            </div>\n' +
@@ -66,7 +70,6 @@ $(function(){
                 a++;
             }
         }
-
     })
 // -----------------------------------倒计时------------------------------
     $(".timeBar").each(function () {
@@ -88,7 +91,34 @@ $(function(){
     });
 
     $("button[name='submit']").click(function () {
-
+        var sum = 0;
+        var blanks = blank();
+        select();
     })
+
+    // $("input:hidden").each(function(i,val){  //第一个参数表示索引下标，第二个参数表示当前索引元素
+    //     alert(i);
+    //     alert(val.name);
+    //     alert(val.value);
+    // });
+    function select() {
+        var selectcount = 0;
+        for(var i =0;i<selecyCount;i++){
+            $("input:"+i).each(function (i,val) {
+                console.log(val.value)
+            })
+        }
+    }
+    function blank() {
+        var blankcount = 0;
+        $.each($(".layui-input"),function (i,val) {
+            if(val.name==val.value){
+                blankcount+=10;
+            }else{
+                blankcount+=0;
+            }
+        })
+        return blankcount;
+    }
 
 });

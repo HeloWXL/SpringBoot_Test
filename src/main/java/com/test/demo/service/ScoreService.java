@@ -6,8 +6,11 @@ import com.test.demo.model.Score;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author wangxl
@@ -123,6 +126,68 @@ public class ScoreService {
     }
 
 
+
+    public Map<String,Object> getClassLevel(Integer courseId){
+        Map<String,Object> map  = new HashMap<>();
+        //本门课程考试学生的总人数
+        Integer sumCount = scoreMapper.selectCount(new EntityWrapper<Score>()
+                .eq("course_id",courseId).eq("is_test",1));
+        map.put("sumCount",sumCount);
+        //优秀学生 人数
+        Integer goodCount = scoreMapper.selectCount(new EntityWrapper<Score>().ge("score",90)
+                .eq("course_id",courseId).eq("is_test",1));
+        map.put("goodCount",goodCount);
+        //及格学生人数
+        Integer passCount = scoreMapper.selectCount(new EntityWrapper<Score>().between("score",60,90)
+                .eq("course_id",courseId).eq("is_test",1));
+        map.put("passCount",passCount);
+        //不及格学生人数
+        Integer notPassCount =scoreMapper.selectCount(new EntityWrapper<Score>().lt("score",60)
+                .eq("course_id",courseId).eq("is_test",1));
+        map.put("notPassCount",notPassCount);
+
+        //获取平均分
+        List<Score> scoreList= scoreMapper.selectList(new EntityWrapper<Score>().setSqlSelect("score")
+                .eq("course_id",courseId).eq("is_test",1));
+        int avgCount = 0;
+        int sumScore=0;
+        for (Score s: scoreList
+             ) {
+            sumScore+=s.getScore();
+        }
+        avgCount = sumScore/sumCount;
+        map.put("avgCount",avgCount);
+
+        //数据格式化
+        NumberFormat nf = NumberFormat.getNumberInstance();
+        nf.setMaximumFractionDigits(2);
+        //优秀率
+        double goodRate = (double)goodCount/sumCount;
+        map.put("goodRate",nf.format(goodRate));
+        //及格率
+        double passRate = (double)passCount/sumCount;
+        map.put("passRate",nf.format(passRate));
+        //不及格率
+        double notPassRate = (double)notPassCount/sumCount;
+        map.put("notPassRate",nf.format(notPassRate));
+        //标准分
+        double variance = 0;
+        for (Score s:scoreList
+             ) {
+            variance+=Math.pow((double)(s.getScore()-avgCount),2);
+        }
+        double standards = 0;
+        standards = Math.sqrt(variance/sumCount);
+        map.put("standards",nf.format(standards));
+        //最高分
+        int maxScore = scoreMapper.getMaxScore(courseId);
+        map.put("maxScore",maxScore);
+        //最低分
+        int minScore =scoreMapper.getMinScore(courseId);
+        map.put("minScore",minScore);
+
+        return map;
+    }
 
 
 }

@@ -478,9 +478,11 @@ $(function () {
         })
 
         $("#find").click(function () {
-            $("#score table").empty()
+            $("#scoreList table").empty()
             $("#chart1").hide();
-            $("#score table").show();
+            $("#scoreList").show();
+            $("#teacherPresentation").hide();
+
             var id = $("#selectCourse").val();
             $.ajax({
                 url: 'score/getScoreByCourseId',
@@ -488,33 +490,40 @@ $(function () {
                 type: 'get',
                 data: {"cid": id},
                 success: function (ret) {
-                    console.log(ret)
-                    for (var i = 0; i < ret.result.length; i++) {
-                        $node = $(' <tr class="'+classArr[b++]+'">\n' +
-                            '                                <td>\n' +
-                            '                                    ' + ret.result[i].studentName + '\n' +
-                            '                                </td>\n' +
-                            '                                <td>\n' +
-                            '                                    ' + ret.result[i].courseName + '\n' +
-                            '                                </td>\n' +
-                            '                                <td>\n' +
-                            '                                    ' + ret.result[i].score + '\n' +
-                            '                                </td>\n' +
-                            '                            </tr>')
-                        $("#score table").append($node);
-                        if(b%5==0){
-                            b=0;
+                    if(ret.result.length>0){
+                        for (var i = 0; i < ret.result.length; i++) {
+                            if(ret.result[i].score!=null){
+                                $node = $(' <tr class="'+classArr[b++]+'">\n' +
+                                    '                                <td>\n' +
+                                    '                                    ' + ret.result[i].studentName + '\n' +
+                                    '                                </td>\n' +
+                                    '                                <td>\n' +
+                                    '                                    ' + ret.result[i].courseName + '\n' +
+                                    '                                </td>\n' +
+                                    '                                <td>\n' +
+                                    '                                    ' + ret.result[i].score + '\n' +
+                                    '                                </td>\n' +
+                                    '                            </tr>')
+                                $("#score table").append($node);
+                                if(b%5==0){
+                                    b=0;
+                                }
+                            }
                         }
+                    }else{
+                        layer.msg('暂无考试成绩',{time:3000})
                     }
+
 
                 }
             })
         })
         $("#statics").click(function () {
+            $("#scoreList").hide();
             $("#chart1").show();
-            $("#score table").hide();
-            var cid = $("#selectCourse").val();
+            $("#teacherPresentation").show();
 
+            var cid = $("#selectCourse").val();
             $.ajax({
                 url:'score/getCountByCourseId',
                 data:{'cid':cid},
@@ -528,6 +537,34 @@ $(function () {
                         getStatis(list)
                     }
 
+                }
+            })
+
+            $("#teacherPresentation tbody").empty();
+            $.ajax({
+                url:'score/getClassLevel',
+                data:{"courseId":cid},
+                dataType:'json',
+                type:'post',
+                async:false,
+                success:function (ret) {
+                    console.log(ret)
+                    $node = $(' <tr class="info">\n' +
+                        '            <th>'+ret.result.teacherName+'</th>\n' +
+                        '            <th>'+ret.result.courseName+'</th>\n' +
+                        '            <th>'+ret.result.sumCount+'</th>\n' +
+                        '            <th>'+ret.result.goodCount+'</th>\n' +
+                        '            <th>'+ret.result.passCount+'</th>\n' +
+                        '            <th>'+ret.result.notPassCount+'</th>\n' +
+                        '            <th>'+ret.result.goodRate+'%</th>\n' +
+                        '            <th>'+ret.result.passRate+'%</th>\n' +
+                        '            <th>'+ret.result.notPassRate+'%</th>\n' +
+                        '            <th>'+ret.result.avgCount+'</th>\n' +
+                        '            <th>'+ret.result.standards+'</th>\n' +
+                        '            <th>'+ret.result.maxScore+'</th>\n' +
+                        '            <th>'+ret.result.minScore+'</th>\n' +
+                        '        </tr>')
+                    $("#teacherPresentation tbody").append($node);
                 }
             })
 

@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author wangxl
@@ -149,15 +151,17 @@ public class ScoreController {
     }
 
 
-//    @ApiOperation(value="获取所有的考试成绩")
-//    @PostMapping("getScoreListByCourseName")
-//    public ResultData<List<Score>> getScoreListByCourseName(@RequestParam("cid") Integer cid){
-//        ResultData<List<Score>> resultData = new ResultData<>();
-//        resultData.setCode(200);
-//        resultData.setMsg("获取成功");
-//        resultData.setResult(scoreService.getScoreByCourseId(cid));
-//        return resultData;
-//    }
+    @ApiOperation(value="获取教师质量报告")
+    @PostMapping("getClassLevel")
+    public ResultData<Map<String,Object>> getClassLevel(@RequestParam("courseId") Integer courseId){
+        ResultData<Map<String,Object>> resultData = new ResultData<>();
+        Map<String,Object> map = new HashMap<>();
+        map = scoreService.getClassLevel(courseId);
+        map.put("courseName",courseService.getCourseByCid(courseId).getCourseName());
+        map.put("teacherName",teacherService.getTeacher(courseService.getCourseByCid(courseId).getTeacherId()).getTeacherName());
+        resultData.setResult(map);
+        return resultData;
+    }
 
     @ApiOperation(value="学生添加课程")
     @PostMapping("insertCourse")

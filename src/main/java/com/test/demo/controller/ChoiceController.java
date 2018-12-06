@@ -21,12 +21,9 @@ import java.util.Map;
 @RestController
 @RequestMapping("select")
 public class ChoiceController {
-
     protected Logger logger = LoggerFactory.getLogger(ChoiceController.class);
-
     @Resource
     private ChoiceService choiceService;
-
     @ApiOperation(value="添加选择题")
     @GetMapping("insertSelect")
     public ResultData<Boolean> insertBlank(@RequestParam("selectQuestion") String selectquestion,

@@ -9,6 +9,11 @@
     <link rel="stylesheet" href="bootstrap-3.3.7/dist/css/bootstrap.css">
     <script src="bootstrap-3.3.7/dist/js/bootstrap.js"></script>
     <script src="js/ExamTest.js" type="application/javascript"></script>
+    <script src="layer/mobile/layer.js"></script>
+    <link rel="stylesheet" href="layer/mobile/need/layer.css">
+    <link rel="shortcut icon" href="ico/index.ico" mce_href="ico/index.ico" type="image/x-icon">
+    <script src="layui-v2.4.3/layui/layui.js"></script>
+    <link rel="stylesheet" href="layui-v2.4.3/layui/css/layui.css">
 </head>
 <body>
 
@@ -46,6 +51,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
         <script>
             $(function () {
@@ -56,7 +62,7 @@
                     dataType: "json",
                     success: function (ret) {
                         if(ret.result==null){
-                            layer.msg("未登录...",{time:3000})
+                           console.log("用户未登录.....")
                         }else{
                             var name = ret.result.studentName;
                             var profession = ret.result.Profession;
@@ -90,5 +96,6 @@
     <div id="submit">
         <button type="button" class="btn btn-danger" name="submit">交卷</button>
     </div>
+
 </body>
 </html>

@@ -130,36 +130,26 @@ public class HistoryController {
        List<Integer> mylist = historyService.getCourseByStudentId(studentId);
        StringUtil stringUtil = new StringUtil();
        String mystr = stringUtil.listToString(mylist,' ');
-
         //返回历史表中学生的ID
         List<Integer> integerList =historyService.getAllStudentId() ;
-        //声明两个数组  products 是每个学生的浏览课程  person是学生的ID
         String[] products = new String[integerList.size()-1];
-        int[] person = new int[integerList.size()-1];
 
         for (int i = 0 ,j=0; i<integerList.size();i++){
             if(integerList.get(i).equals(studentId)){
                 continue;
             }else{
-                person[j]=integerList.get(j);
                 products[j]=stringUtil.listToString(historyService.getCourseByStudentId(integerList.get(j)),' ');
                 j++;
             }
         }
 
-        System.out.println(Arrays.toString(person));
-        System.out.println(Arrays.toString(products));
-
         rec.fit(products);
         double[] doubles = rec.recommendFun(mystr);
 
-        List<String> stringList = new ArrayList<>();
-        for (String str : rec.getProduct()){
-            stringList.add(str);
-        }
-
-        System.out.println(Arrays.toString(doubles));
-        System.out.println(rec.getProduct());
+//        List<String> stringList = new ArrayList<>();
+//        for (String str : rec.getProduct()){
+//            stringList.add(str);
+//        }
 
         List<RespRecommend> respRecommendList = new ArrayList<>();
 //        double max = doubles[0];
