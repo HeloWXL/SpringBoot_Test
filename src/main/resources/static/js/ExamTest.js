@@ -96,11 +96,6 @@ $(function(){
         select();
     })
 
-    // $("input:hidden").each(function(i,val){  //第一个参数表示索引下标，第二个参数表示当前索引元素
-    //     alert(i);
-    //     alert(val.name);
-    //     alert(val.value);
-    // });
     function select() {
         var selectcount = 0;
         for(var i =0;i<selecyCount;i++){

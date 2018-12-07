@@ -28,13 +28,14 @@
             cursor                   : pointer;
         }
     </style>
+    <script src="layer/mobile/layer.js"></script>
 </head>
 <body>
 <div class="wrapper">
     <div class="container">
         <h1>用户注册</h1>
         <form>
-            <input type="text" placeholder="用户名" name="name">
+            <input type="text" placeholder="用户名" name="name" id="name">
             <input type="password" placeholder="密码" name="password">
             <select id="selectUserRole" title="Select Travel Destination">
                 <option selected="selected" value="2">学生</option>
@@ -49,6 +50,18 @@
 <script src="layer/layer.js" type="application/javascript"></script>
 <script type="text/javascript">
     $(function () {
+        $("input[name='name']").blur(function () {
+            var name = $("input[name='name']").val()
+            if(name=="wang"){
+                layer.tips('该用户已存在', '#name',{
+                    time:100000
+                });
+            }else{
+                layer.tips('该用户不存在', '#name');
+            }
+        })
+
+
         // 判断字符串是以什么进行结尾的
         String.prototype.endWith=function(endStr){
             var d=this.length-endStr.length;
