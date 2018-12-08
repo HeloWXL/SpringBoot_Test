@@ -81,7 +81,6 @@
                 })
             }
         })
-
         $("button[name='submit']").click(function () {
             var courseId = $("#course").val();
             var selectcount = $("#selectcount").val();
@@ -96,22 +95,16 @@
                     "teacherid":tid
                 },
                 success:function (ret) {
-                    console.log(ret)
                     if(ret.result==true){
                         layer.msg("添加成功");
-                      $("#selectcount").val("");
-                      $("#blankcount").val("");
+                        parent.layer.closeAll();//关闭弹窗
                     }else{
                         layer.msg("添加失败")
                     }
                 }
 
             })
-
         })
-
-
-
     })
 </script>
 </html>

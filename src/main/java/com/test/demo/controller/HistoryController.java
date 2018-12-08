@@ -125,7 +125,6 @@ public class HistoryController {
         ResultData<List<RespRecommend>> resultData = new ResultData<>();
         //创建推荐对象
         recommend rec =  new recommend();
-
         //我的课程列表
        List<Integer> mylist = historyService.getCourseByStudentId(studentId);
        StringUtil stringUtil = new StringUtil();
@@ -142,29 +141,27 @@ public class HistoryController {
                 j++;
             }
         }
-
         rec.fit(products);
         double[] doubles = rec.recommendFun(mystr);
-
-//        List<String> stringList = new ArrayList<>();
-//        for (String str : rec.getProduct()){
-//            stringList.add(str);
-//        }
-
+        List<String> stringList = new ArrayList<>();
+        for (String str : rec.getProduct()){
+            stringList.add(str);
+        }
+        System.out.println(Arrays.toString(doubles));
+        System.out.println(rec.getProduct());
         List<RespRecommend> respRecommendList = new ArrayList<>();
-//        double max = doubles[0];
-//        for (int i = 1; i < doubles.length; i++) {
-//            if (doubles[i] > max) {
-//                max=doubles[i];
-//                System.out.println(max);
-//                RespRecommend respRecommend = new RespRecommend();
-//                respRecommend.setCourseName(courseService.getCourseByCid(Integer.parseInt(stringList.get(i))).getCourseName());
-//                respRecommend.setCoursePicture(courseService.getCourseByCid(Integer.parseInt(stringList.get(i))).getCoursePicture());
-//                int tid = courseService.getCourseByCid(Integer.parseInt(stringList.get(i))).getTeacherId();
-//                respRecommend.setTeacherName(teacherService.getTeacher(tid).getTeacherName());
-//                respRecommendList.add(respRecommend);
-//            }
-//        }
+        double max = doubles[0];
+        for (int i = 1; i < doubles.length; i++) {
+            if (doubles[i] > max) {
+                max=doubles[i];
+                RespRecommend respRecommend = new RespRecommend();
+                respRecommend.setCourseName(courseService.getCourseByCid(Integer.parseInt(stringList.get(i))).getCourseName());
+                respRecommend.setCoursePicture(courseService.getCourseByCid(Integer.parseInt(stringList.get(i))).getCoursePicture());
+                int tid = courseService.getCourseByCid(Integer.parseInt(stringList.get(i))).getTeacherId();
+                respRecommend.setTeacherName(teacherService.getTeacher(tid).getTeacherName());
+                respRecommendList.add(respRecommend);
+            }
+        }
         resultData.setResult(respRecommendList);
         return resultData;
     }

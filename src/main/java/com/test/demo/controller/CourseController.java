@@ -1,6 +1,7 @@
 package com.test.demo.controller;
 
 import com.test.demo.common.ResultData;
+import com.test.demo.controller.resp.RespCourseVo;
 import com.test.demo.model.Course;
 import com.test.demo.model.Teacher;
 import com.test.demo.service.CourseService;
@@ -201,9 +202,14 @@ public class CourseController {
 
     @ApiOperation(value="根据课程的ID获取课程信息")
     @GetMapping("getCourseByCourseid")
-    public ResultData<Course> getCourseByCourseid(@RequestParam("cid") String cid){
-        ResultData<Course> resultData = new ResultData<>();
-        resultData.setResult(courseService.getCourseByCid(Integer.parseInt(cid)));
+    public ResultData<RespCourseVo> getCourseByCourseid(@RequestParam("cid") String cid){
+        ResultData<RespCourseVo> resultData = new ResultData<>();
+        RespCourseVo respCourseVo = new RespCourseVo();
+        Course course = courseService.getCourseByCid(Integer.parseInt(cid));
+        respCourseVo.setCourseName(course.getCourseName());
+        respCourseVo.setCoursePicture(course.getCoursePicture());
+        respCourseVo.setTeacherName(teacherService.getTeacher(course.getTeacherId()).getTeacherName());
+        resultData.setResult(respCourseVo);
         resultData.setCode(200);
         resultData.setMsg("获取课程对象成功");
         return resultData;

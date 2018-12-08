@@ -27,13 +27,13 @@
             position: relative;
         }
         .course-info{
-            width: 450px;
+            width: 650px;
             float: left;
             font-size: 14px;
             text-align: center;
             position: relative;
             top: 50px;
-            left: 85px;
+            left: -45px;
         }
         .course-img img{
             width: 150px;
@@ -88,7 +88,6 @@
 </div>
     <div class="content">
         <!--课程内容-->
-
     </div>
 </body>
 <script>
@@ -129,7 +128,6 @@
                 }else{
                     var picture = ret.result.coursePicture;
                     var courserName= ret.result.courseName;
-                    // var teacher = getTeacherTname(ret.result.teacherId);
                     var courserId= ret.result.courseId;
                     $node = $('<ul class="list">\n' +
                         '            <li>\n' +
@@ -139,10 +137,12 @@
                         '            </li>\n' +
                         '            <li>\n' +
                         '                <div class="course-info">\n' +
-                        '                    课程名：<span>'+courserName+'</span>\n' +
-                        '                    <br>教师：<span></span>\n' +
+                        '                    <div>课程名：<span>'+courserName+'</span></div>\n' +
+                        '                    <div>课程名：<span>'+ret.result.teacherName+'</span></div>\n' +
+                        '                    <div>' +
                         '                    <button class="btn btn-primary" value="'+courserId+'" id="play">播放</button>\n' +
                         '                    <button class="btn btn-success" value="'+courserId+'" id="join">加入课程</button>\n' +
+                        '</div>\n' +
                         '                </div>\n' +
                         '            </li>\n' +
                         '            <li>\n' +
@@ -164,6 +164,7 @@
                if(ret.result.length>0){
                    for(var i = 0 ;i<ret.result.length;i++){
                        if(ret.result[i]==cid){
+                           console.log("该学生已学习了该课程")
                            $("#join").hide();
                           }
                    }

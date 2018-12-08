@@ -64,6 +64,7 @@ $(function () {
             }
         }
     })
+
     $("#courses").empty();
     $.ajax({
         url:'history/recommendList',

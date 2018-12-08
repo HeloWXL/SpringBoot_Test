@@ -125,8 +125,11 @@ public class ScoreService {
         return integerList;
     }
 
-
-
+    /**
+     * 获取教师教学质量报告
+     * @param courseId
+     * @return
+     */
     public Map<String,Object> getClassLevel(Integer courseId){
         Map<String,Object> map  = new HashMap<>();
         //本门课程考试学生的总人数
@@ -157,7 +160,6 @@ public class ScoreService {
         }
         avgCount = sumScore/sumCount;
         map.put("avgCount",avgCount);
-
         //数据格式化
         NumberFormat nf = NumberFormat.getNumberInstance();
         nf.setMaximumFractionDigits(2);
@@ -185,7 +187,6 @@ public class ScoreService {
         //最低分
         int minScore =scoreMapper.getMinScore(courseId);
         map.put("minScore",minScore);
-
         return map;
     }
 
