@@ -53,16 +53,25 @@ public class ExamController {
         exam.setExamChoice(selectCount);
         exam.setExamBlank(blankCount);
 
-
         if(examService.insertExam(exam)==1){
-            resultData.setResult(true);
-            resultData.setCode(200);
-            logger.info("获取课程列表成功");
-            resultData.setMsg("添加成功");
-            return resultData;
+            Exam exams = examService.getLastTimeExam(teacherId);
+            int i = scoreService.updateScore(exams.getExamId(),courseId);
+            if(i>0){
+                resultData.setResult(true);
+                resultData.setCode(200);
+                logger.info("修改exam_id成功");
+                resultData.setMsg("修改exam_id成功");
+                return resultData;
+            }else{
+                resultData.setResult(false);
+                resultData.setMsg("修改exam_id失败");
+                resultData.setCode(500);
+                logger.info("修改exam_id失败");
+                return resultData;
+            }
         }else{
             resultData.setResult(false);
-            resultData.setMsg("添加试卷失败");
+            resultData.setMsg("添加考试失败");
             resultData.setCode(500);
             logger.info("添加试卷失败");
             return resultData;

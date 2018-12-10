@@ -190,5 +190,25 @@ public class ScoreController {
         return resultData;
     }
 
+    @ApiOperation(value="学生提交试卷-更新试卷")
+    @PostMapping("updateScore")
+    public ResultData<Boolean> updateScore(@RequestParam("score") Integer score,
+                                           @RequestParam("studentId") Integer studentId,
+                                           @RequestParam("courseId") Integer courseId){
+        ResultData<Boolean> resultData = new ResultData<>();
+        if(scoreService.updateScore(score,courseId,studentId)>0){
+            resultData.setResult(true);
+            resultData.setMsg("交卷成功");
+            resultData.setCode(200);
+            return resultData;
+        }else{
+            resultData.setResult(null);
+            resultData.setCode(500);
+            resultData.setMsg("服务器内部错误");
+            return  resultData;
+        }
+    }
+
+
 
 }

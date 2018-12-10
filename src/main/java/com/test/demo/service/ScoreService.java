@@ -3,6 +3,8 @@ package com.test.demo.service;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.test.demo.mapper.ScoreMapper;
 import com.test.demo.model.Score;
+import org.apache.commons.lang.StringUtils;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -120,7 +122,9 @@ public class ScoreService {
         List<Score> scoreList = scoreMapper.selectList(entityWrapper);
         for (Score s: scoreList
         ) {
-            integerList.add(s.getExamId());
+            if(s.getExamId()!=0){
+                integerList.add(s.getExamId());
+            }
         }
         return integerList;
     }
@@ -190,5 +194,25 @@ public class ScoreService {
         return map;
     }
 
+    /**
+     * 学生提交试卷-更新试卷
+     * @param score
+     * @param courseId
+     * @param studentId
+     * @return
+     */
+    public int updateScore(Integer score ,Integer courseId,Integer studentId){
+        return scoreMapper.updateScore(score,courseId,studentId);
+    }
+
+    /**
+     * 添加考试信息
+     * @param examId
+     * @param courseId
+     * @return
+     */
+    public int updateScore(Integer examId, Integer courseId){
+        return scoreMapper.updateScore(examId,courseId);
+    }
 
 }

@@ -16,7 +16,7 @@ $(function(){
         }
     })
 // ------------------------------选择题---------------------------------------
-    $('#question-1').empty();
+//     $('#question-1').empty();
 
     var selecyCount =0;
     $.ajax({
@@ -91,19 +91,31 @@ $(function(){
     });
 
     $("button[name='submit']").click(function () {
+        console.log("开始！！")
+        // 总分：
         var sum = 0;
+        // 填空题分数
         var blanks = blank();
-        select();
+        // 选择题分数
+        var selects = select();
+        sum = selects+blanks;
+
+
+
+
     })
 
     function select() {
         var selectcount = 0;
-        for(var i =0;i<selecyCount;i++){
-            $("input:"+i).each(function (i,val) {
-                console.log(val.value)
-            })
-        }
+        $('input:radio:checked').each(function(){
+            //var checkValue = $(this).val();
+            if($(this).closest("div").attr('name')==$(this).val()){
+                selectcount+=20;
+            }
+        });
+        return selectcount
     }
+
     function blank() {
         var blankcount = 0;
         $.each($(".layui-input"),function (i,val) {

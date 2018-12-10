@@ -50,4 +50,13 @@ public class ExamService {
         exam.setExamId(examId);
         return examMapper.selectOne(exam);
     }
+
+    /**
+     * 查询该教师发布最晚的那么考试
+     * @param teacherId
+     * @return
+     */
+    public  Exam  getLastTimeExam(Integer teacherId){
+        return examMapper.getLastTimeExam(teacherId);
+    }
 }

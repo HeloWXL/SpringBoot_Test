@@ -61,6 +61,7 @@ $(function () {
                 $("input[name='age']").val(age)
                 $("input[name='school']").val(school)
                 $("input[name='profession']").val(profession)
+                $("#right img").attr("src",pic)
             }
         }
     })

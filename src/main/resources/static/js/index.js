@@ -29,7 +29,7 @@ $(function () {
         url:"course/courseList",
         type:'get',
         data:{"pageNo":1,
-        "pageSize":30},
+        "pageSize":60},
         dataType:'json',
         async:false,
         success:function (ret) {
