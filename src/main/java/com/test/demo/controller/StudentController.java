@@ -35,7 +35,8 @@ public class StudentController {
 
     @ApiOperation(value="登录检查")
     @PostMapping("checkStudentLogin")
-    public ResultData<Boolean> checkLogin(HttpServletRequest request, @RequestParam("name") String name, @RequestParam("password") String password){
+    public ResultData<Boolean> checkLogin(HttpServletRequest request,
+                                          @RequestParam("name") String name, @RequestParam("password") String password){
         ResultData<Boolean> resultData = new ResultData<>();
         if(Md5Utils.getSaltverifyMD5(password,studentService.getStudentByName(name).getStudentPassword())) {
             Student student = studentService.getStudentByName(name);

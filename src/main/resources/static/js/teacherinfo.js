@@ -284,7 +284,7 @@ $("#addcourse").click(function () {
             type: 2,
             closeBtn: 0, //不显示关闭按钮
             shade: 0.5,
-            area: ['400px', '400px'],
+            area: ['400px', '450px'],
             offset: 'auto',
             anim: 2,
             shadeClose: true,
@@ -319,6 +319,20 @@ $("#addblank").click(function () {
             content: ['addblank.html', 'no']
         });
     })
+
+$("#getQuestions").click(function () {
+    layer.open({
+        title: false,
+        type: 2,
+        closeBtn: 0, //不显示关闭按钮
+        shade: 0.5,
+        area: ['350px', '400px'],
+        offset: 'auto',
+        anim: 2,
+        shadeClose: true,
+        content: ['getAllQuestion.html', 'no']
+    });
+})
 // 添加公告信息管理
 $("#notices").click(function () {
         layer.open({

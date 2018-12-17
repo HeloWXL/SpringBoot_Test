@@ -80,11 +80,9 @@ public class ChoiceController {
 
     @ApiOperation(value="根据教师的id获取选择题列表")
     @PostMapping("getSelectByTid")
-    public ResultData<Map<String,Object>> getSelectByTid(@RequestParam("tid") Integer tid,
-                                                             @RequestParam("pageNo") Integer pageNo,
-                                                             @RequestParam("pageSize") Integer pageSize){
+    public ResultData<Map<String,Object>> getSelectByTid(@RequestParam("tid") Integer tid){
         ResultData<Map<String,Object>> resultData = new ResultData<>();
-        Map<String,Object>  map = choiceService.getSelectByTid(tid,pageNo,pageSize);
+        Map<String,Object>  map = choiceService.getSelectByTid(tid);
         resultData.setMsg("成功获取选择题");
         resultData.setCode(200);
         resultData.setResult(map);
