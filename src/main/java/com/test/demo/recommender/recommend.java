@@ -15,16 +15,12 @@ public class recommend {
     private String[] products ;
     private Similarity sim;
     private double[][] simMatrix;
-
-
-
     public recommend(String[] products, Similarity sim) {
         this.products = products;
         this.sim = sim;
     }
     public recommend() {
     }
-
     public TreeSet<String> getProduct(){
         return StringUtil.StringArrayDistincted(products);
     }
@@ -39,9 +35,8 @@ public class recommend {
         }
         return res;
     }
-
     /**
-     * 计算user 和　product的　０－１　矩阵
+     * 计算user 和　course的　０－１　矩阵
      * @return
      */
     public double[][] RelationMatrix(){
@@ -64,18 +59,13 @@ public class recommend {
         this.products = products;
         this.simMatrix =  getSimilarity(products,sim);
     }
-
     public void fit(String[] products){
         this.products = products;
         this.simMatrix =  getSimilarity(products,new Jaccard());
     }
-
-
     //推荐函数
     public double[] recommendFun(String product){
         double[][] p = ArrayUtil.mutiplyMatrix(simMatrix,RelationMatrix());
-
-
         int flag = 0;
         for(int i = 0; i < products.length;i++){
             if (products[i] == product){

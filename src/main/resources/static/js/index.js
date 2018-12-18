@@ -28,32 +28,31 @@ $(function () {
     $.ajax({
         url:"course/courseList",
         type:'get',
-        data:{"pageNo":1,
-        "pageSize":60},
         dataType:'json',
         async:false,
         success:function (ret) {
             if($.isEmptyObject(ret.result)){
                 console.log("获取课程列表失败");
             }else{
-                for(var i = 0;i<ret.result.list.length;i++){
-                    var image = ret.result.list[i].coursePicture;
-                    var name = ret.result.list[i].courseName;
-                    var tid = ret.result.list[i].teacherId;
-                    var pingfen = ret.result.list[i].coursePingfen;
+                console.log(ret)
+                // for(var i = 0;i<ret.result.list.length;i++){
+                    // var image = ret.result.list[i].coursePicture;
+                    // var name = ret.result.list[i].courseName;
+                    // var tid = ret.result.list[i].teacherId;
+                    // var pingfen = ret.result.list[i].coursePingfen;
 
-                    $node = $('<li>\n' +
-                        '            <div class="course-list">\n' +
-                        '                <a><img src="'+image+'" width="200px"></a>\n' +
-                        '                <div class="course-list-info">\n' +
-                        '                    <p>课程名:<a class="courseName" id="'+ret.result.list[i].courseId+'">'+name+'</a></p>\n' +
-                        '                    <p>教师:<a href="#" class="teacher">'+getTeahcerByTid(tid)+'</a></p>\n' +
-                        '                    <div></div>\n' +
-                        '                </div>\n' +
-                        '            </div>\n' +
-                        '        </li>')
-                    $(".course").append($node);
-                }
+                    // $node = $('<li>\n' +
+                    //     '            <div class="course-list">\n' +
+                    //     '                <a><img src="'+image+'" width="200px"></a>\n' +
+                    //     '                <div class="course-list-info">\n' +
+                    //     '                    <p>课程名:<a class="courseName" id="'+ret.result.list[i].courseId+'">'+name+'</a></p>\n' +
+                    //     '                    <p>教师:<a href="#" class="teacher">'+getTeahcerByTid(tid)+'</a></p>\n' +
+                    //     '                    <div></div>\n' +
+                    //     '                </div>\n' +
+                    //     '            </div>\n' +
+                    //     '        </li>')
+                    // $(".course").append($node);
+                // }
             }
         }
     })
@@ -73,6 +72,9 @@ $(function () {
         })
         return teacherName;
     }
+
+
+
     // 获取存储值
     function getvalue(id) {
         if (window.localStorage) {
@@ -88,9 +90,10 @@ $(function () {
         var  id = $(this).attr("id");
         getvalue(id);
     })
+
 })
 
-
+// -------------------------------------------------------------------------
 layui.use(['carousel', 'form'], function () {
     var carousel = layui.carousel
         , form = layui.form;
@@ -122,7 +125,6 @@ layui.use(['carousel', 'form'], function () {
         active[type] ? active[type].call(this, othis) : '';
     });
 });
-
 layui.use(['rate'], function() {
     var rate = layui.rate;
     //只读

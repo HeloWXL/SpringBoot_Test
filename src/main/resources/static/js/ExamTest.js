@@ -128,4 +128,6 @@ $(function(){
         return blankcount;
     }
 
+    // 获取试卷的ID
+    console.log(localStorage["examId"])
 });

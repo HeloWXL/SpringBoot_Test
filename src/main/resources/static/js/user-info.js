@@ -108,7 +108,6 @@ $(function () {
                 }
 
             }
-
         })
     });
     // 我的课程
@@ -174,6 +173,7 @@ $(function () {
             data: {"sid": sid},
             dataType: "json",
             type: "post",
+            async:false,
             success: function (ret) {
                 if(ret.result.length>0){
                     for(var key in ret.result){
@@ -243,7 +243,6 @@ $(function () {
             type:'post',
             async:false,
             success:function (ret) {
-
                 for(var i = 0 ; i<ret.result.length;i++){
                     $node = $('  <tr>\n' +
                         '                                <td>\n' +
@@ -261,15 +260,19 @@ $(function () {
                         '                            </tr>')
                     $("#center tbody").append($node)
                 }
-
             }
         })
 
-        $("tbody").bind("click","button[name='StartExam']",function (event) {
+        $("button").bind("click","button[name='StartExam']",function (event) {
             var examId = $(this).attr("id");
-            alert(examId);
-            location.href="ExamTest.html"
+            getvalue(examId)
         })
+
+        function getvalue(examId) {
+            localStorage.examId = examId;
+            location.href = 'ExamTest.html';
+        }
+
 
         function getTeahcerByTid(tid) {
             var teacherName ='';

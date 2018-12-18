@@ -3,6 +3,9 @@ h3{margin-top: 30px}
     color: red;
     font-weight: bold;
 }
+h2{
+    margin-top: 10px!important;
+}
 .top{
     height: 100px;
     text-align: center;
@@ -33,7 +36,7 @@ h3{margin-top: 30px}
     width: 400px;
 }
 #time{
-
+    font-size: 20px;
     position: fixed;
     right: 40px;
     top:10px;
@@ -51,7 +54,8 @@ h4{
     margin-bottom: 10px;
 }
 #submit{
-    margin-top: 10px;
+    padding-top: 20px;
+    margin-left: -195px;
     clear: both;
     text-align: center;
 }

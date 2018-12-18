@@ -28,10 +28,10 @@ public class CourseService {
      * 获取课程信息列表
      * @return
      */
-    public Map<String,Object> getCourseList(int pageNo,int pageSize){
+    public Map<String,Object> getCourseList(){
         EntityWrapper entityWrapper = new EntityWrapper();
         entityWrapper.orderBy("course_pingfen",true);
-        List<Student> course = courseMapper.selectPage(new Page<Course>(pageNo,pageSize),entityWrapper);
+        List<Student> course = courseMapper.selectPage(new Page<Course>(1,60),entityWrapper);
 
         int count =courseMapper.selectCount(entityWrapper);
         Map<String,Object> map = new HashMap<>();
