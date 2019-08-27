@@ -150,6 +150,7 @@ public class HistoryController {
         System.out.println(Arrays.toString(doubles));
         System.out.println(rec.getProduct());
         List<RespRecommend> respRecommendList = new ArrayList<>();
+
         double max = doubles[0];
         for (int i = 1; i < doubles.length; i++) {
             if (doubles[i] > max) {

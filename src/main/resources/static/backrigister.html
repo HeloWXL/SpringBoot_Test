@@ -12,14 +12,15 @@
             $("input[name='rigister']").click(function () {
                 $.ajax({
                     url:"admin/insertAdmin",
-                    type:"post",
-                    data:{"name":$("input[name='username']").val(),
-                        "password":$("input[name='password']").val()},
+                    type:"POST",
+                    data:{
+                        "name":$("input[name='username']").val(),
+                        "password":$("input[name='password']").val()
+                    },
                     dataType:"json",
                     success:function(ret){
                         if(ret==1){
                             layer.msg('注册成功',{time:2000});
-                            location.href="backlogin.html";
                         }else{
                             $("input[name='username']").val("");
                             $("input[name='password']").val("");

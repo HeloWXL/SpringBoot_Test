@@ -66,23 +66,23 @@ $(function () {
         }
     })
 
-    $("#courses").empty();
-    $.ajax({
-        url:'history/recommendList',
-        data:{"studentId":sid},
-        dataType:'json',
-        type:'post',
-        success:function (ret) {
-            for(var i = 0 ;i<ret.result.length;i++){
-                $node=$('<div class="img">\n' +
-                    '                    <img src="'+ret.result[i].coursePicture+'" width="185px">\n' +
-                    '                    <p>课程名：<span>'+ret.result[i].courseName+'</span></p>\n' +
-                    '                    <p>教师名：<span>'+ret.result[i].teacherName+'</span></p>\n' +
-                    '                </div>')
-                $("#courses").append($node);
-            }
-        }
-    })
+    // $("#courses").empty();
+    // $.ajax({
+    //     url:'history/recommendList',
+    //     data:{"studentId":sid},
+    //     dataType:'json',
+    //     type:'post',
+    //     success:function (ret) {
+    //         for(var i = 0 ;i<ret.result.length;i++){
+    //             $node=$('<div class="img">\n' +
+    //                 '                    <img src="'+ret.result[i].coursePicture+'" width="185px">\n' +
+    //                 '                    <p>课程名：<span>'+ret.result[i].courseName+'</span></p>\n' +
+    //                 '                    <p>教师名：<span>'+ret.result[i].teacherName+'</span></p>\n' +
+    //                 '                </div>')
+    //             $("#courses").append($node);
+    //         }
+    //     }
+    // })
 
     // 我的信息
     $("#left-1 li:nth-child(2) a").click(function () {
@@ -155,10 +155,10 @@ $(function () {
     })
     // 点击播放
     $("button[name='play']").click(function () {
-        var cid = $(this).attr("value");
+        location.href="play.html"
     })
     // 我的成绩
-    $("#left-1 li:nth-child(4) a").click(function () {
+    $("#left-1 li:nth-child(5) a").click(function () {
 
         $(this).closest("li").attr("class","active")
         $(this).closest("li").siblings().removeAttr("class","active");
@@ -227,7 +227,7 @@ $(function () {
         })
     })
     // 我的考试
-    $("#left-1 li:nth-child(5) a").click(function () {
+    $("#left-1 li:nth-child(4) a").click(function () {
         $(this).closest("li").attr("class","active")
         $(this).closest("li").siblings().removeAttr("class","active");
         $("#right").hide();

@@ -51,6 +51,17 @@ public class StudentService {
         return student.get(0);
     }
 
+    public Boolean GetBooleanByName(String name){
+        EntityWrapper entityWrapper = new EntityWrapper();
+        entityWrapper.eq("student_name",name);
+        List<Student> student = studentMapper.selectList(entityWrapper);
+        if(student.size()>0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     /**
      * 添加一名学生
      * @param name
@@ -78,6 +89,13 @@ public class StudentService {
         map.put("list",student);
         map.put("count",count);
         return map;
+    }
+
+
+    public List<Student> getStudentList(){
+        EntityWrapper entityWrapper = new EntityWrapper();
+        List<Student> student = studentMapper.selectPage(new Page<Course>(1,10),entityWrapper);
+        return student;
     }
 
     /**
@@ -135,6 +153,5 @@ public class StudentService {
         EntityWrapper entityWrapper = new EntityWrapper();
         return studentMapper.selectCount(entityWrapper);
     }
-
 
 }

@@ -45,11 +45,16 @@ public class ScoreController {
             for (Score s : scores
                  ) {
                 RespScoreVo respScoreVo = new RespScoreVo();
+                System.out.println(s.getStudentId());
                 //获取学生的姓名
                 String studentName = studentService.getStudentBySid(s.getStudentId()).getStudentName();
+                System.out.println(studentName);
                 String courseName = courseService.getCourseByCid(s.getCourseId()).getCourseName();
+                System.out.println(courseName);
                 Integer studentSno = studentService.getStudentBySid(s.getStudentId()).getStudentSno();
+                System.out.println(studentSno);
                 Integer score = s.getScore();
+                System.out.println(score);
                 respScoreVo.setCourseName(courseName);
                 respScoreVo.setScore(score);
                 respScoreVo.setStudentName(studentName);

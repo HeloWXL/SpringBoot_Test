@@ -16,6 +16,5 @@ public class DemoApplication {
         logger.info("SpringBoot开始加载");
         SpringApplication.run(DemoApplication.class, args);
         logger.info("SpringBoot加载完毕");
-
     }
 }

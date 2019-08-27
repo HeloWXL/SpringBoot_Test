@@ -52,15 +52,35 @@
     $(function () {
         $("input[name='name']").blur(function () {
             var name = $("input[name='name']").val()
-            if(name=="wang"){
-                layer.tips('该用户已存在', '#name',{
-                    time:100000
-                });
-            }else{
-                layer.tips('该用户不存在', '#name');
-            }
+            $.ajax({
+                url:'student/getbooleanBySname',
+                data:{"name":name},
+                type:'post',
+                dataType:'json',
+                success:function (ret) {
+                    if(ret){
+                        layer.tips('该用户名已存在', '#name');
+                    }
+                }
+            })
+
         })
 
+
+        //验证密码
+        $("input[name='password']").keyup(function () {
+            var regex =/^[a-zA-Z0-9]{6,18}/;
+            var password = $(this).val();
+            if(!regex.test(password)){
+                layer.tips('密码不得少于6位', $(this), {
+                    tips: [1, 'red'],
+                    time:0,
+                    id:"password"
+                });
+            }else{
+                layer.closeAll('tips');
+            }
+        });
 
         // 判断字符串是以什么进行结尾的
         String.prototype.endWith=function(endStr){

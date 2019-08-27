@@ -61,9 +61,6 @@ $("#mycourse").click(function () {
                         '                        <td>\n' +
                         '                            ' + ret.result.list[i].courseIntroduce + '\n' +
                         '                        </td>\n' +
-                        '                        <td>\n' +
-                        '                            ' + ret.result.list[i].coursePingfen + '\n' +
-                        '                        </td>\n' +
                         '                    </tr>')
                     $("#t-course tbody").append($node);
                     if (b == 5) {
@@ -121,16 +118,6 @@ function getCourseByTid(pageNo, pageSize) {
                         '                        <td>\n' +
                         '                            ' + ret.result.list[i].courseIntroduce + '\n' +
                         '                        </td>\n' +
-                        '                        <td>\n' +
-                        '                            ' + ret.result.list[i].coursePingfen + '\n' +
-                        '                        </td>\n' +
-                        '                       <td>\n' +
-                        '                      <div id="caozuo-course">\n' +
-                        '                    <ul class="pagination">\n' +
-                        '                        <li><button type="button" class="btn btn-info" name="delete">删除</button></li>\n' +
-                        '                    </ul>\n' +
-                        '                </div>     \n' +
-                        '                       </td>\n' +
                         '                    </tr>')
                     $("#t-course tbody").append($node);
                     if (b == 5) {
@@ -187,13 +174,6 @@ $("#mystudent").click(function () {
                                 '                       </td>\n' +
                                 '                       <td>\n' +
                                 '                          ' + ret.result.list[i].studentSchool + '\n' +
-                                '                       </td>\n' +
-                                '                       <td>\n' +
-                                '                      <div id="caozuo-student">\n' +
-                                '                    <ul class="pagination">\n' +
-                                '                        <li><button type="button" class="btn btn-warning" name="delete">删除</button></li>\n' +
-                                '                    </ul>\n' +
-                                '                </div>     \n' +
                                 '                       </td>\n' +
                                 '                   </tr>');
                             $("#t-student tbody").append($node);
@@ -259,13 +239,6 @@ function getStudentByClassId(pageNo, pageSize) {
                             '                       </td>\n' +
                             '                       <td>\n' +
                             '                          ' + ret.result.list[i].studentSchool + '\n' +
-                            '                       </td>\n' +
-                            '                       <td>\n' +
-                            '                      <div id="caozuo-student">\n' +
-                            '                    <ul class="pagination">\n' +
-                            '                        <li><button type="button" class="btn btn-warning" name="delete">删除</button></li>\n' +
-                            '                    </ul>\n' +
-                            '                </div>     \n' +
                             '                       </td>\n' +
                             '                   </tr>');
                         $("#t-student tbody").append($node);

@@ -123,6 +123,7 @@ public class ScoreService {
         for (Score s: scoreList
         ) {
             if(s.getExamId()!=0){
+                System.out.println(s.getExamId());
                 integerList.add(s.getExamId());
             }
         }

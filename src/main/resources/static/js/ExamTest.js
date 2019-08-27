@@ -53,7 +53,6 @@ $(function(){
         dataType:'json',
         type:'get',
         success:function (ret) {
-            console.log(ret)
             var a = 1;
             for(var i = 0; i<ret.result.length;i++){
                 $node = $(' <div class="blanks">\n' +
@@ -91,18 +90,8 @@ $(function(){
     });
 
     $("button[name='submit']").click(function () {
-        console.log("开始！！")
-        // 总分：
-        var sum = 0;
-        // 填空题分数
-        var blanks = blank();
-        // 选择题分数
-        var selects = select();
-        sum = selects+blanks;
-
-
-
-
+       alert("交卷成功")
+        location.href="user-info.html"
     })
 
     function select() {

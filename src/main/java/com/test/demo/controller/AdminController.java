@@ -130,23 +130,15 @@ public class AdminController {
 
     @ApiOperation(value="管理员注册")
     @PostMapping("insertAdmin")
-    public ResultData<Boolean> insertStudent(@RequestParam("name") String name,@RequestParam("password") String password) {
-        ResultData<Boolean> resultData = new ResultData<>();
+    public ResultData<Integer> insertAdmin(@RequestParam(value = "name" ,required = false) String name ,
+                                           @RequestParam(value= "password",required = false) String password ) {
+        ResultData<Integer> resultData = new ResultData<>();
         String md5Password = Md5Utils.getSaltMD5(password);
         int i = adminService.insertAdmin(name,md5Password );
-        if(i==1){
-            logger.info("管理员注册成功");
-            resultData.setMsg("管理员注册成功");
-            resultData.setCode(200);
-            resultData.setResult(true);
-            return resultData;
-        }else{
-            logger.info("管理员注册失败");
-            resultData.setMsg("管理员注册失败");
-            resultData.setCode(500);
-            resultData.setResult(false);
-            return resultData;
-        }
+
+        resultData.setResult(i);
+        return resultData;
+
     }
 
 

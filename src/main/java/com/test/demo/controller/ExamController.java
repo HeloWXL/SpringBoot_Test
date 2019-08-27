@@ -103,6 +103,7 @@ public class ExamController {
         List<Integer> integerList = scoreService.getExamId(sid);
         List<Exam> examList = new ArrayList<>();
         for (int i = 0 ;i<integerList.size();i++){
+            System.out.println(i);
             examList.add(examService.getExamsByExamId(integerList.get(i)));
         }
         if(examList.size()>0){

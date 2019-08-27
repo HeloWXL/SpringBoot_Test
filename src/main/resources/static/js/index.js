@@ -35,24 +35,24 @@ $(function () {
                 console.log("获取课程列表失败");
             }else{
                 console.log(ret)
-                // for(var i = 0;i<ret.result.list.length;i++){
-                    // var image = ret.result.list[i].coursePicture;
-                    // var name = ret.result.list[i].courseName;
-                    // var tid = ret.result.list[i].teacherId;
-                    // var pingfen = ret.result.list[i].coursePingfen;
+                for(var i = 0;i<ret.result.list.length;i++){
+                    var image = ret.result.list[i].coursePicture;
+                    var name = ret.result.list[i].courseName;
+                    var tid = ret.result.list[i].teacherId;
+                    var pingfen = ret.result.list[i].coursePingfen;
 
-                    // $node = $('<li>\n' +
-                    //     '            <div class="course-list">\n' +
-                    //     '                <a><img src="'+image+'" width="200px"></a>\n' +
-                    //     '                <div class="course-list-info">\n' +
-                    //     '                    <p>课程名:<a class="courseName" id="'+ret.result.list[i].courseId+'">'+name+'</a></p>\n' +
-                    //     '                    <p>教师:<a href="#" class="teacher">'+getTeahcerByTid(tid)+'</a></p>\n' +
-                    //     '                    <div></div>\n' +
-                    //     '                </div>\n' +
-                    //     '            </div>\n' +
-                    //     '        </li>')
-                    // $(".course").append($node);
-                // }
+                    $node = $('<li>\n' +
+                        '            <div class="course-list">\n' +
+                        '                <a><img src="'+image+'" width="200px"></a>\n' +
+                        '                <div class="course-list-info">\n' +
+                        '                    <p>课程名:<a class="courseName" id="'+ret.result.list[i].courseId+'">'+name+'</a></p>\n' +
+                        '                    <p>教师:<a href="#" class="teacher">'+getTeahcerByTid(tid)+'</a></p>\n' +
+                        '                    <div></div>\n' +
+                        '                </div>\n' +
+                        '            </div>\n' +
+                        '        </li>')
+                    $(".course").append($node);
+                }
             }
         }
     })

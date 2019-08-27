@@ -10,9 +10,6 @@ import java.util.Random;
  * @date 2018/11/5 9:08
  */
 public class Md5Utils {
-
-
-    @SuppressWarnings("unused")
     private static String md5Hex(String str) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
@@ -24,7 +21,6 @@ public class Md5Utils {
             return "";
         }
     }
-
 
     public static String getSaltMD5(String password) {
         // 生成一个16位的随机数
@@ -39,6 +35,7 @@ public class Md5Utils {
         }
         // 生成最终的加密盐
         String Salt = sBuilder.toString();
+        System.out.println("加密产生的Salt-getSaltMD5="+Salt);
         password = md5Hex(password + Salt);
         char[] cs = new char[48];
         for (int i = 0; i < 48; i += 3) {
@@ -49,7 +46,6 @@ public class Md5Utils {
         }
         return String.valueOf(cs);
     }
-
     public static boolean getSaltverifyMD5(String password, String md5str) {
         char[] cs1 = new char[32];
         char[] cs2 = new char[16];
@@ -59,6 +55,19 @@ public class Md5Utils {
             cs2[i / 3] = md5str.charAt(i + 1);
         }
         String Salt = new String(cs2);
+
+        System.out.println("解密时Salt-getSaltverifyMD5="+Salt);
         return md5Hex(password + Salt).equals(String.valueOf(cs1));
     }
+
+    public static void main(String[] args) {
+        String md5Str = getSaltMD5("123456");
+        System.out.println("经过MD5加盐后所得到的密码："+md5Str);
+        if(getSaltverifyMD5("123456",md5Str)){
+            System.out.println("输入的密码与解密后的密码是否一致：true");
+        }else{
+            System.out.println("输入的密码与解密后的密码是否一致：false");
+        }
+    }
+
 }

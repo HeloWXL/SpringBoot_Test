@@ -32,7 +32,6 @@ public class CourseService {
         EntityWrapper entityWrapper = new EntityWrapper();
         entityWrapper.orderBy("course_pingfen",true);
         List<Student> course = courseMapper.selectPage(new Page<Course>(1,60),entityWrapper);
-
         int count =courseMapper.selectCount(entityWrapper);
         Map<String,Object> map = new HashMap<>();
         map.put("list",course);

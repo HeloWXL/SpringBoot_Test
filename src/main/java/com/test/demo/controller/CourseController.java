@@ -39,24 +39,10 @@ public class CourseController {
 
     @ApiOperation(value="课程列表")
     @GetMapping("courseList")
-    public ResultData< List<RespCourseVo>> getCourseList() {
-        ResultData< List<RespCourseVo>> resultData = new ResultData<>();
+    public ResultData<Map<String,Object>> getCourseList() {
+        ResultData<Map<String,Object>> resultData = new ResultData<>();
         if(courseService.getCourseList().size()>0){
-            List<RespCourseVo> lists = new ArrayList();
-            Map<String,Object> map = courseService.getCourseList();
-            List<Course> list   = (List) map.get("list");
-            for (Course c: list
-                 ) {
-                RespCourseVo respCourseVo = new RespCourseVo();
-                int tid = c.getTeacherId();
-                String teacherName = teacherService.getTeacher(tid).getTeacherName();
-                respCourseVo.setTeacherName(teacherName);
-                respCourseVo.setCourseName(c.getCourseName());
-                respCourseVo.setCoursePicture(c.getCoursePicture());
-                respCourseVo.setCourseId(c.getCourseId());
-                lists.add(respCourseVo);
-            }
-            resultData.setResult(lists);
+            resultData.setResult(courseService.getCourseList());
             resultData.setCode(200);
             logger.info("获取课程列表成功");
             resultData.setMsg("获取课程列表成功");

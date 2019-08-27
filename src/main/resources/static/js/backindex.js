@@ -127,8 +127,9 @@ $(function () {
         })
 
         // 根据学生的ID删除学生的信息 没做好哦
-        $("button").on("click", "input[name='delete']']", function (event) {
-            alert($(this))
+        $("tbody").on("click", "button[name='delete']", function (event) {
+            $(this).parent().parent().remove();
+            layer.msg("删除成功",{time:2000})
         })
 
         // 分页管理-下一页
@@ -258,6 +259,15 @@ $(function () {
                 }
             }
         })
+
+        $("tbody").on("click", "button[name='delete']", function (event) {
+            // var id = $(this).parent().parent().children().first().html();
+            $(this).parent().parent().remove();
+            layer.msg("删除成功",{time:2000})
+        })
+
+
+
         // 分页管理-下一页
         $(".fenye ul li button[name='next']").click(function () {
             $("#teacher table tbody").empty();
@@ -382,6 +392,13 @@ $(function () {
                     }
                 }
             }
+        })
+
+
+        $("tbody").on("click", "button[name='delete']", function (event) {
+            var id = $(this).parent().parent().children().first().html();
+            $(this).parent().parent().remove();
+            layer.msg("删除成功",{time:2000})
         })
         // 分页管理-下一页
         $(".fenye ul li button[name='next']").click(function () {

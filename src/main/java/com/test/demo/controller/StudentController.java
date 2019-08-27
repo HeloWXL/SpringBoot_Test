@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -32,7 +33,6 @@ public class StudentController {
 
     @Resource
     private StudentService studentService;
-
     @ApiOperation(value="登录检查")
     @PostMapping("checkStudentLogin")
     public ResultData<Boolean> checkLogin(HttpServletRequest request,
@@ -55,6 +55,7 @@ public class StudentController {
             return resultData;
         }
     }
+
 
     @ApiOperation(value="学生注册")
     @PostMapping("insertStudent")
@@ -175,8 +176,15 @@ public class StudentController {
             return resultData;
         }
 
-
     }
+
+
+    @ApiOperation(value="微信接口获取学生列表")
+    @PostMapping("wx-getstudentlist")
+    public List<Student> getStudentList(){
+      return studentService.getStudentList();
+    }
+
 
     @ApiOperation(value="根据学生的ID查询学生信息")
     @PostMapping("getStudentBySid")
@@ -188,4 +196,22 @@ public class StudentController {
         return resultData;
     }
 
+
+    @ApiOperation(value="根据学生的姓名查询学生是否已经存在")
+    @PostMapping("getbooleanBySname")
+    public Boolean GetBooleanByName(String name){
+        return studentService.GetBooleanByName(name);
+    }
+
+
+    @ApiOperation(value="根据学生的ID删除")
+    @PostMapping("deleteStudent")
+    public Boolean deleteStudent(@RequestParam("id") Integer id){
+        int i = studentService.deleteStudent(id);
+        if(i==1){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
